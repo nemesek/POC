@@ -11,28 +11,33 @@ namespace OrderWorkflow.Domain
     public class Client
     {
         private int _id;
-        private OrderRepository _orderRepository;
+        private OrderStateTransistor _orderStateTransistor;
 
-        public Client(int id):this(id, new OrderRepository())
+        public Client(int id):this(id, new OrderStateTransistor())
         {
             
         }
 
-        public Client(int id, OrderRepository orderRepository)
+        public Client(int id, OrderStateTransistor orderStateTransistor)
         {
             _id = id;
-            _orderRepository = orderRepository;
+            _orderStateTransistor = orderStateTransistor;
         }
 
         public IOrder CreateNewOrder()
         {
-            return _orderRepository.CreateNewOrder(FindBestVendor());
+            return _orderStateTransistor.CreateNewOrder(FindBestVendor(), _id);
         }
 
-        private Func<IOrder, Vendor> FindBestVendor()
+        public Func<IOrderWithZipCode, Vendor> FindBestVendor()
         {
             var autoAssign = AutoAssignFactory.CreateAutoAssign(_id);
             return autoAssign.FindBestVendor;
+        }
+
+        public Func<IOrderWithZipCode, Vendor> ManualAssign()
+        {
+            return _ => null;
         }
     }
 }

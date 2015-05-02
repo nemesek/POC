@@ -43,17 +43,24 @@
   <ItemGroup>
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Domain\AutoAssign\AutoAssignFactory.cs" />
+    <Compile Include="Domain\AutoAssign\CmsNetAutoAssign.cs" />
+    <Compile Include="Domain\AutoAssign\CmsNextAutoAssign.cs" />
     <Compile Include="Domain\AutoAssign\DefaultAutoAssign.cs" />
+    <Compile Include="Domain\AutoAssign\LegacyAutoAssign.cs" />
     <Compile Include="Domain\Client.cs" />
     <Compile Include="Domain\Contracts\IOrder.cs" />
+    <Compile Include="Domain\Contracts\IOrderWithZipCode.cs" />
     <Compile Include="Domain\Contracts\IProcessAutoAssign.cs" />
+    <Compile Include="Domain\NullVendor.cs" />
+    <Compile Include="Domain\OrderDto.cs" />
     <Compile Include="Domain\OrderProcessor.cs" />
-    <Compile Include="Domain\OrderRepository.cs" />
+    <Compile Include="Domain\OrderStateTransistor.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
     <Compile Include="Domain\Orders\AcceptedOrder.cs" />
     <Compile Include="Domain\Orders\AssignedOrder.cs" />
     <Compile Include="Domain\Orders\ClosedOrder.cs" />
     <Compile Include="Domain\Orders\NewOrder.cs" />
+    <Compile Include="Domain\Orders\WithClientOrder.cs" />
     <Compile Include="Domain\Vendor.cs" />
     <Compile Include="Domain\VendorRepository.cs" />
     <Compile Include="Program.cs" />

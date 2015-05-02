@@ -12,6 +12,7 @@ namespace OrderWorkflow
             var orderProcessor = new OrderProcessor();
             var random = new Random();
             var clientId = random.Next(1, 7);
+            Console.WriteLine("About to process order for Client {0}", clientId);
             var controller = new OrdersController(orderProcessor);
             var order = controller.ProcessOrder(clientId);
         }

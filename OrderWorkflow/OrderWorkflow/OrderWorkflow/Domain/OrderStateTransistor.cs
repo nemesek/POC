@@ -1,0 +1,56 @@
+﻿using System;
+using OrderWorkflow.Domain.Contracts;
+using OrderWorkflow.Domain.Orders;
+
+namespace OrderWorkflow.Domain
+{
+    public class OrderStateTransistor
+    {
+        public IOrder CreateNewOrder(Func<IOrderWithZipCode,Vendor> assignFunc, int clientId)
+        {
+            Func<Guid, OrderDto, bool, IOrder> transitionFunc = (i, o, t) => t ? GetAssignedOrder(i, o) : GetWithClientOrder(i, o);
+            var dto = new OrderDto
+            {
+                AssignFunc = assignFunc,
+                ConditionalTransitionFunc = transitionFunc,
+                ZipCode = "38655",
+                ClientId = clientId
+            };
+            return new NewOrder(Guid.NewGuid(), dto);
+        }
+
+        public IOrder GetAssignedOrder(Guid orderId, OrderDto orderDto)
+        {
+            Func<Guid, OrderDto, bool, IOrder> transitionFunc = (i, o, t) => t ? GetAcceptedOrder(i,o) : TransitionOrderBackToNew(i, o);
+            orderDto.ConditionalTransitionFunc = transitionFunc;
+            return new AssignedOrder(orderId, orderDto);
+        }
+
+        public IOrder GetAcceptedOrder(Guid orderId, OrderDto orderDto)
+        {
+            orderDto.TransitionFunc = GetClosedOrder;
+            return new AcceptedOrder(orderId,orderDto);
+        }
+
+        public IOrder GetClosedOrder(Guid orderId,OrderDto orderDto)
+        {
+            return new ClosedOrder(orderId, orderDto);
+        }
+
+        private IOrder GetWithClientOrder(Guid orderId, OrderDto orderDto)
+        {
+            return new WithClientOrder(orderId, orderDto);
+        }
+
+        private IOrder TransitionOrderBackToNew(Guid orderId,OrderDto orderDto)
+        {
+            var client = new Client(orderDto.ClientId, this);
+            var assignmentFunc = client.FindBestVendor();
+            orderDto.AssignFunc = assignmentFunc;
+            orderDto.TransitionFunc = GetAssignedOrder;
+            return new NewOrder(orderId, orderDto);
+
+        }
+
+    }
+}

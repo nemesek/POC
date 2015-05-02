@@ -7,6 +7,7 @@ namespace OrderWorkflow.Domain.Contracts
         IOrder MakeTransition();
         OrderStatus Status { get; }
         Guid OrderId { get; }
+        int ClientId { get; }
         
     }
 }

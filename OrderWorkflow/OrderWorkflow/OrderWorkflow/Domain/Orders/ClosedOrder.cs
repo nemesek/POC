@@ -5,13 +5,14 @@ namespace OrderWorkflow.Domain.Orders
 {
     public class ClosedOrder : IOrder
     {
-        private Vendor _vendor;
-        private Guid _id;
+        //private Vendor _vendor;
+        private readonly Guid _id;
+        private readonly int _clientId;
 
-        public ClosedOrder(Guid id, Vendor vendor)
+        public ClosedOrder(Guid id, OrderDto orderDto)
         {
             _id = id;
-            _vendor = vendor;
+            _clientId = orderDto.ClientId;
         }
         public IOrder MakeTransition()
         {
@@ -19,6 +20,7 @@ namespace OrderWorkflow.Domain.Orders
         }
 
         public OrderStatus Status { get { return OrderStatus.Closed; } }
-        public Guid OrderId { get; private set; }
+        public Guid OrderId { get { return _id; } }
+        public int ClientId { get { return _clientId; } }
     }
 }

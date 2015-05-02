@@ -7,28 +7,28 @@ namespace OrderWorkflow.Domain.Orders
     {
         private readonly Vendor _vendor;
         private readonly Guid _id;
-        private readonly Func<Guid, Vendor, IOrder> _transitionFunc;
+        private readonly Func<Guid, OrderDto, bool, IOrder> _transitionFunc;
+        private readonly int _clientId;
+        private readonly OrderDto _orderDto;
 
-        public AssignedOrder(Guid id, Vendor vendor, Func<Guid, Vendor, IOrder> transitionFunc)
+        public AssignedOrder(Guid id, OrderDto orderDto)
         {
             _id = id;
-            _vendor = vendor;
-            _transitionFunc = transitionFunc;
+            _vendor = orderDto.Vendor;
+            _transitionFunc = orderDto.ConditionalTransitionFunc;
+            _clientId = orderDto.ClientId;
+            _orderDto = orderDto;
         }
 
         public IOrder MakeTransition()
         {
             _vendor.SendMeNotification(this);
             var vendorAccept = _vendor.AcceptOrder(this);
-            if (vendorAccept)
-            {
-                return _transitionFunc(_id, _vendor);
-            }
-
-            return null; // todo: let it go back to New
+            return _transitionFunc(_id, _orderDto,vendorAccept);
         }
 
         public OrderStatus Status { get { return OrderStatus.Assigned; } }
         public Guid OrderId { get { return _id; } }
+        public int ClientId { get { return _clientId; } }
     }
 }

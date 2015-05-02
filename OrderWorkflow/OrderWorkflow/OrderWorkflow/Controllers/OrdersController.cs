@@ -15,7 +15,7 @@ namespace OrderWorkflow.Controllers
         {
             var client = new Client(clientId);
             var order = client.CreateNewOrder();
-            while (order.Status != OrderStatus.Closed)
+            while (order.Status != OrderStatus.Closed && order.Status != OrderStatus.WithClient)
             {
                 order = ProcessOrder(order);
             }
