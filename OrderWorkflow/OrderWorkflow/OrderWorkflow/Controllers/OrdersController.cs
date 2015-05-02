@@ -1,4 +1,5 @@
 ﻿using OrderWorkflow.Domain;
+using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Controllers
 {

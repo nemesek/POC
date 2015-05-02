@@ -42,18 +42,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\OrdersController.cs" />
-    <Compile Include="Domain\AcceptedOrder.cs" />
-    <Compile Include="Domain\AssignedOrder.cs" />
-    <Compile Include="Domain\AutoAssignFactory.cs" />
-    <Compile Include="Domain\ClosedOrder.cs" />
+    <Compile Include="Domain\AutoAssign\AutoAssignFactory.cs" />
+    <Compile Include="Domain\AutoAssign\DefaultAutoAssign.cs" />
     <Compile Include="Domain\Client.cs" />
-    <Compile Include="Domain\DefaultAutoAssign.cs" />
-    <Compile Include="Domain\IOrder.cs" />
-    <Compile Include="Domain\IProcessAutoAssign.cs" />
-    <Compile Include="Domain\NewOrder.cs" />
+    <Compile Include="Domain\Contracts\IOrder.cs" />
+    <Compile Include="Domain\Contracts\IProcessAutoAssign.cs" />
     <Compile Include="Domain\OrderProcessor.cs" />
     <Compile Include="Domain\OrderRepository.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
+    <Compile Include="Domain\Orders\AcceptedOrder.cs" />
+    <Compile Include="Domain\Orders\AssignedOrder.cs" />
+    <Compile Include="Domain\Orders\ClosedOrder.cs" />
+    <Compile Include="Domain\Orders\NewOrder.cs" />
     <Compile Include="Domain\Vendor.cs" />
     <Compile Include="Domain\VendorRepository.cs" />
     <Compile Include="Program.cs" />

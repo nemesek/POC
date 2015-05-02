@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OrderWorkflow.Domain
+namespace OrderWorkflow.Domain.Contracts
 {
     public interface IOrder
     {

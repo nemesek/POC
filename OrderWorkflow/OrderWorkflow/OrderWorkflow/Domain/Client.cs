@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OrderWorkflow.Domain.AutoAssign;
+using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain
 {

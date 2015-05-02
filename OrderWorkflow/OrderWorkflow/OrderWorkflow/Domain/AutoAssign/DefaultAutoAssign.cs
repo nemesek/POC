@@ -1,6 +1,7 @@
 ﻿using System.Linq;
+using OrderWorkflow.Domain.Contracts;
 
-namespace OrderWorkflow.Domain
+namespace OrderWorkflow.Domain.AutoAssign
 {
     public class DefaultAutoAssign : IProcessAutoAssign
     {

@@ -1,4 +1,6 @@
-﻿namespace OrderWorkflow.Domain
+﻿using OrderWorkflow.Domain.Contracts;
+
+namespace OrderWorkflow.Domain
 {
     public class OrderProcessor
     {

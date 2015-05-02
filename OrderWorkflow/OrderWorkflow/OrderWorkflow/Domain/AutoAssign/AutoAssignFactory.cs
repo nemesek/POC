@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OrderWorkflow.Domain.Contracts;
 
-namespace OrderWorkflow.Domain
+namespace OrderWorkflow.Domain.AutoAssign
 {
     public class AutoAssignFactory
     {

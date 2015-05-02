@@ -1,4 +1,4 @@
-﻿namespace OrderWorkflow.Domain
+﻿namespace OrderWorkflow.Domain.Contracts
 {
     public interface IProcessAutoAssign
     {

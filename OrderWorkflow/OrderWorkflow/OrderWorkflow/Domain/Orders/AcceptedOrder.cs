@@ -1,6 +1,7 @@
 ﻿using System;
+using OrderWorkflow.Domain.Contracts;
 
-namespace OrderWorkflow.Domain
+namespace OrderWorkflow.Domain.Orders
 {
     public class AcceptedOrder : IOrder
     {
