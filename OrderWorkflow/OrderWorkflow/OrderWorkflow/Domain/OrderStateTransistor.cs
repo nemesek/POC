@@ -19,20 +19,20 @@ namespace OrderWorkflow.Domain
             return new NewOrder(Guid.NewGuid(), dto);
         }
 
-        public IOrder GetAssignedOrder(Guid orderId, OrderDto orderDto)
+        private IOrder GetAssignedOrder(Guid orderId, OrderDto orderDto)
         {
             Func<Guid, OrderDto, bool, IOrder> transitionFunc = (i, o, t) => t ? GetAcceptedOrder(i,o) : TransitionOrderBackToNew(i, o);
             orderDto.ConditionalTransitionFunc = transitionFunc;
             return new AssignedOrder(orderId, orderDto);
         }
 
-        public IOrder GetAcceptedOrder(Guid orderId, OrderDto orderDto)
+        private IOrder GetAcceptedOrder(Guid orderId, OrderDto orderDto)
         {
             orderDto.TransitionFunc = GetClosedOrder;
             return new AcceptedOrder(orderId,orderDto);
         }
 
-        public IOrder GetClosedOrder(Guid orderId,OrderDto orderDto)
+        private IOrder GetClosedOrder(Guid orderId,OrderDto orderDto)
         {
             return new ClosedOrder(orderId, orderDto);
         }
