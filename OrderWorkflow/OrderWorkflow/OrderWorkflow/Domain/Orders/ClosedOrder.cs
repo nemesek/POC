@@ -3,28 +3,21 @@ using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.Orders
 {
-    public class ClosedOrder : IOrder
+    public class ClosedOrder : Order
     {
-        //private Vendor _vendor;
-        private readonly Guid _id;
-        private readonly int _clientId;
+        private readonly Func<Guid, OrderDto, bool, IOrder> _transitionFunc;
 
-        public ClosedOrder(Guid id, OrderDto orderDto)
+        public ClosedOrder(Guid id, OrderDto orderDto) : base(id, orderDto)
         {
-            _id = id;
-            _clientId = orderDto.ClientId;
-        }
-        public IOrder MakeTransition()
-        {
-            throw new NotImplementedException();
+            _transitionFunc = orderDto.ConditionalTransitionFunc;
         }
 
-        public OrderStatus Status { get { return OrderStatus.Closed; } }
-        public Guid OrderId { get { return _id; } }
-        public int ClientId { get { return _clientId; } }
-        public void Save()
+        public override OrderStatus Status { get { return OrderStatus.Closed; } }
+        
+        public override IOrder MakeTransition()
         {
-            Console.WriteLine("Saving Closed State to DB");
+            var order = _transitionFunc(base.OrderId, base.OrderDto, true);
+            return order;
         }
     }
 }

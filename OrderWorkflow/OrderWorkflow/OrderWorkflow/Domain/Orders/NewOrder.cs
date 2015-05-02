@@ -3,42 +3,30 @@ using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.Orders
 {
-    public class NewOrder : IOrderWithZipCode
+    public class NewOrder : Order, IOrderWithZipCode
     {
-        private readonly Guid _id;
         private readonly Func<IOrderWithZipCode,Vendor> _assignFunc;
         private readonly Func<Guid, OrderDto, bool,IOrder> _transitionFunc;
         private readonly string _zipCode;
-        private readonly int _clientId;
-        private readonly OrderDto _orderDto;
 
-        public NewOrder(Guid id, OrderDto orderDto)
+        public NewOrder(Guid id, OrderDto orderDto):base(id, orderDto)
         {
-            _id = id;
             _assignFunc = orderDto.AssignFunc;
             _transitionFunc = orderDto.ConditionalTransitionFunc;
             _zipCode = orderDto.ZipCode;
-            _clientId = orderDto.ClientId;
-            _orderDto = orderDto;
         }
 
-        public IOrder MakeTransition()
+        public override OrderStatus Status { get { return OrderStatus.New; } }
+        public string ZipCode { get { return _zipCode; } }
+
+        public override IOrder MakeTransition()
         {
             var vendorToAssign = _assignFunc(this);
             var vendorAssigned = vendorToAssign != null;
-            _orderDto.Vendor = vendorToAssign;
-            var assignedOrder = _transitionFunc(_id, _orderDto,vendorAssigned);
+            // todo: Don't know how I feel about child class writing to base class state like this
+            base.OrderDto.Vendor = vendorToAssign;
+            var assignedOrder = _transitionFunc(base.OrderId, base.OrderDto,vendorAssigned);
             return assignedOrder;
-        }
-
-        public OrderStatus Status { get { return OrderStatus.New; } }
-        public Guid OrderId { get { return _id; }}
-        public string ZipCode { get { return _zipCode; } }
-        public int ClientId { get { return _clientId; } }
-        
-        public void Save()
-        {
-            Console.WriteLine("Saving New State to DB");
         }
     }
 }

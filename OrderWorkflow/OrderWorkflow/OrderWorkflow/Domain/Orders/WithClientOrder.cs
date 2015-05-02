@@ -3,42 +3,23 @@ using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.Orders
 {
-    public class WithClientOrder : IOrder
+    public class WithClientOrder : Order
     {
-        private readonly Guid _id;
-        private OrderDto _orderDto;
-        private readonly int _clientId;
+        private readonly Func<Guid, OrderDto, bool, IOrder> _transitionFunc;
 
-        public WithClientOrder(Guid id, OrderDto orderDto)
+        public WithClientOrder(Guid id, OrderDto orderDto) : base(id, orderDto)
         {
-            _id = id;
-            _orderDto = orderDto;
-            _clientId = orderDto.ClientId;
+            _transitionFunc = orderDto.ConditionalTransitionFunc;
         }
-
-        public IOrder MakeTransition()
-        {
-            throw new NotImplementedException();
-        }
-
-        public OrderStatus Status
+        
+        public override OrderStatus Status
         {
             get { return OrderStatus.WithClient; }
         }
 
-        public Guid OrderId
+        public override IOrder MakeTransition()
         {
-            get { return _id; }
-        }
-
-        public int ClientId
-        {
-            get { return _clientId; }
-        }
-
-        public void Save()
-        {
-            Console.WriteLine("Saving WithClient State to DB");
+            return _transitionFunc(base.OrderId, base.OrderDto, true);
         }
     }
 }

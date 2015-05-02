@@ -4,7 +4,7 @@ using OrderWorkflow.Domain.Orders;
 
 namespace OrderWorkflow.Domain
 {
-    public class OrderStateTransistor
+    public class OrderTransitioner
     {
        public IOrder CreateNewOrder(Func<IOrderWithZipCode,Vendor> assignFunc, int clientId)
         {
@@ -18,26 +18,28 @@ namespace OrderWorkflow.Domain
             return new NewOrder(Guid.NewGuid(), dto);
         }
 
-        private IOrder GetAssignedOrder(Guid orderId, OrderDto orderDto)
+        private IOrder TransitionToAssigned(Guid orderId, OrderDto orderDto)
         {
-            Func<Guid, OrderDto, bool, IOrder> transitionFunc = (i, o, t) => t ? GetAcceptedOrder(i,o) : TransitionOrderBackToNew(i, o);
+            Func<Guid, OrderDto, bool, IOrder> transitionFunc = (i, o, t) => t ? TransitionToAccepted(i,o) : TransitionOrderBackToNew(i, o);
             orderDto.ConditionalTransitionFunc = transitionFunc;
             return new AssignedOrder(orderId, orderDto);
         }
 
-        private IOrder GetAcceptedOrder(Guid orderId, OrderDto orderDto)
+        private IOrder TransitionToAccepted(Guid orderId, OrderDto orderDto)
         {
-            orderDto.TransitionFunc = GetClosedOrder;
+            orderDto.ConditionalTransitionFunc = TransitionToClose;
             return new AcceptedOrder(orderId,orderDto);
         }
 
-        private IOrder GetClosedOrder(Guid orderId,OrderDto orderDto)
+        private IOrder TransitionToClose(Guid orderId,OrderDto orderDto, bool shouldTransition)
         {
+            orderDto.ConditionalTransitionFunc = TransitionToClose;
             return new ClosedOrder(orderId, orderDto);
         }
 
-        private IOrder GetWithClientOrder(Guid orderId, OrderDto orderDto)
+        private IOrder TransitionToWithClient(Guid orderId, OrderDto orderDto, bool shouldTransition)
         {
+            orderDto.ConditionalTransitionFunc = TransitionToWithClient;
             return new WithClientOrder(orderId, orderDto);
         }
 
@@ -53,7 +55,7 @@ namespace OrderWorkflow.Domain
 
         private Func<Guid, OrderDto, bool, IOrder> GetNewOrderTransitionFunc()
         {
-            return (i, o, t) => t ? GetAssignedOrder(i, o) : GetWithClientOrder(i, o);
+            return (i, o, t) => t ? TransitionToAssigned(i, o) : TransitionToWithClient(i,o,true);
         }
 
     }

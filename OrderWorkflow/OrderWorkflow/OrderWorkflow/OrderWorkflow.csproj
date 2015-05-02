@@ -54,7 +54,8 @@
     <Compile Include="Domain\NullVendor.cs" />
     <Compile Include="Domain\OrderDto.cs" />
     <Compile Include="Domain\OrderProcessor.cs" />
-    <Compile Include="Domain\OrderStateTransistor.cs" />
+    <Compile Include="Domain\Orders\Order.cs" />
+    <Compile Include="Domain\OrderTransitioner.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
     <Compile Include="Domain\Orders\AcceptedOrder.cs" />
     <Compile Include="Domain\Orders\AssignedOrder.cs" />

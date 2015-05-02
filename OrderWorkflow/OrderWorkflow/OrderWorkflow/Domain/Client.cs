@@ -7,19 +7,19 @@ namespace OrderWorkflow.Domain
     public class Client
     {
         private readonly int _id;
-        private readonly OrderStateTransistor _orderStateTransistor;
+        private readonly OrderTransitioner _orderTransitioner;
 
-        public Client(int id):this(id, new OrderStateTransistor()) {}
+        public Client(int id):this(id, new OrderTransitioner()) {}
 
-        public Client(int id, OrderStateTransistor orderStateTransistor)
+        public Client(int id, OrderTransitioner orderTransitioner)
         {
             _id = id;
-            _orderStateTransistor = orderStateTransistor;
+            _orderTransitioner = orderTransitioner;
         }
 
         public IOrder CreateNewOrder()
         {
-            return _orderStateTransistor.CreateNewOrder(FindBestVendor(), _id);
+            return _orderTransitioner.CreateNewOrder(FindBestVendor(), _id);
         }
 
         public Func<IOrderWithZipCode, Vendor> FindBestVendor()

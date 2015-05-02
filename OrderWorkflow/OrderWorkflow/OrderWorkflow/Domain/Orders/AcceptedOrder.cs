@@ -3,32 +3,22 @@ using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.Orders
 {
-    public class AcceptedOrder : IOrder
+    public class AcceptedOrder : Order
     {
-        private readonly Guid _id;
-        private readonly Func<Guid, OrderDto, IOrder> _transitionFunc;
-        private readonly int _clientId;
-        private readonly OrderDto _orderDto;
+        private readonly Func<Guid, OrderDto,bool,IOrder> _transitionFunc;
 
-        public AcceptedOrder(Guid id,OrderDto orderDto)
+        public AcceptedOrder(Guid id,OrderDto orderDto):base(id,orderDto)
         {
-            _id = id;
-            _transitionFunc = orderDto.TransitionFunc;
-            _clientId = orderDto.ClientId;
-            _orderDto = orderDto;
-
-        }
-        public IOrder MakeTransition()
-        {
-            return _transitionFunc(_id, _orderDto);
+            _transitionFunc = orderDto.ConditionalTransitionFunc;
         }
 
-        public OrderStatus Status { get { return OrderStatus.Accepted; } }
-        public Guid OrderId { get { return _id; }}
-        public int ClientId { get { return _clientId; } }
-        public void Save()
+        public override OrderStatus Status { get { return OrderStatus.Accepted; } }
+
+        public override IOrder MakeTransition()
         {
-            Console.WriteLine("Saving Accepted State to DB");
+            return _transitionFunc(base.OrderId, base.OrderDto, true);
         }
+
+        
     }
 }
