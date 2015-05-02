@@ -1,4 +1,5 @@
-﻿using OrderWorkflow.Domain;
+﻿using System;
+using OrderWorkflow.Domain;
 using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Controllers
@@ -17,7 +18,9 @@ namespace OrderWorkflow.Controllers
             var order = client.CreateNewOrder();
             while (order.Status != OrderStatus.Closed && order.Status != OrderStatus.WithClient)
             {
+                Console.WriteLine("Next Request about to be processed.");
                 order = ProcessOrder(order);
+                order.Save();
             }
 
 

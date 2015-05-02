@@ -6,13 +6,12 @@ namespace OrderWorkflow.Domain
 {
     public class OrderStateTransistor
     {
-        public IOrder CreateNewOrder(Func<IOrderWithZipCode,Vendor> assignFunc, int clientId)
+       public IOrder CreateNewOrder(Func<IOrderWithZipCode,Vendor> assignFunc, int clientId)
         {
-            Func<Guid, OrderDto, bool, IOrder> transitionFunc = (i, o, t) => t ? GetAssignedOrder(i, o) : GetWithClientOrder(i, o);
             var dto = new OrderDto
             {
                 AssignFunc = assignFunc,
-                ConditionalTransitionFunc = transitionFunc,
+                ConditionalTransitionFunc = GetNewOrderTransitionFunc(),
                 ZipCode = "38655",
                 ClientId = clientId
             };
@@ -45,11 +44,16 @@ namespace OrderWorkflow.Domain
         private IOrder TransitionOrderBackToNew(Guid orderId,OrderDto orderDto)
         {
             var client = new Client(orderDto.ClientId, this);
-            var assignmentFunc = client.FindBestVendor();
+            var assignmentFunc = client.ManualAssign();
             orderDto.AssignFunc = assignmentFunc;
-            orderDto.TransitionFunc = GetAssignedOrder;
+            orderDto.ConditionalTransitionFunc = GetNewOrderTransitionFunc();
             return new NewOrder(orderId, orderDto);
 
+        }
+
+        private Func<Guid, OrderDto, bool, IOrder> GetNewOrderTransitionFunc()
+        {
+            return (i, o, t) => t ? GetAssignedOrder(i, o) : GetWithClientOrder(i, o);
         }
 
     }

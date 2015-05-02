@@ -8,6 +8,7 @@ namespace OrderWorkflow.Domain.Contracts
         OrderStatus Status { get; }
         Guid OrderId { get; }
         int ClientId { get; }
-        
+        void Save();
+
     }
 }

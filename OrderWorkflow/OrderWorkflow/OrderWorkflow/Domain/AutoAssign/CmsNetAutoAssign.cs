@@ -10,7 +10,7 @@ namespace OrderWorkflow.Domain.AutoAssign
             var repo = new VendorRepository();
             var vendor = repo
                 .GetVendors()
-                .First(v => v.ZipCode == order.ZipCode);
+                .FirstOrDefault(v => v.ZipCode == order.ZipCode);
 
             return vendor;
         }

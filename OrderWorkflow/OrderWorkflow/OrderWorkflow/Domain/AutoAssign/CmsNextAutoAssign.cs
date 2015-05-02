@@ -12,7 +12,7 @@ namespace OrderWorkflow.Domain.AutoAssign
                 .GetVendors()
                 .Where(v => v.ZipCode == order.ZipCode)
                 .OrderBy(v => v.OrderCount)
-                .First();
+                .FirstOrDefault();
 
             return vendor;
         }

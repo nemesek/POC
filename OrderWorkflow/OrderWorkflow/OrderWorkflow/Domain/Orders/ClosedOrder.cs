@@ -22,5 +22,9 @@ namespace OrderWorkflow.Domain.Orders
         public OrderStatus Status { get { return OrderStatus.Closed; } }
         public Guid OrderId { get { return _id; } }
         public int ClientId { get { return _clientId; } }
+        public void Save()
+        {
+            Console.WriteLine("Saving Closed State to DB");
+        }
     }
 }

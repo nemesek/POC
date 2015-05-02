@@ -35,5 +35,10 @@ namespace OrderWorkflow.Domain.Orders
         {
             get { return _clientId; }
         }
+
+        public void Save()
+        {
+            Console.WriteLine("Saving WithClient State to DB");
+        }
     }
 }

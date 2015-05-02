@@ -34,5 +34,9 @@ namespace OrderWorkflow.Domain.Orders
         public Guid OrderId { get { return _id; }}
         public string ZipCode { get { return _zipCode; } }
         public int ClientId { get { return _clientId; } }
+        public void Save()
+        {
+            Console.WriteLine("Saving New State to DB");
+        }
     }
 }
