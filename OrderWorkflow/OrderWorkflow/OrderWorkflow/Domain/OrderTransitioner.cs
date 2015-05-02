@@ -29,8 +29,24 @@ namespace OrderWorkflow.Domain
         private IOrder TransitionToAccepted(Guid orderId, Func<OrderDto> orderDtoFunc)
         {
             var orderDto = orderDtoFunc();
-            orderDto.ConditionalTransitionFunc = TransitionToClose;
+            orderDto.ConditionalTransitionFunc = TransitionToSubmitted;
             return new AcceptedOrder(orderId,orderDto);
+        }
+
+        private IOrder TransitionToSubmitted(Guid orderId, Func<OrderDto> orderDtoFunc, bool shouldTransition)
+        {
+            Func<Guid, Func<OrderDto>, bool, IOrder> transitionFunc = (i, o, t) => t ? TransitionToClose(i, o, true) : TransitionToRejected(i, o, true);
+            var orderDto = orderDtoFunc();
+            orderDto.ConditionalTransitionFunc = transitionFunc;
+            return new SubmittedOrder(orderId, orderDto);
+        }
+
+        private IOrder TransitionToRejected(Guid orderId, Func<OrderDto> orderDtoFunc, bool shouldTransition)
+        {
+            Func<Guid, Func<OrderDto>, bool, IOrder> transitionFunc = (i, o, t) => t ? TransitionToClose(i, o, true) : TransitionToRejected(i, o,true);
+            var orderDto = orderDtoFunc();
+            orderDto.ConditionalTransitionFunc = transitionFunc;
+            return new RejectedOrder(orderId, orderDto);
         }
 
         private IOrder TransitionToClose(Guid orderId, Func<OrderDto> orderDtoFunc, bool shouldTransition)

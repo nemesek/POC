@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.Orders
@@ -25,8 +26,22 @@ namespace OrderWorkflow.Domain.Orders
         
         protected void AssignVendor(Vendor vendor)
         {
+            if (this.Status != OrderStatus.New) throw new Exception("Order is not in correct state to be Assigned.");
             // some additional business logic if required
             _vendor = vendor;
+        }
+
+        protected bool AcceptSubmittedReport()
+        {
+            if (this.Status != OrderStatus.Submitted && this.Status != OrderStatus.Rejected)
+            {
+                throw new Exception("Order is not in correct state to have report Submitted.");
+            }
+
+            // randomly determine if its rejected
+            Thread.Sleep(100); // helps with the randomization
+            var random = new Random();
+            return random.Next(1, 100)%2 == 0;
         }
 
         protected Func<OrderDto> MapToOrderDto()
