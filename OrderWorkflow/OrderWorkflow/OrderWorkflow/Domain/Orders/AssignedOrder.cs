@@ -23,8 +23,8 @@ namespace OrderWorkflow.Domain.Orders
         public IOrder MakeTransition()
         {
             _vendor.SendMeNotification(this);
-            var vendorAccept = _vendor.AcceptOrder(this);
-            return _transitionFunc(_id, _orderDto,vendorAccept);
+            var vendorAccepted = _vendor.AcceptOrder(this);
+            return _transitionFunc(_id, _orderDto,vendorAccepted);
         }
 
         public OrderStatus Status { get { return OrderStatus.Assigned; } }
