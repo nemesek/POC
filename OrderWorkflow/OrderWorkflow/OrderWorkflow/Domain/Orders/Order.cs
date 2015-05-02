@@ -7,20 +7,36 @@ namespace OrderWorkflow.Domain.Orders
     {
         private readonly Guid _id;
         private readonly int _clientId;
-        private readonly OrderDto _orderDto;
+        private Vendor _vendor;
 
         protected Order(Guid id, OrderDto orderDto)
         {
             _id = id;
             _clientId = orderDto.ClientId;
-            _orderDto = orderDto;
+            _vendor = orderDto.Vendor;
         }
 
         public abstract IOrder MakeTransition();
         public abstract OrderStatus Status { get; }
+
+        protected Vendor Vendor{ get { return _vendor; } }
+        
         public Guid OrderId { get { return _id; } }
-        public int ClientId { get { return _clientId; } }
-        protected OrderDto OrderDto { get { return _orderDto; } }
+        
+        protected void AssignVendor(Vendor vendor)
+        {
+            // some additional business logic if required
+            _vendor = vendor;
+        }
+
+        protected Func<OrderDto> MapToOrderDto()
+        {
+            return () => new OrderDto
+            {
+                ClientId = _clientId,
+                Vendor = _vendor
+            };
+        }
 
         public void Save()
         {

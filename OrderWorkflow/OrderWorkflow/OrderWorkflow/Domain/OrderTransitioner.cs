@@ -18,33 +18,38 @@ namespace OrderWorkflow.Domain
             return new NewOrder(Guid.NewGuid(), dto);
         }
 
-        private IOrder TransitionToAssigned(Guid orderId, OrderDto orderDto)
+        private IOrder TransitionToAssigned(Guid orderId, Func<OrderDto> orderDtoFunc)
         {
-            Func<Guid, OrderDto, bool, IOrder> transitionFunc = (i, o, t) => t ? TransitionToAccepted(i,o) : TransitionOrderBackToNew(i, o);
+            Func<Guid, Func<OrderDto>, bool, IOrder> transitionFunc = (i, o, t) => t ? TransitionToAccepted(i,o) : TransitionOrderBackToNew(i, o);
+            var orderDto = orderDtoFunc();
             orderDto.ConditionalTransitionFunc = transitionFunc;
             return new AssignedOrder(orderId, orderDto);
         }
 
-        private IOrder TransitionToAccepted(Guid orderId, OrderDto orderDto)
+        private IOrder TransitionToAccepted(Guid orderId, Func<OrderDto> orderDtoFunc)
         {
+            var orderDto = orderDtoFunc();
             orderDto.ConditionalTransitionFunc = TransitionToClose;
             return new AcceptedOrder(orderId,orderDto);
         }
 
-        private IOrder TransitionToClose(Guid orderId,OrderDto orderDto, bool shouldTransition)
+        private IOrder TransitionToClose(Guid orderId, Func<OrderDto> orderDtoFunc, bool shouldTransition)
         {
+            var orderDto = orderDtoFunc();
             orderDto.ConditionalTransitionFunc = TransitionToClose;
             return new ClosedOrder(orderId, orderDto);
         }
 
-        private IOrder TransitionToWithClient(Guid orderId, OrderDto orderDto, bool shouldTransition)
+        private IOrder TransitionToWithClient(Guid orderId, Func<OrderDto> orderDtoFunc, bool shouldTransition)
         {
+            var orderDto = orderDtoFunc();
             orderDto.ConditionalTransitionFunc = TransitionToWithClient;
             return new WithClientOrder(orderId, orderDto);
         }
 
-        private IOrder TransitionOrderBackToNew(Guid orderId,OrderDto orderDto)
+        private IOrder TransitionOrderBackToNew(Guid orderId, Func<OrderDto> orderDtoFunc)
         {
+            var orderDto = orderDtoFunc();
             var client = new Client(orderDto.ClientId, this);
             var assignmentFunc = client.ManualAssign();
             orderDto.AssignFunc = assignmentFunc;
@@ -53,7 +58,7 @@ namespace OrderWorkflow.Domain
 
         }
 
-        private Func<Guid, OrderDto, bool, IOrder> GetNewOrderTransitionFunc()
+        private Func<Guid, Func<OrderDto>, bool, IOrder> GetNewOrderTransitionFunc()
         {
             return (i, o, t) => t ? TransitionToAssigned(i, o) : TransitionToWithClient(i,o,true);
         }

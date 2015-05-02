@@ -6,11 +6,11 @@ namespace OrderWorkflow.Domain.Orders
     public class AssignedOrder : Order
     {
         private readonly Vendor _vendor;
-        private readonly Func<Guid, OrderDto, bool, IOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderDto>, bool, IOrder> _transitionFunc;
 
         public AssignedOrder(Guid id, OrderDto orderDto):base(id,orderDto)
         {
-            _vendor = base.OrderDto.Vendor;
+            _vendor = base.Vendor;
             _transitionFunc = orderDto.ConditionalTransitionFunc;
         }
 
@@ -20,7 +20,7 @@ namespace OrderWorkflow.Domain.Orders
         {
             _vendor.SendMeNotification(this);
             var vendorAccepted = _vendor.AcceptOrder(this);
-            return _transitionFunc(base.OrderId, base.OrderDto,vendorAccepted);
+            return _transitionFunc(base.OrderId, base.MapToOrderDto(),vendorAccepted);
         }
     }
 }

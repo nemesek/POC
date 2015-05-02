@@ -5,7 +5,7 @@ namespace OrderWorkflow.Domain.Orders
 {
     public class WithClientOrder : Order
     {
-        private readonly Func<Guid, OrderDto, bool, IOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderDto>, bool, IOrder> _transitionFunc;
 
         public WithClientOrder(Guid id, OrderDto orderDto) : base(id, orderDto)
         {
@@ -19,7 +19,7 @@ namespace OrderWorkflow.Domain.Orders
 
         public override IOrder MakeTransition()
         {
-            return _transitionFunc(base.OrderId, base.OrderDto, true);
+            return _transitionFunc(base.OrderId, base.MapToOrderDto(), true);
         }
     }
 }

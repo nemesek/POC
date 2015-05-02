@@ -6,7 +6,7 @@ namespace OrderWorkflow.Domain.Orders
     public class NewOrder : Order, IOrderWithZipCode
     {
         private readonly Func<IOrderWithZipCode,Vendor> _assignFunc;
-        private readonly Func<Guid, OrderDto, bool,IOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderDto>, bool,IOrder> _transitionFunc;
         private readonly string _zipCode;
 
         public NewOrder(Guid id, OrderDto orderDto):base(id, orderDto)
@@ -22,11 +22,13 @@ namespace OrderWorkflow.Domain.Orders
         public override IOrder MakeTransition()
         {
             var vendorToAssign = _assignFunc(this);
-            var vendorAssigned = vendorToAssign != null;
-            // todo: Don't know how I feel about child class writing to base class state like this
-            base.OrderDto.Vendor = vendorToAssign;
-            var assignedOrder = _transitionFunc(base.OrderId, base.OrderDto,vendorAssigned);
-            return assignedOrder;
+            if (vendorToAssign == null)
+            {
+                return _transitionFunc(base.OrderId, base.MapToOrderDto(), false);
+            }
+            
+            base.AssignVendor(vendorToAssign);
+            return _transitionFunc(base.OrderId, base.MapToOrderDto(), true);
         }
     }
 }

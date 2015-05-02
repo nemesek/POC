@@ -15,6 +15,7 @@ namespace OrderWorkflow
             Console.WriteLine("About to process order for Client {0}", clientId);
             var controller = new OrdersController(orderProcessor);
             var order = controller.ProcessOrder(clientId);
+            order.Save();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace OrderWorkflow.Domain.Orders
 {
     public class ClosedOrder : Order
     {
-        private readonly Func<Guid, OrderDto, bool, IOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderDto>, bool, IOrder> _transitionFunc;
 
         public ClosedOrder(Guid id, OrderDto orderDto) : base(id, orderDto)
         {
@@ -16,7 +16,7 @@ namespace OrderWorkflow.Domain.Orders
         
         public override IOrder MakeTransition()
         {
-            var order = _transitionFunc(base.OrderId, base.OrderDto, true);
+            var order = _transitionFunc(base.OrderId, base.MapToOrderDto(), true);
             return order;
         }
     }
