@@ -26,7 +26,7 @@ namespace OrderWorkflow.Domain.Orders
         
         protected void AssignVendor(Vendor vendor)
         {
-            if (this.Status != OrderStatus.New) throw new Exception("Order is not in correct state to be Assigned.");
+            if (this.Status != OrderStatus.Unassigned) throw new Exception("Order is not in correct state to be Assigned.");
             // some additional business logic if required
             _vendor = vendor;
         }

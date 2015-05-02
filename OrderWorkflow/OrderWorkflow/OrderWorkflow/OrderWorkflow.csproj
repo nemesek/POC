@@ -62,7 +62,7 @@
     <Compile Include="Domain\Orders\AcceptedOrder.cs" />
     <Compile Include="Domain\Orders\AssignedOrder.cs" />
     <Compile Include="Domain\Orders\ClosedOrder.cs" />
-    <Compile Include="Domain\Orders\NewOrder.cs" />
+    <Compile Include="Domain\Orders\Unassigned.cs" />
     <Compile Include="Domain\Orders\WithClientOrder.cs" />
     <Compile Include="Domain\Vendor.cs" />
     <Compile Include="Domain\VendorRepository.cs" />

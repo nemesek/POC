@@ -2,7 +2,7 @@
 {
     public enum OrderStatus
     {
-        New = 0,
+        Unassigned = 0,
         Assigned = 1,
         Accepted = 2,
         Submitted = 3,
