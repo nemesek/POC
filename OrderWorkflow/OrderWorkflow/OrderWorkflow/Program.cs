@@ -1,7 +1,5 @@
 ﻿using System;
 using OrderWorkflow.Controllers;
-using OrderWorkflow.Domain;
-using OrderWorkflow.Domain.WorkflowOrders;
 using OrderWorkflow.Domain.WorkflowOrders.Services;
 
 namespace OrderWorkflow

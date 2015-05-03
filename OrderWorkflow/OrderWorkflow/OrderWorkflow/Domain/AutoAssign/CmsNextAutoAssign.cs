@@ -5,7 +5,7 @@ namespace OrderWorkflow.Domain.AutoAssign
 {
     public class CmsNextAutoAssign : IProcessAutoAssign
     {
-        public Vendor FindBestVendor(IOrderWithZipCode order)
+        public Vendor FindBestVendor(ICanBeAutoAssigned order)
         {
             var repo = new VendorRepository();
             var vendor = repo

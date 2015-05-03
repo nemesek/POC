@@ -1,20 +1,19 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
-using OrderWorkflow.Domain.WorkflowOrders;
 
-namespace OrderWorkflow.Domain.Orders
+namespace OrderWorkflow.Domain.WorkflowOrders
 {
-    public class Unassigned : Order, IOrderWithZipCode
+    public class UnassignedOrder : Order, ICanBeAutoAssigned
     {
-        private readonly Func<IOrderWithZipCode,Vendor> _assignFunc;
-        private readonly Func<Guid, Func<OrderDto>, bool,IWorkflowOrder> _transitionFunc;
+        private readonly Func<ICanBeAutoAssigned,Vendor> _assignFunc;
+        private readonly Func<Guid, Func<OrderWorkflowDto>, bool,IWorkflowOrder> _transitionFunc;
         private readonly string _zipCode;
 
-        public Unassigned(Guid id, OrderDto orderDto):base(id, orderDto)
+        public UnassignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto):base(id, orderWorkflowDto)
         {
-            _assignFunc = orderDto.AssignFunc;
-            _transitionFunc = orderDto.ConditionalTransitionFunc;
-            _zipCode = orderDto.ZipCode;
+            _assignFunc = orderWorkflowDto.AssignFunc;
+            _transitionFunc = orderWorkflowDto.ConditionalTransitionFunc;
+            _zipCode = orderWorkflowDto.ZipCode;
         }
 
         public override OrderStatus Status { get { return OrderStatus.Unassigned; } }

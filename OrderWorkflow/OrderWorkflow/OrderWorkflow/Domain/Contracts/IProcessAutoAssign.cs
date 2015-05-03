@@ -2,6 +2,6 @@
 {
     public interface IProcessAutoAssign
     {
-        Vendor FindBestVendor(IOrderWithZipCode order);
+        Vendor FindBestVendor(ICanBeAutoAssigned order);
     }
 }

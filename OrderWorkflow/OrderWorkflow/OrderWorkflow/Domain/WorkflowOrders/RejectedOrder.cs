@@ -1,16 +1,15 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
-using OrderWorkflow.Domain.WorkflowOrders;
 
-namespace OrderWorkflow.Domain.Orders
+namespace OrderWorkflow.Domain.WorkflowOrders
 {
     public class RejectedOrder : Order
     {
-        private readonly Func<Guid, Func<OrderDto>, bool, IWorkflowOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
 
-        public RejectedOrder(Guid id, OrderDto orderDto) : base(id, orderDto)
+        public RejectedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
         {
-            _transitionFunc = orderDto.ConditionalTransitionFunc;
+            _transitionFunc = orderWorkflowDto.ConditionalTransitionFunc;
         }
 
         public override IWorkflowOrder MakeTransition()

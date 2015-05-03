@@ -1,7 +1,6 @@
 ﻿using System;
 using OrderWorkflow.Domain.AutoAssign;
 using OrderWorkflow.Domain.Contracts;
-using OrderWorkflow.Domain.WorkflowOrders;
 using OrderWorkflow.Domain.WorkflowOrders.Services;
 
 namespace OrderWorkflow.Domain
@@ -24,13 +23,13 @@ namespace OrderWorkflow.Domain
             return _orderTransitioner.CreateNewOrder(FindBestVendor(), _id);
         }
 
-        public Func<IOrderWithZipCode, Vendor> FindBestVendor()
+        public Func<ICanBeAutoAssigned, Vendor> FindBestVendor()
         {
             var autoAssign = AutoAssignFactory.CreateAutoAssign(_id);
             return autoAssign.FindBestVendor;
         }
 
-        public Func<IOrderWithZipCode, Vendor> ManualAssign()
+        public Func<ICanBeAutoAssigned, Vendor> ManualAssign()
         {
             return _ => null;
         }

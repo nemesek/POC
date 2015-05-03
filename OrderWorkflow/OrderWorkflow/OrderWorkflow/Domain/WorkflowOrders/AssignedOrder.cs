@@ -1,18 +1,17 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
-using OrderWorkflow.Domain.WorkflowOrders;
 
-namespace OrderWorkflow.Domain.Orders
+namespace OrderWorkflow.Domain.WorkflowOrders
 {
     public class AssignedOrder : Order
     {
         private readonly Vendor _vendor;
-        private readonly Func<Guid, Func<OrderDto>, bool, IWorkflowOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
 
-        public AssignedOrder(Guid id, OrderDto orderDto):base(id,orderDto)
+        public AssignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto):base(id,orderWorkflowDto)
         {
             _vendor = base.Vendor;
-            _transitionFunc = orderDto.ConditionalTransitionFunc;
+            _transitionFunc = orderWorkflowDto.ConditionalTransitionFunc;
         }
 
         public override OrderStatus Status { get { return OrderStatus.Assigned; } }

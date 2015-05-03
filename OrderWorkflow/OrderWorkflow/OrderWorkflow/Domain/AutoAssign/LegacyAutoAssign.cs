@@ -4,7 +4,7 @@ namespace OrderWorkflow.Domain.AutoAssign
 {
     public class LegacyAutoAssign : IProcessAutoAssign
     {
-        public Vendor FindBestVendor(IOrderWithZipCode order)
+        public Vendor FindBestVendor(ICanBeAutoAssigned order)
         {
             return new NullVendor();
         }

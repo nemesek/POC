@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
 using OrderWorkflow.Domain.Contracts;
-using OrderWorkflow.Domain.WorkflowOrders;
 
-namespace OrderWorkflow.Domain.Orders
+namespace OrderWorkflow.Domain.WorkflowOrders
 {
     public abstract class Order : IWorkflowOrder
     {
@@ -11,11 +10,11 @@ namespace OrderWorkflow.Domain.Orders
         private readonly int _clientId;
         private Vendor _vendor;
 
-        protected Order(Guid id, OrderDto orderDto)
+        protected Order(Guid id, OrderWorkflowDto orderWorkflowDto)
         {
             _id = id;
-            _clientId = orderDto.ClientId;
-            _vendor = orderDto.Vendor;
+            _clientId = orderWorkflowDto.ClientId;
+            _vendor = orderWorkflowDto.Vendor;
         }
 
         public abstract IWorkflowOrder MakeTransition();
@@ -45,9 +44,9 @@ namespace OrderWorkflow.Domain.Orders
             return random.Next(1, 100)%2 == 0;
         }
 
-        protected Func<OrderDto> MapToOrderDto()
+        protected Func<OrderWorkflowDto> MapToOrderDto()
         {
-            return () => new OrderDto
+            return () => new OrderWorkflowDto
             {
                 ClientId = _clientId,
                 Vendor = _vendor
