@@ -11,7 +11,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         public AssignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto):base(id,orderWorkflowDto)
         {
             _vendor = base.Vendor;
-            _transitionFunc = orderWorkflowDto.ConditionalTransitionFunc;
+            _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
 
         public override OrderStatus Status { get { return OrderStatus.Assigned; } }
@@ -20,7 +20,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         {
             _vendor.SendMeNotification(this);
             var vendorAccepted = _vendor.AcceptOrder(this);
-            return _transitionFunc(base.OrderId, base.MapToOrderDto(),vendorAccepted);
+            return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(),vendorAccepted);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             return random.Next(1, 100)%2 == 0;
         }
 
-        protected Func<OrderWorkflowDto> MapToOrderDto()
+        protected Func<OrderWorkflowDto> MapToOrderWorkflowDto()
         {
             return () => new OrderWorkflowDto
             {

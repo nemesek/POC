@@ -5,14 +5,14 @@ using OrderWorkflow.Domain.WorkflowOrders.Services;
 
 namespace OrderWorkflow.Domain
 {
-    public class Client
+    public class Cms
     {
         private readonly int _id;
         private readonly OrderTransitioner _orderTransitioner;
 
-        public Client(int id):this(id, new OrderTransitioner()) {}
+        public Cms(int id):this(id, new OrderTransitioner()) {}
 
-        public Client(int id, OrderTransitioner orderTransitioner)
+        public Cms(int id, OrderTransitioner orderTransitioner)
         {
             _id = id;
             _orderTransitioner = orderTransitioner;

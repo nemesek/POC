@@ -9,14 +9,14 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public ClosedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
         {
-            _transitionFunc = orderWorkflowDto.ConditionalTransitionFunc;
+            _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
 
         public override OrderStatus Status { get { return OrderStatus.Closed; } }
         
         public override IWorkflowOrder MakeTransition()
         {
-            var order = _transitionFunc(base.OrderId, base.MapToOrderDto(), true);
+            var order = _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
             return order;
         }
     }

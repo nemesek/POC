@@ -14,10 +14,10 @@ namespace OrderWorkflow.Controllers
             _orderProcessor = orderProcessor;
         }
 
-        public IWorkflowOrder ProcessOrder(int clientId)
+        public IWorkflowOrder ProcessOrder(int cmsId)
         {
-            var client = new Client(clientId);
-            var order = client.CreateNewOrder();
+            var cms = new Cms(cmsId);
+            var order = cms.CreateNewOrder();
             while (order.Status != OrderStatus.Closed && order.Status != OrderStatus.WithClient)
             {
                 order.Save();

@@ -9,7 +9,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public WithClientOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
         {
-            _transitionFunc = orderWorkflowDto.ConditionalTransitionFunc;
+            _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
         
         public override OrderStatus Status
@@ -19,7 +19,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public override IWorkflowOrder MakeTransition()
         {
-            return _transitionFunc(base.OrderId, base.MapToOrderDto(), true);
+            return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
         }
     }
 }

@@ -5,14 +5,14 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 {
     public class UnassignedOrder : Order, ICanBeAutoAssigned
     {
-        private readonly Func<ICanBeAutoAssigned,Vendor> _assignFunc;
+        private readonly Func<ICanBeAutoAssigned,Vendor> _assignVendorFunc;
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool,IWorkflowOrder> _transitionFunc;
         private readonly string _zipCode;
 
         public UnassignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto):base(id, orderWorkflowDto)
         {
-            _assignFunc = orderWorkflowDto.AssignFunc;
-            _transitionFunc = orderWorkflowDto.ConditionalTransitionFunc;
+            _assignVendorFunc = orderWorkflowDto.AssignVendorFunc;
+            _transitionFunc = orderWorkflowDto.StateTransitionFunc;
             _zipCode = orderWorkflowDto.ZipCode;
         }
 
@@ -21,14 +21,14 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public override IWorkflowOrder MakeTransition()
         {
-            var vendorToAssign = _assignFunc(this);
+            var vendorToAssign = _assignVendorFunc(this);
             if (vendorToAssign == null)
             {
-                return _transitionFunc(base.OrderId, base.MapToOrderDto(), false);
+                return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), false);
             }
             
             base.AssignVendor(vendorToAssign);
-            return _transitionFunc(base.OrderId, base.MapToOrderDto(), true);
+            return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
         }
     }
 }
