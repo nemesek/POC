@@ -1,21 +1,19 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
+using OrderWorkflow.Domain.WorkflowOrders;
 
 namespace OrderWorkflow.Domain.Orders
 {
-    public class WithClientOrder : Order
+    public class AcceptedOrder : Order
     {
-        private readonly Func<Guid, Func<OrderDto>, bool, IWorkflowOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderDto>,bool,IWorkflowOrder> _transitionFunc;
 
-        public WithClientOrder(Guid id, OrderDto orderDto) : base(id, orderDto)
+        public AcceptedOrder(Guid id,OrderDto orderDto):base(id,orderDto)
         {
             _transitionFunc = orderDto.ConditionalTransitionFunc;
         }
-        
-        public override OrderStatus Status
-        {
-            get { return OrderStatus.WithClient; }
-        }
+
+        public override OrderStatus Status { get { return OrderStatus.Accepted; } }
 
         public override IWorkflowOrder MakeTransition()
         {

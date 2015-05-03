@@ -1,5 +1,6 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
+using OrderWorkflow.Domain.WorkflowOrders;
 
 namespace OrderWorkflow.Domain.Orders
 {

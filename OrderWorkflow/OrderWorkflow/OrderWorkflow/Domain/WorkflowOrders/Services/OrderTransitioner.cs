@@ -2,7 +2,7 @@
 using OrderWorkflow.Domain.Contracts;
 using OrderWorkflow.Domain.Orders;
 
-namespace OrderWorkflow.Domain
+namespace OrderWorkflow.Domain.WorkflowOrders.Services
 {
     public class OrderTransitioner
     {

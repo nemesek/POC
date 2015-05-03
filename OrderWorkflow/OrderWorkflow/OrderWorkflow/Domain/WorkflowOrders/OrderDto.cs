@@ -1,7 +1,7 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
 
-namespace OrderWorkflow.Domain
+namespace OrderWorkflow.Domain.WorkflowOrders
 {
     public class OrderDto
     {
