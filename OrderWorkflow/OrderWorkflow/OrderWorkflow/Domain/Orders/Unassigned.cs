@@ -6,7 +6,7 @@ namespace OrderWorkflow.Domain.Orders
     public class Unassigned : Order, IOrderWithZipCode
     {
         private readonly Func<IOrderWithZipCode,Vendor> _assignFunc;
-        private readonly Func<Guid, Func<OrderDto>, bool,IOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderDto>, bool,IWorkflowOrder> _transitionFunc;
         private readonly string _zipCode;
 
         public Unassigned(Guid id, OrderDto orderDto):base(id, orderDto)
@@ -19,7 +19,7 @@ namespace OrderWorkflow.Domain.Orders
         public override OrderStatus Status { get { return OrderStatus.Unassigned; } }
         public string ZipCode { get { return _zipCode; } }
 
-        public override IOrder MakeTransition()
+        public override IWorkflowOrder MakeTransition()
         {
             var vendorToAssign = _assignFunc(this);
             if (vendorToAssign == null)

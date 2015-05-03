@@ -13,7 +13,7 @@ namespace OrderWorkflow.Controllers
             _orderProcessor = orderProcessor;
         }
 
-        public IOrder ProcessOrder(int clientId)
+        public IWorkflowOrder ProcessOrder(int clientId)
         {
             var client = new Client(clientId);
             var order = client.CreateNewOrder();
@@ -27,7 +27,7 @@ namespace OrderWorkflow.Controllers
             return order;
         }
 
-        private IOrder ProcessOrder(IOrder order)
+        private IWorkflowOrder ProcessOrder(IWorkflowOrder order)
         {
             var updatedOrder = _orderProcessor.ProcessNextStep(order.MakeTransition);
             return updatedOrder;

@@ -4,7 +4,7 @@ using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.Orders
 {
-    public abstract class Order : IOrder
+    public abstract class Order : IWorkflowOrder
     {
         private readonly Guid _id;
         private readonly int _clientId;
@@ -17,7 +17,7 @@ namespace OrderWorkflow.Domain.Orders
             _vendor = orderDto.Vendor;
         }
 
-        public abstract IOrder MakeTransition();
+        public abstract IWorkflowOrder MakeTransition();
         public abstract OrderStatus Status { get; }
 
         protected Vendor Vendor{ get { return _vendor; } }

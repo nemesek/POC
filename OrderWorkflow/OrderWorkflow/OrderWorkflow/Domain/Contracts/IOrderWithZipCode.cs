@@ -1,6 +1,6 @@
 ﻿namespace OrderWorkflow.Domain.Contracts
 {
-    public interface IOrderWithZipCode : IOrder
+    public interface IOrderWithZipCode : IWorkflowOrder
     {
         string ZipCode { get; }
     }

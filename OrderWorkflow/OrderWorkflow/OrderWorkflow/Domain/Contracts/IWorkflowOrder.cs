@@ -2,12 +2,11 @@
 
 namespace OrderWorkflow.Domain.Contracts
 {
-    public interface IOrder
+    public interface IWorkflowOrder
     {
-        IOrder MakeTransition();
+        IWorkflowOrder MakeTransition();
         OrderStatus Status { get; }
         Guid OrderId { get; }
-        //int ClientId { get; }
         void Save();
 
     }

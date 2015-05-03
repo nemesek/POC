@@ -17,7 +17,7 @@ namespace OrderWorkflow.Domain
             _orderTransitioner = orderTransitioner;
         }
 
-        public IOrder CreateNewOrder()
+        public IWorkflowOrder CreateNewOrder()
         {
             return _orderTransitioner.CreateNewOrder(FindBestVendor(), _id);
         }

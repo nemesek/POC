@@ -5,7 +5,7 @@ namespace OrderWorkflow.Domain.Orders
 {
     public class AcceptedOrder : Order
     {
-        private readonly Func<Guid, Func<OrderDto>,bool,IOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderDto>,bool,IWorkflowOrder> _transitionFunc;
 
         public AcceptedOrder(Guid id,OrderDto orderDto):base(id,orderDto)
         {
@@ -14,7 +14,7 @@ namespace OrderWorkflow.Domain.Orders
 
         public override OrderStatus Status { get { return OrderStatus.Accepted; } }
 
-        public override IOrder MakeTransition()
+        public override IWorkflowOrder MakeTransition()
         {
             return _transitionFunc(base.OrderId, base.MapToOrderDto(), true);
         }

@@ -20,12 +20,12 @@ namespace OrderWorkflow.Domain
         public string ZipCode { get { return _zip; } }
         public string Name { get { return _name; } }
 
-        public virtual void SendMeNotification(IOrder order)
+        public virtual void SendMeNotification(IWorkflowOrder order)
         {
             Console.WriteLine("Sending Email and text to user {0} about orderId: {1}", _name, order.OrderId);
         }
 
-        public virtual bool AcceptOrder(IOrder order)
+        public virtual bool AcceptOrder(IWorkflowOrder order)
         {
             Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
             return true;

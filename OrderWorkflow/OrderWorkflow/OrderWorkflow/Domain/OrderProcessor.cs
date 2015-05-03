@@ -5,7 +5,7 @@ namespace OrderWorkflow.Domain
 {
     public class OrderProcessor
     {
-        public IOrder ProcessNextStep(Func<IOrder> orderTransitionFunc)
+        public IWorkflowOrder ProcessNextStep(Func<IWorkflowOrder> orderTransitionFunc)
         {
             //var processedOrder = order.MakeTransition();
             var processedOrder = orderTransitionFunc();

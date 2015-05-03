@@ -48,7 +48,7 @@
     <Compile Include="Domain\AutoAssign\DefaultAutoAssign.cs" />
     <Compile Include="Domain\AutoAssign\LegacyAutoAssign.cs" />
     <Compile Include="Domain\Client.cs" />
-    <Compile Include="Domain\Contracts\IOrder.cs" />
+    <Compile Include="Domain\Contracts\IWorkflowOrder.cs" />
     <Compile Include="Domain\Contracts\IOrderWithZipCode.cs" />
     <Compile Include="Domain\Contracts\IProcessAutoAssign.cs" />
     <Compile Include="Domain\NullVendor.cs" />
