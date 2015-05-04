@@ -15,27 +15,18 @@ namespace BigBallOfMud
 
         private void ProcessOrder(Order order)
         {
-            switch (order.Status)
+            if (order.Status == OrderStatus.Unassigned)
             {
-                case OrderStatus.Unassigned:
-                    {
-                        order.Status = OrderStatus.Assigned;
-                        return;
-                    }
-                case OrderStatus.Assigned:
-                    {
-                        order.Status = OrderStatus.Accepted;
-                        return;
-                    }
-                case OrderStatus.Accepted:
-                    {
-                        order.Status = OrderStatus.Closed;
-                        return;
-                    }
+                order.ProcessUnassigned();
             }
-
-
-            throw new ArgumentOutOfRangeException(string.Format("Status {0} is not valid.", order.Status));
+            else if (order.Status == OrderStatus.Assigned)
+            {
+                order.ProcessAssigned();
+            }
+            else if (order.Status == OrderStatus.Accepted)
+            {
+                order.ProcessAccepted();
+            }
         }
     }
 }
