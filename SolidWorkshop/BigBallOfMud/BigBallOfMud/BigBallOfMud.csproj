@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cms.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="OrderProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -3,7 +3,7 @@
 (5) - Custom State Machine
 (9) - Custom Order Logic *
 (17) - John Custom Order Logic *
-(21) - John Custom State Machine
+(21) - John Custom State Machine *
 
 (2,6,10,14,18,22) - Assign to Allen
 (2) - Default *
