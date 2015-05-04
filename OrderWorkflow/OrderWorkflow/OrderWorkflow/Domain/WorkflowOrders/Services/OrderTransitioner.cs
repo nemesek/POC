@@ -20,7 +20,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
         protected virtual IWorkflowOrder TransitionToAssigned(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc)
         {
             Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder>
-                transitionFunc = (id, dtoFunc, t) => t ? TransitionToAccepted(id,dtoFunc) : TransitionOrderBackToNew(id, dtoFunc);
+                transitionFunc = (id, dtoFunc, t) => t ? TransitionToAccepted(id,dtoFunc) : TransitionOrderBackToUnassigned(id, dtoFunc);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
             return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Assigned, orderDto);
@@ -65,7 +65,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
             return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.WithClient, orderDto);
         }
 
-        protected virtual IWorkflowOrder TransitionOrderBackToNew(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc)
+        protected virtual IWorkflowOrder TransitionOrderBackToUnassigned(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc)
         {
             var orderDto = orderDtoFunc();
             var client = new Cms(orderDto.ClientId, this);

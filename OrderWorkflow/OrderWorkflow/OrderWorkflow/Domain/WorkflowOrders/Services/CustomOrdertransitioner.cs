@@ -9,7 +9,6 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = base.TransitionToClosed;
-            //return new AcceptedOrder(orderId, orderDto);
             return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Accepted, orderDto);
         }
     }
