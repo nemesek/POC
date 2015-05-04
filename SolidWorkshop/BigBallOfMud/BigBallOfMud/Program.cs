@@ -11,6 +11,10 @@ namespace BigBallOfMud
     {
         static void Main(string[] args)
         {
+            // How to incorporate a new status?
+            // How to change business logic?
+            // How to change assignment logic?
+            // How to redefine a workflow?
             var cmsId = 0;
             if (args.Length > 0)
             {

@@ -25,9 +25,17 @@ namespace BigBallOfMud
         }
 
         public OrderStatus Status { get; set; }
+        public Vendor Vendor { get; set; }
 
         public void ProcessUnassigned()
         {
+            var vendorRepo = new VendorRepository();
+            var vendor = vendorRepo
+                .GetVendors()
+                .FirstOrDefault();
+
+            Console.WriteLine("About to assign order to {0}", vendor.Name);
+            Vendor = vendor;
             this.Status = OrderStatus.Assigned;
         }
 
