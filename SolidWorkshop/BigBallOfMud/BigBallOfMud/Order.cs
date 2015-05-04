@@ -25,5 +25,21 @@ namespace BigBallOfMud
         }
 
         public OrderStatus Status { get; set; }
+
+        public void ProcessUnassigned()
+        {
+            this.Status = OrderStatus.Assigned;
+        }
+
+        public void ProcessAssigned()
+        {
+            this.Status = OrderStatus.Accepted;
+        }
+
+        public void ProcessAccepted()
+        {
+            this.Status = OrderStatus.Closed;
+        }
     }
+
 }

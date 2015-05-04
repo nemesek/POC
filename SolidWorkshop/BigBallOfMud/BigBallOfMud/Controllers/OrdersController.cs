@@ -16,8 +16,19 @@ namespace BigBallOfMud.Controllers
             {
                 order.Save();
                 Console.WriteLine("Incoming Request about to be processed.");
-                var processor = new OrderProcessor();
-                processor.UpdateOrder(order);
+                if (order.Status == OrderStatus.Unassigned)
+                {
+                    order.ProcessUnassigned();
+                }
+                else if (order.Status == OrderStatus.Assigned)
+                {
+                    order.ProcessAssigned();
+                }
+                else if (order.Status == OrderStatus.Accepted)
+                {
+                    order.ProcessAccepted();
+                }
+
             }
 
             return order;
