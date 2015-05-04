@@ -34,15 +34,15 @@ namespace BigBallOfMud
             get { return _name; }
         }
 
-        //public virtual void SendMeNotification(IWorkflowOrder order)
-        //{
-        //    Console.WriteLine("Sending Email and text to user {0} about orderId: {1}", _name, order.OrderId);
-        //}
+        public virtual void SendMeNotification(Order order)
+        {
+            Console.WriteLine("Sending Email and text to user {0} about orderId: {1}", _name, order.OrderId);
+        }
 
-        //public virtual bool AcceptOrder(IWorkflowOrder order)
-        //{
-        //    Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
-        //    return true;
-        //}
+        public virtual bool AcceptOrder(Order order)
+        {
+            Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
+            return true;
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace BigBallOfMud
             Console.WriteLine("Saving {0} State to DB", Status);
         }
 
+        public Guid OrderId { get; set; }
         public OrderStatus Status { get; set; }
         public Vendor Vendor { get; set; }
 
@@ -41,7 +42,16 @@ namespace BigBallOfMud
 
         public void ProcessAssigned()
         {
-            this.Status = OrderStatus.Accepted;
+            if (Vendor.AcceptOrder(this))
+            {
+                this.Status = OrderStatus.Accepted;
+                Console.WriteLine("Vendor accepted.");
+                return;
+            }
+
+            Console.WriteLine("Vendor declined.");
+            this.Status = OrderStatus.Unassigned;
+
         }
 
         public void ProcessAccepted()

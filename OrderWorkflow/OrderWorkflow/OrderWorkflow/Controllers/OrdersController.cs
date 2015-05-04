@@ -21,7 +21,7 @@ namespace OrderWorkflow.Controllers
             while (order.Status != OrderStatus.Closed && order.Status != OrderStatus.WithClient)
             {
                 order.Save();
-                Console.WriteLine("Incoming Request about to be processed.");
+                Console.WriteLine("++++++++++++++Incoming Request about to be processed.+++++++++++++");
                 order = ProcessOrder(order);
             }
 

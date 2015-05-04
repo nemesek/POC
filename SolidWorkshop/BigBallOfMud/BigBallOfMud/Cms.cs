@@ -17,10 +17,8 @@ namespace BigBallOfMud
 
         public Order CreateNewOrder()
         {
-            var order = new Order {Status = OrderStatus.Unassigned};
+            var order = new Order {OrderId = Guid.NewGuid(),Status = OrderStatus.Unassigned};
             return order;
         }
-
-
     }
 }
