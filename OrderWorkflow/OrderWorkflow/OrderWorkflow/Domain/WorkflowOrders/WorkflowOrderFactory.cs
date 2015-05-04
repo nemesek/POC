@@ -11,7 +11,10 @@ namespace OrderWorkflow.Domain.WorkflowOrders
                 case OrderStatus.Unassigned: return GetUnassignedOrder(orderId, orderWorkFlowDto);
                 case OrderStatus.Assigned: return GetAssignedOrder(orderId, orderWorkFlowDto);
                 case OrderStatus.Accepted: return GetAcceptedOrder(orderId, orderWorkFlowDto);
-                case OrderStatus.Submitted: return GetSubmittedOrder(orderId, orderWorkFlowDto);
+                case OrderStatus.Submitted: 
+                {
+                    return clientId %17 == 0 || clientId % 16 == 0 || clientId % 22 == 0 ? GetJohnSubmittedOrder(orderId, orderWorkFlowDto) :GetSubmittedOrder(orderId, orderWorkFlowDto);
+                }
                 case OrderStatus.Rejected:
                 {
                     return clientId%3 == 0 ? GetCustomRejectedOrder(orderId, orderWorkFlowDto) : GetRejectedOrder(orderId, orderWorkFlowDto);
@@ -35,6 +38,10 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         private static SubmittedOrder GetSubmittedOrder(Guid orderId, OrderWorkflowDto orderDto)
         {
             return new SubmittedOrder(orderId, orderDto);
+        }
+        private static SubmittedOrder GetJohnSubmittedOrder(Guid orderId, OrderWorkflowDto orderDto)
+        {
+            return new JohnsCustomSubmittedOrder(orderId, orderDto);
         }
 
         private static RejectedOrder GetRejectedOrder(Guid orderId, OrderWorkflowDto orderDto)

@@ -54,10 +54,12 @@
     <Compile Include="Domain\NullVendor.cs" />
     <Compile Include="Domain\OrderEdit\Order.cs" />
     <Compile Include="Domain\WorkflowOrders\CustomRejectedOrder.cs" />
+    <Compile Include="Domain\WorkflowOrders\JohnsCustomSubmittedOrder.cs" />
     <Compile Include="Domain\WorkflowOrders\Order.cs" />
     <Compile Include="Domain\WorkflowOrders\OrderWorkflowDto.cs" />
     <Compile Include="Domain\WorkflowOrders\RejectedOrder.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\CustomOrdertransitioner.cs" />
+    <Compile Include="Domain\WorkflowOrders\Services\JohnsCustomTransitioner.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\OrderProcessor.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\OrderTransitioner.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\OrderTransitionerFactory.cs" />
