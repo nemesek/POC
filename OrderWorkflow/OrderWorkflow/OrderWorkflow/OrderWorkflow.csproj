@@ -48,7 +48,6 @@
     <Compile Include="Domain\AutoAssign\DefaultAutoAssign.cs" />
     <Compile Include="Domain\AutoAssign\LegacyAutoAssign.cs" />
     <Compile Include="Domain\Cms.cs" />
-    <Compile Include="Domain\CmsFactory.cs" />
     <Compile Include="Domain\Contracts\IWorkflowOrder.cs" />
     <Compile Include="Domain\Contracts\ICanBeAutoAssigned.cs" />
     <Compile Include="Domain\Contracts\IProcessAutoAssign.cs" />
