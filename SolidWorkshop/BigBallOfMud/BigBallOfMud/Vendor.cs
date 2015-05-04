@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BigBallOfMud
@@ -41,8 +42,17 @@ namespace BigBallOfMud
 
         public virtual bool AcceptOrder(Order order)
         {
-            Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
-            return true;
+            Thread.Sleep(100); // helps with the randomization
+            var random = new Random();
+            if (random.Next(1, 100)%2 == 0)
+            {
+                Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
+                return true;
+            }
+
+            Console.WriteLine("{0} has rejected order {1}", _name, order.OrderId);
+            return false;
+            
         }
     }
 }
