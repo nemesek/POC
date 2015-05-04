@@ -1,0 +1,26 @@
+(1,5,9,13,17,21) - Assign to Sarah
+(1,13) - Default *
+(5) - Custom State Machine
+(9) - Custom Order Logic *
+(17) - John Custom Order Logic *
+(21) - John Custom State Machine
+
+(2,6,10,14,18,22) - Assign to Allen
+(2) - Default *
+(6,18) - Custom Order Logic *
+(10) - Custom State Machine 
+(14) - John Custom State Machine * 
+(22) - John Custom Order Logic *
+
+
+(3,7,11,15,19,23) - Assign is Declined
+(3) - Custom Order Logic * 
+(7, 11, 19, 23) - Default *
+(15) - Custom Order Logic and Custom State Machine
+
+(4,8,12,16,20,24) - Assign to Dan
+(4,8) - Default * 
+(12) - Custom Order Logic *
+(16) - John Custom Order Logic *
+(20) - Custom State Machine 
+(24) - John Custom State Machine * 
