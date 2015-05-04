@@ -10,13 +10,14 @@ namespace OrderWorkflow.Domain
         private readonly int _id;
         private readonly OrderTransitioner _orderTransitioner;
 
-        public Cms(int id):this(id, new OrderTransitioner()) {}
+        public Cms(int id): this(id, OrderTransitionerFactory.GetTransitionLogic(id)) {}
 
         public Cms(int id, OrderTransitioner orderTransitioner)
         {
             _id = id;
             _orderTransitioner = orderTransitioner;
         }
+
 
         public IWorkflowOrder CreateNewOrder()
         {

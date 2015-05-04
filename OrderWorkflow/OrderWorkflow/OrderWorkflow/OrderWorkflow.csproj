@@ -48,6 +48,7 @@
     <Compile Include="Domain\AutoAssign\DefaultAutoAssign.cs" />
     <Compile Include="Domain\AutoAssign\LegacyAutoAssign.cs" />
     <Compile Include="Domain\Cms.cs" />
+    <Compile Include="Domain\CmsFactory.cs" />
     <Compile Include="Domain\Contracts\IWorkflowOrder.cs" />
     <Compile Include="Domain\Contracts\ICanBeAutoAssigned.cs" />
     <Compile Include="Domain\Contracts\IProcessAutoAssign.cs" />
@@ -56,8 +57,10 @@
     <Compile Include="Domain\WorkflowOrders\Order.cs" />
     <Compile Include="Domain\WorkflowOrders\OrderWorkflowDto.cs" />
     <Compile Include="Domain\WorkflowOrders\RejectedOrder.cs" />
+    <Compile Include="Domain\WorkflowOrders\Services\CustomOrdertransitioner.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\OrderProcessor.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\OrderTransitioner.cs" />
+    <Compile Include="Domain\WorkflowOrders\Services\OrderTransitionerFactory.cs" />
     <Compile Include="Domain\WorkflowOrders\SubmittedOrder.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
     <Compile Include="Domain\WorkflowOrders\AcceptedOrder.cs" />
