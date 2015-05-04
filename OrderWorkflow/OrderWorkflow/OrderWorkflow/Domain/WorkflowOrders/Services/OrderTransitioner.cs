@@ -14,7 +14,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
                 ZipCode = "38655",
                 ClientId = clientId
             };
-            return new UnassignedOrder(Guid.NewGuid(), dto);
+            //return new UnassignedOrder(Guid.NewGuid(), dto);
+           return WorkflowOrderFactory.GetWorkflowOrder(clientId, Guid.NewGuid(), OrderStatus.Unassigned, dto);
         }
 
         protected virtual IWorkflowOrder TransitionToAssigned(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc)
@@ -23,14 +24,16 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
                 transitionFunc = (id, dtoFunc, t) => t ? TransitionToAccepted(id,dtoFunc) : TransitionOrderBackToNew(id, dtoFunc);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
-            return new AssignedOrder(orderId, orderDto);
+            //return new AssignedOrder(orderId, orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Assigned, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToAccepted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = TransitionToSubmitted;
-            return new AcceptedOrder(orderId,orderDto);
+            //return new AcceptedOrder(orderId,orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Accepted, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToSubmitted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool moveForward)
@@ -39,7 +42,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
                 transitionFunc = (id, dtoFunc, t) => t ? TransitionToClosed(id, dtoFunc, moveForward) : TransitionToRejected(id, dtoFunc, moveForward);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
-            return new SubmittedOrder(orderId, orderDto);
+            //return new SubmittedOrder(orderId, orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Submitted, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToRejected(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool moveForward)
@@ -48,21 +52,24 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
                 transitionFunc = (id, dtoFunc, t) => t ? TransitionToClosed(id, dtoFunc, moveForward) : TransitionToRejected(id, dtoFunc, moveForward);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
-            return new RejectedOrder(orderId, orderDto);
+            //return new RejectedOrder(orderId, orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Rejected, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToClosed(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = TransitionToClosed;
-            return new ClosedOrder(orderId, orderDto);
+            //return new ClosedOrder(orderId, orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Closed, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToWithClient(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = TransitionToWithClient;
-            return new WithClientOrder(orderId, orderDto);
+            //return new WithClientOrder(orderId, orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.WithClient, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionOrderBackToNew(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc)
@@ -72,7 +79,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
             var assignmentFunc = client.ManualAssign();
             orderDto.AssignVendorFunc = assignmentFunc;
             orderDto.StateTransitionFunc = GetNewOrderTransitionFunc();
-            return new UnassignedOrder(orderId, orderDto);
+            //return new UnassignedOrder(orderId, orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Unassigned, orderDto);
 
         }
 

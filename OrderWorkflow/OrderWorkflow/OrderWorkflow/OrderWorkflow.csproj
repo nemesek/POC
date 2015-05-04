@@ -54,6 +54,7 @@
     <Compile Include="Domain\Contracts\IProcessAutoAssign.cs" />
     <Compile Include="Domain\NullVendor.cs" />
     <Compile Include="Domain\OrderEdit\Order.cs" />
+    <Compile Include="Domain\WorkflowOrders\CustomRejectedOrder.cs" />
     <Compile Include="Domain\WorkflowOrders\Order.cs" />
     <Compile Include="Domain\WorkflowOrders\OrderWorkflowDto.cs" />
     <Compile Include="Domain\WorkflowOrders\RejectedOrder.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Domain\WorkflowOrders\WithClientOrder.cs" />
     <Compile Include="Domain\Vendor.cs" />
     <Compile Include="Domain\VendorRepository.cs" />
+    <Compile Include="Domain\WorkflowOrders\WorkflowOrderFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
