@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BigBallOfMud
+namespace BiggerBallOfMud
 {
     public class Cms
     {
@@ -8,12 +8,12 @@ namespace BigBallOfMud
 
         public Cms(int id)
         {
-            _id = id;    
+            _id = id;
         }
 
         public Order CreateNewOrder()
         {
-            var order = new Order {OrderId = Guid.NewGuid(),Status = OrderStatus.Unassigned};
+            var order = new Order { OrderId = Guid.NewGuid(), Status = OrderStatus.Unassigned, ClientId = _id, ZipCode = "38655" };
             return order;
         }
     }

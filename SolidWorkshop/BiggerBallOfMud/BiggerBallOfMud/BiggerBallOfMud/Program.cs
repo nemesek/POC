@@ -1,7 +1,6 @@
 ﻿using System;
-using BigBallOfMud.Controllers;
 
-namespace BigBallOfMud
+namespace BiggerBallOfMud
 {
     class Program
     {

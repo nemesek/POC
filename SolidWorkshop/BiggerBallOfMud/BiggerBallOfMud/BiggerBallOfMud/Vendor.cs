@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace BigBallOfMud
+namespace BiggerBallOfMud
 {
     public class Vendor
     {
@@ -40,7 +40,7 @@ namespace BigBallOfMud
         {
             Thread.Sleep(100); // helps with the randomization
             var random = new Random();
-            if (random.Next(1, 100)%2 == 0)
+            if (random.Next(1, 100) % 2 == 0)
             {
                 Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
                 return true;
@@ -48,7 +48,7 @@ namespace BigBallOfMud
 
             Console.WriteLine("{0} has rejected order {1}", _name, order.OrderId);
             return false;
-            
+
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BigBallOfMud.Controllers
+namespace BiggerBallOfMud
 {
     public class OrdersController
     {
@@ -23,6 +23,14 @@ namespace BigBallOfMud.Controllers
                 else if (order.Status == OrderStatus.Accepted)
                 {
                     order.ProcessAccepted();
+                }
+                else if (order.Status == OrderStatus.Submitted)
+                {
+                    order.ProcessSubmitted();
+                }
+                else if (order.Status == OrderStatus.Rejected)
+                {
+                    order.ProcessRejected();
                 }
 
             }
