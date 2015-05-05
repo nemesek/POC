@@ -11,10 +11,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public override IWorkflowOrder MakeTransition()
         {
-            Console.Write("Doing More Buisness Logic");
-            if (base.AcceptSubmittedReport()) return base.MakeTransition();
-            Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage because I am John!!!!!!!!!!!!!!!!");
-            
+            Console.WriteLine("Doing John Additional Order Submitted Buisness Logic");
             return base.MakeTransition();
         }
     }

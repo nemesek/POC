@@ -20,7 +20,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders
                     return clientId%3 == 0 ? GetCustomRejectedOrder(orderId, orderWorkFlowDto) : GetRejectedOrder(orderId, orderWorkFlowDto);
                 }
                 case OrderStatus.OnHold: return GetOnHoldOrder(orderId, orderWorkFlowDto);
-                case OrderStatus.Closed:return GetClosedOrder(orderId, orderWorkFlowDto);
+                case OrderStatus.Closed: return GetClosedOrder(orderId, orderWorkFlowDto);
+                case OrderStatus.Review: return GetReviewOrder(orderId, orderWorkFlowDto);
                 default: throw new ArgumentOutOfRangeException("orderStatus");
             }
         }
@@ -62,6 +63,11 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         private static OnHoldOrder GetOnHoldOrder(Guid orderId, OrderWorkflowDto orderDto)
         {
             return new OnHoldOrder(orderId, orderDto);
+        }
+
+        private static ReviewOrder GetReviewOrder(Guid orderId, OrderWorkflowDto orderDto)
+        {
+            return new ReviewOrder(orderId, orderDto);
         }
 
         private static UnassignedOrder GetUnassignedOrder(Guid orderId, OrderWorkflowDto orderDto)

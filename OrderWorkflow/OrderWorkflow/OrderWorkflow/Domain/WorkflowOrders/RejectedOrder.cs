@@ -14,9 +14,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public override IWorkflowOrder MakeTransition()
         {
-            if (base.AcceptSubmittedReport()) return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
-            Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");
-            return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), false);
+            return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
         }
 
         public override OrderStatus Status

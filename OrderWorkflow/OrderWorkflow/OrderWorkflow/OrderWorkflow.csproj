@@ -58,6 +58,7 @@
     <Compile Include="Domain\WorkflowOrders\Order.cs" />
     <Compile Include="Domain\WorkflowOrders\OrderWorkflowDto.cs" />
     <Compile Include="Domain\WorkflowOrders\RejectedOrder.cs" />
+    <Compile Include="Domain\WorkflowOrders\ReviewOrder.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\CustomOrdertransitioner.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\JohnsCustomTransitioner.cs" />
     <Compile Include="Domain\WorkflowOrders\Services\OrderProcessor.cs" />

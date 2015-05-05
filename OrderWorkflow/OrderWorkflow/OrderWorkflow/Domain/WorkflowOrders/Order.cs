@@ -37,7 +37,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         protected bool AcceptSubmittedReport()
         {
-            if (this.Status != OrderStatus.Submitted && this.Status != OrderStatus.Rejected)
+            if (this.Status != OrderStatus.Review)
             {
                 throw new Exception("Order is not in correct state to have report Submitted.");
             }

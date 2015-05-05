@@ -35,19 +35,28 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
 
         protected virtual IWorkflowOrder TransitionToSubmitted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
-            Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder>
-                transitionFunc = (id, dtoFunc, t) => t ? TransitionToClosed(id, dtoFunc, shouldMoveForward) : TransitionToRejected(id, dtoFunc, shouldMoveForward);
+            //Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder>
+            //    transitionFunc = (id, dtoFunc, t) => t ? TransitionToClosed(id, dtoFunc, shouldMoveForward) : TransitionToRejected(id, dtoFunc, shouldMoveForward);
             var orderDto = orderDtoFunc();
-            orderDto.StateTransitionFunc = transitionFunc;
+            orderDto.StateTransitionFunc = TransitionToReview;
             return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Submitted, orderDto);
         }
 
-        protected virtual IWorkflowOrder TransitionToRejected(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
+        protected virtual IWorkflowOrder TransitionToReview(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder>
                 transitionFunc = (id, dtoFunc, t) => t ? TransitionToClosed(id, dtoFunc, shouldMoveForward) : TransitionToRejected(id, dtoFunc, shouldMoveForward);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Review, orderDto);
+        }
+
+        protected virtual IWorkflowOrder TransitionToRejected(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
+        {
+            //Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder>
+            //    transitionFunc = (id, dtoFunc, t) => t ? TransitionToClosed(id, dtoFunc, shouldMoveForward) : TransitionToRejected(id, dtoFunc, shouldMoveForward);
+            var orderDto = orderDtoFunc();
+            orderDto.StateTransitionFunc = TransitionToReview;
             return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Rejected, orderDto);
         }
 
