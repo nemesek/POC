@@ -26,7 +26,7 @@ namespace DomainEventsConsole
             //RangeExample();
 
             // From delegates examples
-            //StartActionExample();
+            //StartActionExample(); // test
             StartFuncExample();
         }
 
