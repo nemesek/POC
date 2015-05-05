@@ -1,6 +1,8 @@
 [Bb]in/
 [Oo]bj/
+packages/
 ./*.suo
+
 
 # Windows image file caches
 Thumbs.db
