@@ -146,7 +146,7 @@ namespace BiggerBallOfMud
                 }
                 else if (ClientId == 17 || ClientId == 16 || ClientId == 22)
                 {
-                    Console.WriteLine("Doing More Submitted Status Buisness Logic");
+                    Console.WriteLine("Doing John Additional Order Submitted Buisness Logic");
                 }
                 else
                 {
@@ -173,14 +173,8 @@ namespace BiggerBallOfMud
                 else
                 {
                     this.Status = OrderStatus.Rejected;
-                    if (ClientId == 17 || ClientId == 16 || ClientId == 22)
-                    {
-                        Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage because I am John!!!!!!!!!!!!!!!!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");        
-                    }
+                    Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");        
+                    
                 }
             }
             else if (Status == OrderStatus.Rejected)

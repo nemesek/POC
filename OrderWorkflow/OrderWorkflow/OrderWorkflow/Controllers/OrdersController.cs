@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using OrderWorkflow.Domain;
 using OrderWorkflow.Domain.Contracts;
 using OrderWorkflow.Domain.WorkflowOrders.Services;
@@ -21,6 +22,7 @@ namespace OrderWorkflow.Controllers
             while (order.Status != OrderStatus.Closed)
             {
                 order.Save();
+                //Thread.Sleep(1000);
                 Console.WriteLine("++++++++++++++Incoming Request about to be processed.+++++++++++++");
                 order = ProcessOrder(order);
             }
