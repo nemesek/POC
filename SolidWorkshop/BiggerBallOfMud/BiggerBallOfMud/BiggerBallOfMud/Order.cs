@@ -8,12 +8,14 @@ namespace BiggerBallOfMud
     {
         Unassigned = 0,
         Assigned = 1,
-        Accepted = 2,
+        VendorAccepted = 2,
         Submitted = 3,
         Rejected = 4,
-        OnHold = 5,
+        ManualAssign = 5,
         Closed = 6,
-        Review = 7
+        ReviewSubmission = 7,
+        ReviewAcceptance = 8,
+        ClientAccepted = 9
     }
 
     public class Order
@@ -58,7 +60,7 @@ namespace BiggerBallOfMud
                 }
                 else
                 {
-                    this.Status = OrderStatus.OnHold;
+                    this.Status = OrderStatus.ManualAssign;
                     Console.WriteLine("Going to have to manully assign.");
                     return;
                 }
@@ -69,7 +71,7 @@ namespace BiggerBallOfMud
                 return;
             }
 
-            if (Status == OrderStatus.OnHold)
+            if (Status == OrderStatus.ManualAssign)
             {
                 Thread.Sleep(100); // helps with the randomization
                 var random = new Random();
@@ -90,7 +92,7 @@ namespace BiggerBallOfMud
             {
                 if (Vendor.AcceptOrder(this))
                 {
-                    this.Status = OrderStatus.Accepted;
+                    this.Status = OrderStatus.VendorAccepted;
                     Console.WriteLine("Vendor accepted.");
                     return;
                 }
@@ -100,7 +102,7 @@ namespace BiggerBallOfMud
                 return;
             }
 
-            if (Status == OrderStatus.Accepted)
+            if (Status == OrderStatus.VendorAccepted)
             {
                 if (ClientId % 5 == 0)
                 {
@@ -108,6 +110,27 @@ namespace BiggerBallOfMud
                     return;
                 }
 
+                this.Status = OrderStatus.ReviewAcceptance;
+            }
+
+            if (Status == OrderStatus.ReviewAcceptance)
+            {
+                // randomly determine if its rejected
+                Thread.Sleep(100); // helps with the randomization
+                var random = new Random();
+                if (random.Next(1, 100)%2 == 0)
+                {
+                    this.Status = OrderStatus.ClientAccepted;
+                    return;
+                }
+
+                this.Status = OrderStatus.Unassigned;
+                return;
+
+            }
+
+            if (Status == OrderStatus.ClientAccepted)
+            {
                 this.Status = OrderStatus.Submitted;
             }
 
@@ -124,11 +147,11 @@ namespace BiggerBallOfMud
                     Console.WriteLine("Doing More Submitted Status Buisness Logic");
                 }
 
-                this.Status = OrderStatus.Review;
+                this.Status = OrderStatus.ReviewSubmission;
                 return;
             }
 
-            if (Status == OrderStatus.Review)
+            if (Status == OrderStatus.ReviewSubmission)
             {
                 if (AcceptSubmittedReport())
                 {
@@ -154,13 +177,13 @@ namespace BiggerBallOfMud
                     Console.WriteLine("**************Applying custom rejected order business logic******************");
                 }
 
-                this.Status = OrderStatus.Review;
+                this.Status = OrderStatus.ReviewSubmission;
             }
         }
 
         public bool AcceptSubmittedReport()
         {
-            if (this.Status != OrderStatus.Review)
+            if (this.Status != OrderStatus.ReviewSubmission)
             {
                 throw new Exception("Order is not in correct state to have report Submitted.");
             }
