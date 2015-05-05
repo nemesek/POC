@@ -6,6 +6,7 @@ namespace OrderWorkflow.Domain.Contracts
     {
         IWorkflowOrder MakeTransition();
         OrderStatus Status { get; }
+        void AssignVendor(Vendor vendor);
         Guid OrderId { get; }
         void Save();
 

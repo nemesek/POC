@@ -18,7 +18,7 @@ namespace OrderWorkflow.Controllers
         {
             var cms = new Cms(cmsId);
             var order = cms.CreateNewOrder();
-            while (order.Status != OrderStatus.Closed && order.Status != OrderStatus.WithClient)
+            while (order.Status != OrderStatus.Closed)
             {
                 order.Save();
                 Console.WriteLine("++++++++++++++Incoming Request about to be processed.+++++++++++++");

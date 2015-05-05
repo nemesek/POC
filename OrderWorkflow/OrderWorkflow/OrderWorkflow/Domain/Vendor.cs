@@ -5,9 +5,9 @@ namespace OrderWorkflow.Domain
 {
     public class Vendor
     {
-        private readonly int _orderCount = 0;
-        private readonly string _zip = string.Empty;
-        private readonly string _name = "Dan Nemesek";
+        private readonly int _orderCount;
+        private readonly string _zip;
+        private readonly string _name;
 
         public Vendor(int orderCount, string zipCode, string name)
         {

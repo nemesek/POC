@@ -7,7 +7,8 @@
         Accepted = 2,
         Submitted = 3,
         Rejected = 4,
-        WithClient = 5,
-        Closed = 6
+        OnHold = 5,
+        Closed = 6,
+        Review = 7
     }
 }

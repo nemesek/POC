@@ -21,12 +21,16 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         public abstract OrderStatus Status { get; }
 
         protected Vendor Vendor{ get { return _vendor; } }
-        
+        protected int ClientId { get { return _clientId; } }
         public Guid OrderId { get { return _id; } }
         
-        protected void AssignVendor(Vendor vendor)
+        public void AssignVendor(Vendor vendor)
         {
-            if (this.Status != OrderStatus.Unassigned) throw new Exception("Order is not in correct state to be Assigned.");
+            if (this.Status != OrderStatus.Unassigned && this.Status != OrderStatus.OnHold)
+            {
+                throw new Exception("Order is not in correct state to be Assigned.");
+            }
+
             // some additional business logic if required
             _vendor = vendor;
         }
