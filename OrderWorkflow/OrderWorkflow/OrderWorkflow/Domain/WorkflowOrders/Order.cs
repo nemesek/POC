@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.WorkflowOrders
@@ -42,10 +41,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders
                 throw new Exception("Order is not in correct state to have report Submitted.");
             }
 
-            // randomly determine if its rejected
-            Thread.Sleep(100); // helps with the randomization
-            var random = new Random();
-            return random.Next(1, 100)%2 == 0;
+            // randomly return false to simulate rejection
+            return Randomizer.RandomYes();
         }
 
         protected Func<OrderWorkflowDto> MapToOrderWorkflowDto()

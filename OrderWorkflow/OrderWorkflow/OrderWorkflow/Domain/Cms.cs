@@ -38,9 +38,8 @@ namespace OrderWorkflow.Domain
 
         public bool ManualAssign(IWorkflowOrder order)
         {
-            Thread.Sleep(100); // helps with the randomization
-            var random = new Random();
-            if (random.Next(1, 100)%2 != 0) return false;
+            // randomly return false to simulate rejection
+            if (!Randomizer.RandomYes()) return false;
             var vendor = new Vendor(0, "38655", "Daniel Garrett");
             order.AssignVendor(vendor);
             return true;
