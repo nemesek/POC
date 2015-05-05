@@ -5,11 +5,11 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
 {
     public class CustomOrdertransitioner : OrderTransitioner
     {
-        protected override IWorkflowOrder TransitionToAccepted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc)
+        protected override IWorkflowOrder TransitionToVendorAccepted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = base.TransitionToClosed;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Accepted, orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.VendorAccepted, orderDto);
         }
     }
 }

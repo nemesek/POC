@@ -43,5 +43,10 @@ namespace OrderWorkflow.Domain
             order.AssignVendor(vendor);
             return true;
         }
+
+        public bool ReviewAcceptance(IWorkflowOrder order)
+        {
+            return Randomizer.RandomYes();
+        }
     }
 }

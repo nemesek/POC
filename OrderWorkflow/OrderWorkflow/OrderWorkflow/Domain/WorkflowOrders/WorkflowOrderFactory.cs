@@ -10,7 +10,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             {
                 case OrderStatus.Unassigned: return GetUnassignedOrder(orderId, orderWorkFlowDto);
                 case OrderStatus.Assigned: return GetAssignedOrder(orderId, orderWorkFlowDto);
-                case OrderStatus.Accepted: return GetAcceptedOrder(orderId, orderWorkFlowDto);
+                case OrderStatus.VendorAccepted: return GetVendorAcceptedOrder(orderId, orderWorkFlowDto);
                 case OrderStatus.Submitted: 
                 {
                     return clientId %17 == 0 || clientId % 16 == 0 || clientId % 22 == 0 ? GetJohnSubmittedOrder(orderId, orderWorkFlowDto) :GetSubmittedOrder(orderId, orderWorkFlowDto);
@@ -21,7 +21,10 @@ namespace OrderWorkflow.Domain.WorkflowOrders
                 }
                 case OrderStatus.OnHold: return GetOnHoldOrder(orderId, orderWorkFlowDto);
                 case OrderStatus.Closed: return GetClosedOrder(orderId, orderWorkFlowDto);
-                case OrderStatus.Review: return GetReviewOrder(orderId, orderWorkFlowDto);
+                case OrderStatus.ReviewSubmission: return GetReviewSubmissionOrder(orderId, orderWorkFlowDto);
+                case OrderStatus.ReviewAcceptance: return GetReviewAcceptanceOrder(orderId, orderWorkFlowDto);
+                case OrderStatus.ClientAccepted: return GetClientAcceptedOrder(orderId, orderWorkFlowDto);
+
                 default: throw new ArgumentOutOfRangeException("orderStatus");
             }
         }
@@ -31,9 +34,14 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             return new AssignedOrder(orderId, orderDto);
         }
 
-        private static AcceptedOrder GetAcceptedOrder(Guid orderId, OrderWorkflowDto orderDto)
+        private static VendorAcceptedOrder GetVendorAcceptedOrder(Guid orderId, OrderWorkflowDto orderDto)
         {
-            return new AcceptedOrder(orderId, orderDto);
+            return new VendorAcceptedOrder(orderId, orderDto);
+        }
+
+        private static ClientAcceptedOrder GetClientAcceptedOrder(Guid orderId, OrderWorkflowDto orderDto)
+        {
+            return new ClientAcceptedOrder(orderId, orderDto);
         }
 
         private static SubmittedOrder GetSubmittedOrder(Guid orderId, OrderWorkflowDto orderDto)
@@ -65,9 +73,14 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             return new OnHoldOrder(orderId, orderDto);
         }
 
-        private static ReviewOrder GetReviewOrder(Guid orderId, OrderWorkflowDto orderDto)
+        private static ReviewSubmissionOrder GetReviewSubmissionOrder(Guid orderId, OrderWorkflowDto orderDto)
         {
-            return new ReviewOrder(orderId, orderDto);
+            return new ReviewSubmissionOrder(orderId, orderDto);
+        }
+
+        private static ReviewAcceptanceOrder GetReviewAcceptanceOrder(Guid orderId, OrderWorkflowDto orderDto)
+        {
+            return new ReviewAcceptanceOrder(orderId, orderDto);
         }
 
         private static UnassignedOrder GetUnassignedOrder(Guid orderId, OrderWorkflowDto orderDto)

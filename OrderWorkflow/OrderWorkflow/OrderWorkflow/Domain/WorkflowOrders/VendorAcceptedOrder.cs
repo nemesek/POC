@@ -3,16 +3,16 @@ using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.WorkflowOrders
 {
-    public class AcceptedOrder : Order
+    public class VendorAcceptedOrder : Order
     {
         private readonly Func<Guid, Func<OrderWorkflowDto>,bool,IWorkflowOrder> _transitionFunc;
 
-        public AcceptedOrder(Guid id,OrderWorkflowDto orderWorkflowDto):base(id,orderWorkflowDto)
+        public VendorAcceptedOrder(Guid id,OrderWorkflowDto orderWorkflowDto):base(id,orderWorkflowDto)
         {
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
 
-        public override OrderStatus Status { get { return OrderStatus.Accepted; } }
+        public override OrderStatus Status { get { return OrderStatus.VendorAccepted; } }
 
         public override IWorkflowOrder MakeTransition()
         {

@@ -3,11 +3,11 @@ using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.WorkflowOrders
 {
-    public class ReviewOrder : Order
+    public class ReviewSubmissionOrder : Order
     {
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
 
-        public ReviewOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
+        public ReviewSubmissionOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
         {
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
@@ -21,7 +21,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public override OrderStatus Status
         {
-            get { return OrderStatus.Review; }
+            get { return OrderStatus.ReviewSubmission; }
         }
     }
 }
