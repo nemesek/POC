@@ -36,6 +36,10 @@ namespace BiggerBallOfMud
                 {
                     order.ProcessOnHold();
                 }
+                else if (order.Status == OrderStatus.Review)
+                {
+                    order.ProcessReview();
+                }
 
             }
 

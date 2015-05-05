@@ -12,7 +12,8 @@ namespace BiggerBallOfMud
         Submitted = 3,
         Rejected = 4,
         OnHold = 5,
-        Closed = 6
+        Closed = 6,
+        Review = 7
     }
 
     public class Order
@@ -55,7 +56,6 @@ namespace BiggerBallOfMud
             }
             else
             {
-                vendor = null;
                 this.Status = OrderStatus.OnHold;
                 Console.WriteLine("Going to have to manully assign.");
                 return;
@@ -120,6 +120,26 @@ namespace BiggerBallOfMud
                 Console.WriteLine("Doing More Submitted Status Buisness Logic");
             }
 
+            this.Status = OrderStatus.Review;
+
+            //if (AcceptSubmittedReport())
+            //{
+            //    this.Status = OrderStatus.Closed;
+            //    return;
+            //}
+
+            //this.Status = OrderStatus.Rejected;
+            //if (ClientId == 17 || ClientId == 16 || ClientId == 22)
+            //{
+            //    Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage because I am John!!!!!!!!!!!!!!!!");
+            //    return;
+            //}
+
+            //Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");
+        }
+
+        public void ProcessReview()
+        {
             if (AcceptSubmittedReport())
             {
                 this.Status = OrderStatus.Closed;
@@ -138,22 +158,23 @@ namespace BiggerBallOfMud
 
         public void ProcessRejected()
         {
-            if (AcceptSubmittedReport())
-            {
-                this.Status = OrderStatus.Closed;
-                return;
-            }
+            //if (AcceptSubmittedReport())
+            //{
+            //    this.Status = OrderStatus.Closed;
+            //    return;
+            //}
 
             if (ClientId%3 == 0)
             {
                 Console.WriteLine("**************Applying custom rejected order business logic******************");
             }
-            Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");
+            //Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");
+            this.Status = OrderStatus.Review;
         }
 
         public bool AcceptSubmittedReport()
         {
-            if (this.Status != OrderStatus.Submitted && this.Status != OrderStatus.Rejected)
+            if (this.Status != OrderStatus.Review)
             {
                 throw new Exception("Order is not in correct state to have report Submitted.");
             }
