@@ -8,7 +8,7 @@ namespace BiggerBallOfMud
         {
             var cms = new Cms(cmsId);
             var order = cms.CreateNewOrder();
-            while (order.Status != OrderStatus.Closed && order.Status != OrderStatus.WithClient)
+            while (order.Status != OrderStatus.Closed)
             {
                 order.Save();
                 Console.WriteLine("++++++++++++++Incoming Request about to be processed.+++++++++++++");
@@ -31,6 +31,10 @@ namespace BiggerBallOfMud
                 else if (order.Status == OrderStatus.Rejected)
                 {
                     order.ProcessRejected();
+                }
+                else if (order.Status == OrderStatus.OnHold)
+                {
+                    order.ProcessOnHold();
                 }
 
             }

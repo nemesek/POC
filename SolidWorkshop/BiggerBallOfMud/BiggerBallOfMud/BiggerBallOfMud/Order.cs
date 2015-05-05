@@ -11,7 +11,7 @@ namespace BiggerBallOfMud
         Accepted = 2,
         Submitted = 3,
         Rejected = 4,
-        WithClient = 5,
+        OnHold = 5,
         Closed = 6
     }
 
@@ -56,11 +56,27 @@ namespace BiggerBallOfMud
             else
             {
                 vendor = null;
-                this.Status = OrderStatus.WithClient;
+                this.Status = OrderStatus.OnHold;
                 Console.WriteLine("Going to have to manully assign.");
                 return;
             }
 
+            Console.WriteLine("About to assign order to {0}", vendor.Name);
+            Vendor = vendor;
+            this.Status = OrderStatus.Assigned;
+        }
+
+        public void ProcessOnHold()
+        {
+            Thread.Sleep(100); // helps with the randomization
+            var random = new Random();
+            if (random.Next(1, 100)%2 != 0)
+            {
+                Console.WriteLine("^^^^^^^^Reassignment was not successful^^^^^^^^^^");
+                return;
+            }
+
+            var vendor = new Vendor(0, "38655", "Daniel Garrett");
             Console.WriteLine("About to assign order to {0}", vendor.Name);
             Vendor = vendor;
             this.Status = OrderStatus.Assigned;
