@@ -3,18 +3,18 @@ using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Domain.WorkflowOrders
 {
-    public class OnHoldOrder : Order
+    public class ManualAssignOrder : Order
     {
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
 
-        public OnHoldOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
+        public ManualAssignOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
         {
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
         
         public override OrderStatus Status
         {
-            get { return OrderStatus.OnHold; }
+            get { return OrderStatus.ManualAssign; }
         }
 
         public override IWorkflowOrder MakeTransition()

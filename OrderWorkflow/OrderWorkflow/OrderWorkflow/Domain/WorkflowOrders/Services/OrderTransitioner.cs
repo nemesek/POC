@@ -5,16 +5,23 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
 {
     public class OrderTransitioner
     {
-       public virtual IWorkflowOrder CreateNewOrder(Func<ICanBeAutoAssigned,Vendor> assignFunc, int clientId)
+        private readonly Func<ICanBeAutoAssigned, Vendor> _safeAssign;
+
+        public OrderTransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign)
+        {
+            _safeAssign = safeAssign;
+
+        }
+        public virtual IWorkflowOrder CreateNewOrder(Func<ICanBeAutoAssigned, Vendor> defaultAssignFunc, int clientId)
         {
             var dto = new OrderWorkflowDto
             {
-                AssignVendorFunc = assignFunc,
-                StateTransitionFunc = BuildTransitionFunc(TransitionToAssigned, TransitionToOnHold),
+                AssignVendorFunc = defaultAssignFunc,
+                StateTransitionFunc = BuildTransitionFunc(TransitionToAssigned, TransitionToManualAssign),
                 ZipCode = "38655",
                 ClientId = clientId
             };
-           return WorkflowOrderFactory.GetWorkflowOrder(clientId, Guid.NewGuid(), OrderStatus.Unassigned, dto);
+            return WorkflowOrderFactory.GetWorkflowOrder(clientId, Guid.NewGuid(), OrderStatus.Unassigned, dto);
         }
 
         protected virtual IWorkflowOrder TransitionToAssigned(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
@@ -76,21 +83,19 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
             return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Closed, orderDto);
         }
 
-        protected virtual IWorkflowOrder TransitionToOnHold(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
+        protected virtual IWorkflowOrder TransitionToManualAssign(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
-            var transitionFunc = BuildTransitionFunc(TransitionToAssigned, TransitionToOnHold);
+            var transitionFunc = BuildTransitionFunc(TransitionToAssigned, TransitionToManualAssign);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.OnHold, orderDto);
+            return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.ManualAssign, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionOrderBackToUnassigned(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
-            var client = new Cms(orderDto.ClientId, this);
-            var assignmentFunc = client.ManualAssign();
-            orderDto.AssignVendorFunc = assignmentFunc;
-            orderDto.StateTransitionFunc = BuildTransitionFunc(TransitionToAssigned, TransitionToOnHold); 
+            orderDto.AssignVendorFunc = _safeAssign;
+            orderDto.StateTransitionFunc = BuildTransitionFunc(TransitionToAssigned, TransitionToManualAssign);
             return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Unassigned, orderDto);
         }
 
@@ -98,7 +103,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
             Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> forwardExpression,
             Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> backwardExpression)
         {
-            return (id, dtoFunc, t) => t ? forwardExpression(id, dtoFunc,true) : backwardExpression(id, dtoFunc,false);
+            return (id, dtoFunc, t) => t ? forwardExpression(id, dtoFunc, true) : backwardExpression(id, dtoFunc, false);
         }
 
     }

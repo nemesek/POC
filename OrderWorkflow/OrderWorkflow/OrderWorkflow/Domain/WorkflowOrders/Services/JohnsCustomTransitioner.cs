@@ -5,6 +5,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
 {
     public class JohnsCustomTransitioner : OrderTransitioner
     {
+        public JohnsCustomTransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign) : base(safeAssign){}
 
         protected override IWorkflowOrder TransitionToSubmitted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool moveForward)
         {

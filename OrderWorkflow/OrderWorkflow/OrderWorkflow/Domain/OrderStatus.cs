@@ -7,7 +7,7 @@
         VendorAccepted = 2,
         Submitted = 3,
         Rejected = 4,
-        OnHold = 5,
+        ManualAssign = 5,
         Closed = 6,
         ReviewSubmission = 7,
         ReviewAcceptance = 8,

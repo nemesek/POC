@@ -19,7 +19,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
                 {
                     return clientId%3 == 0 ? GetCustomRejectedOrder(orderId, orderWorkFlowDto) : GetRejectedOrder(orderId, orderWorkFlowDto);
                 }
-                case OrderStatus.OnHold: return GetOnHoldOrder(orderId, orderWorkFlowDto);
+                case OrderStatus.ManualAssign: return GetManualAssignOrder(orderId, orderWorkFlowDto);
                 case OrderStatus.Closed: return GetClosedOrder(orderId, orderWorkFlowDto);
                 case OrderStatus.ReviewSubmission: return GetReviewSubmissionOrder(orderId, orderWorkFlowDto);
                 case OrderStatus.ReviewAcceptance: return GetReviewAcceptanceOrder(orderId, orderWorkFlowDto);
@@ -68,9 +68,9 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             return new ClosedOrder(orderId, orderDto);
         }
 
-        private static OnHoldOrder GetOnHoldOrder(Guid orderId, OrderWorkflowDto orderDto)
+        private static ManualAssignOrder GetManualAssignOrder(Guid orderId, OrderWorkflowDto orderDto)
         {
-            return new OnHoldOrder(orderId, orderDto);
+            return new ManualAssignOrder(orderId, orderDto);
         }
 
         private static ReviewSubmissionOrder GetReviewSubmissionOrder(Guid orderId, OrderWorkflowDto orderDto)

@@ -5,6 +5,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
 {
     public class CustomOrdertransitioner : OrderTransitioner
     {
+        public CustomOrdertransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign) : base(safeAssign){}
+
         protected override IWorkflowOrder TransitionToVendorAccepted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();

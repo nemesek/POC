@@ -25,7 +25,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         
         public void AssignVendor(Vendor vendor)
         {
-            if (this.Status != OrderStatus.Unassigned && this.Status != OrderStatus.OnHold)
+            if (this.Status != OrderStatus.Unassigned && this.Status != OrderStatus.ManualAssign)
             {
                 throw new Exception("Order is not in correct state to be Assigned.");
             }

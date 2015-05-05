@@ -72,7 +72,7 @@
     <Compile Include="Domain\WorkflowOrders\AssignedOrder.cs" />
     <Compile Include="Domain\WorkflowOrders\ClosedOrder.cs" />
     <Compile Include="Domain\WorkflowOrders\UnassignedOrder.cs" />
-    <Compile Include="Domain\WorkflowOrders\OnHoldOrder.cs" />
+    <Compile Include="Domain\WorkflowOrders\ManualAssignOrder.cs" />
     <Compile Include="Domain\Vendor.cs" />
     <Compile Include="Domain\VendorRepository.cs" />
     <Compile Include="Domain\WorkflowOrders\WorkflowOrderFactory.cs" />

@@ -10,7 +10,7 @@ namespace OrderWorkflow.Domain
         private readonly int _id;
         private readonly OrderTransitioner _orderTransitioner;
 
-        public Cms(int id): this(id, OrderTransitionerFactory.GetTransitionLogic(id)) {}
+        public Cms(int id): this(id, OrderTransitionerFactory.GetTransitionLogic(id, _ => null)) {}
 
         public Cms(int id, OrderTransitioner orderTransitioner)
         {
@@ -28,11 +28,6 @@ namespace OrderWorkflow.Domain
         {
             var autoAssign = AutoAssignFactory.CreateAutoAssign(_id);
             return autoAssign.FindBestVendor;
-        }
-
-        public Func<ICanBeAutoAssigned, Vendor> ManualAssign()
-        {
-            return _ => null;
         }
 
         public bool ManualAssign(IWorkflowOrder order)
