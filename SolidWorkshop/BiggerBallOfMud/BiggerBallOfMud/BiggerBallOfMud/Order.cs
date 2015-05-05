@@ -43,12 +43,20 @@ namespace BiggerBallOfMud
                     vendor = vendorRepo
                        .GetVendors()
                        .FirstOrDefault();
+
+                    Console.WriteLine("About to assign order to {0}", vendor.Name);
+                    Vendor = vendor;
+                    this.Status = OrderStatus.Assigned;
                 }
                 else if (ClientId % 4 == 1)
                 {
                     vendor = vendorRepo
                     .GetVendors()
                     .FirstOrDefault(v => v.ZipCode == this.ZipCode);
+
+                    Console.WriteLine("About to assign order to {0}", vendor.Name);
+                    Vendor = vendor;
+                    this.Status = OrderStatus.Assigned;
                 }
                 else if (ClientId % 4 == 2)
                 {
@@ -57,63 +65,62 @@ namespace BiggerBallOfMud
                         .Where(v => v.ZipCode == this.ZipCode)
                         .OrderBy(v => v.OrderCount)
                         .FirstOrDefault();
+
+                    Console.WriteLine("About to assign order to {0}", vendor.Name);
+                    Vendor = vendor;
+                    this.Status = OrderStatus.Assigned;
                 }
                 else
                 {
                     this.Status = OrderStatus.ManualAssign;
                     Console.WriteLine("Going to have to manully assign.");
-                    return;
                 }
 
-                Console.WriteLine("About to assign order to {0}", vendor.Name);
-                Vendor = vendor;
-                this.Status = OrderStatus.Assigned;
-                return;
+                
             }
-
-            if (Status == OrderStatus.ManualAssign)
+            else if (Status == OrderStatus.ManualAssign)
             {
                 Thread.Sleep(100); // helps with the randomization
                 var random = new Random();
-                if (random.Next(1, 100) % 2 != 0)
+                if (random.Next(1, 100)%2 != 0)
                 {
                     Console.WriteLine("^^^^^^^^Reassignment was not successful^^^^^^^^^^");
-                    return;
                 }
-
-                var vendor = new Vendor(0, "38655", "Daniel Garrett");
-                Console.WriteLine("About to assign order to {0}", vendor.Name);
-                Vendor = vendor;
-                this.Status = OrderStatus.Assigned;
-                return;
+                else
+                {
+                    var vendor = new Vendor(0, "38655", "Daniel Garrett");
+                    Console.WriteLine("About to assign order to {0}", vendor.Name);
+                    Vendor = vendor;
+                    this.Status = OrderStatus.Assigned;
+                }
+                
             }
-
-            if (Status == OrderStatus.Assigned)
+            else if (Status == OrderStatus.Assigned)
             {
                 if (Vendor.AcceptOrder(this))
                 {
                     this.Status = OrderStatus.VendorAccepted;
                     Console.WriteLine("Vendor accepted.");
-                    return;
                 }
-
-                Console.WriteLine("Vendor declined.");
-                this.Status = OrderStatus.Unassigned;
-                return;
+                else
+                {
+                    Console.WriteLine("Vendor declined.");
+                    this.Status = OrderStatus.Unassigned;
+                }
             }
-
-            if (Status == OrderStatus.VendorAccepted)
+            else if (Status == OrderStatus.VendorAccepted)
             {
-                if (ClientId % 5 == 0)
+                if (ClientId%5 == 0)
                 {
                     this.Status = OrderStatus.Closed;
-                    return;
+
                 }
-
-                this.Status = OrderStatus.ReviewAcceptance;
+                else
+                {
+                    this.Status = OrderStatus.ReviewAcceptance;    
+                }
             }
-
-            if (Status == OrderStatus.ReviewAcceptance)
+            else if (Status == OrderStatus.ReviewAcceptance)
             {
                 // randomly determine if its rejected
                 Thread.Sleep(100); // helps with the randomization
@@ -121,78 +128,73 @@ namespace BiggerBallOfMud
                 if (random.Next(1, 100)%2 == 0)
                 {
                     this.Status = OrderStatus.ClientAccepted;
-                    return;
                 }
-
-                this.Status = OrderStatus.Unassigned;
-                return;
-
+                else
+                {
+                    this.Status = OrderStatus.Unassigned;    
+                }
             }
-
-            if (Status == OrderStatus.ClientAccepted)
+            else if (Status == OrderStatus.ClientAccepted)
             {
                 this.Status = OrderStatus.Submitted;
             }
-
-            if (Status == OrderStatus.Submitted)
+            else if (Status == OrderStatus.Submitted)
             {
                 if (ClientId == 21 || ClientId == 14 || ClientId == 24)
                 {
                     this.Status = OrderStatus.Closed;
-                    return;
                 }
-
-                if (ClientId == 17 || ClientId == 16 || ClientId == 22)
+                else if (ClientId == 17 || ClientId == 16 || ClientId == 22)
                 {
                     Console.WriteLine("Doing More Submitted Status Buisness Logic");
                 }
-
-                this.Status = OrderStatus.ReviewSubmission;
-                return;
-            }
-
-            if (Status == OrderStatus.ReviewSubmission)
-            {
-                if (AcceptSubmittedReport())
+                else
                 {
+                    this.Status = OrderStatus.ReviewSubmission;       
+                }
+             
+            }
+            else if (Status == OrderStatus.ReviewSubmission)
+            {
+                if (this.Status != OrderStatus.ReviewSubmission)
+                {
+                    throw new Exception("Order is not in correct state to have report Submitted.");
+                }
+
+                // randomly determine if its rejected
+                Thread.Sleep(100); // helps with the randomization
+                var random = new Random();
+
+                if (random.Next(1, 100) % 2 == 0)
+                {
+                    // means we accepted
                     this.Status = OrderStatus.Closed;
-                    return;
                 }
-
-                this.Status = OrderStatus.Rejected;
-                if (ClientId == 17 || ClientId == 16 || ClientId == 22)
+                else
                 {
-                    Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage because I am John!!!!!!!!!!!!!!!!");
-                    return;
+                    this.Status = OrderStatus.Rejected;
+                    if (ClientId == 17 || ClientId == 16 || ClientId == 22)
+                    {
+                        Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage because I am John!!!!!!!!!!!!!!!!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");        
+                    }
                 }
-
-                Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");
-                return;
             }
-
-            if (Status == OrderStatus.Rejected)
+            else if (Status == OrderStatus.Rejected)
             {
-                if (ClientId % 3 == 0)
+                if (ClientId%3 == 0)
                 {
                     Console.WriteLine("**************Applying custom rejected order business logic******************");
+                    // bbom 3
                 }
-
-                this.Status = OrderStatus.ReviewSubmission;
+                else
+                {
+                    this.Status = OrderStatus.ReviewSubmission;    
+                }
             }
-        }
-
-        public bool AcceptSubmittedReport()
-        {
-            if (this.Status != OrderStatus.ReviewSubmission)
-            {
-                throw new Exception("Order is not in correct state to have report Submitted.");
-            }
-
-            // randomly determine if its rejected
-            Thread.Sleep(100); // helps with the randomization
-            var random = new Random();
-            return random.Next(1, 100) % 2 == 0;
         }
     }
-
 }

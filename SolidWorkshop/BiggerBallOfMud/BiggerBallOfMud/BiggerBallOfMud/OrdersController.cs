@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace BiggerBallOfMud
 {
@@ -11,6 +12,7 @@ namespace BiggerBallOfMud
             while (order.Status != OrderStatus.Closed)
             {
                 order.Save();
+                //Thread.Sleep(1000);
                 Console.WriteLine("++++++++++++++Incoming Request about to be processed.+++++++++++++");
                 order.ProcessNextStep();
             }
