@@ -27,7 +27,101 @@ namespace DomainEventsConsole
 
             // From delegates examples
             //StartActionExample(); // test
-            StartFuncExample();
+            //StartFuncExample();
+            //FilterExample();
+            //DistinctExample();
+            //DistintUntilChangedExample();
+            //SkipTakeExample();
+            SkipUntilAndTakeUntilExample();
+        }
+
+        static void SkipUntilAndTakeUntilExample()
+        {
+            Action<int, Subject<int>, Subject<Unit>> rangeAction = (i, sub, otherSub) =>
+            {
+                sub.OnNext(i);
+                if (i == 3) otherSub.OnNext(Unit.Default);
+            };
+            Console.WriteLine("SkipUntil");
+            var subject = new Subject<int>();
+            var otherSubject = new Subject<Unit>();
+            subject.SkipUntil(otherSubject).Subscribe(Console.WriteLine, () => Console.WriteLine("Skip Until Completed"));
+            Enumerable.Range(1, 8).ToList().ForEach((i) => rangeAction(i, subject, otherSubject));
+            subject.OnCompleted();
+
+            Console.WriteLine("TakeUntil");
+            var takeSubject = new Subject<int>();
+            var otherTakeSubject = new Subject<Unit>();
+            takeSubject.TakeUntil(otherTakeSubject).Subscribe(Console.WriteLine, () => Console.WriteLine("Take Until Completed."));
+            Enumerable.Range(1, 8).ToList().ForEach((i => rangeAction(i, takeSubject, otherTakeSubject)));
+            takeSubject.OnCompleted();
+
+        }
+
+        static void SkipTakeExample()
+        {
+            Action completedAction = () => Console.WriteLine("Infinite Completed.");
+            Action<int> infiniteIntervalAction = i => Observable.Interval(TimeSpan.FromMilliseconds(100))
+                .Take(i)
+                .Subscribe(Console.WriteLine, completedAction);
+
+            Observable.Range(0, 10).Skip(3).Subscribe(Console.WriteLine, () => Console.WriteLine("Skip Completed"));
+            Observable.Range(0, 10).Take(3).Subscribe(Console.WriteLine, () => Console.WriteLine("Take Completed."));
+            Console.WriteLine("Take can work against Infinite sequences.");
+
+            infiniteIntervalAction(20);
+            Thread.Sleep(1000);
+            infiniteIntervalAction(100);
+            Console.Read();
+        }
+
+        static void DistinctExample()
+        {
+            Action<string,int> displayAction = (s,i) => Console.WriteLine("{0} : {1}", s,i);
+            var subject = new Subject<int>();
+            var distinct = subject.Distinct();
+            subject.Subscribe(
+                (i) => displayAction("Subject On Next",i),
+                () => Console.WriteLine("Subject Completed."));
+
+            distinct.Subscribe(
+                (i) => displayAction("Distinct On Next", i),
+                () => Console.WriteLine("Distinct Completed."));
+
+            subject.OnNext(1);
+            subject.OnNext(2);
+            subject.OnNext(3);
+            subject.OnNext(1);
+            subject.OnNext(1);
+            subject.OnNext(4);
+            subject.OnCompleted();
+        }
+
+        static void DistintUntilChangedExample()
+        {
+            Action<string, int> displayAction = (s, i) => Console.WriteLine("{0} : {1}", s, i);
+            var subject = new Subject<int>();
+            var distinct = subject.DistinctUntilChanged();
+            subject.Subscribe((i) => displayAction("Subject On Next", i), () => Console.WriteLine("Subject Completed"));
+            distinct.Subscribe((i) => displayAction("Distinct Until Changed On Next", i), () => Console.WriteLine("Distinct Until Changed Completed."));
+
+            subject.OnNext(1);
+            subject.OnNext(2);
+            subject.OnNext(3);
+            subject.OnNext(1);
+            subject.OnNext(1);
+            subject.OnNext(4);
+            subject.OnCompleted();
+
+        }
+
+        static void FilterExample()
+        {
+            var evenNumbers = Observable.Range(0, 10)
+                .Where(i => i % 2 == 0)
+                .Subscribe(
+                Console.WriteLine,
+                () => Console.WriteLine("Completed"));
         }
 
         static void StartFuncExample()
