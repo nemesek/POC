@@ -6,7 +6,7 @@ namespace OrderWorkflow.Domain.AutoAssign
 {
     public class AutoAssignFactory
     {
-        private static Dictionary<int, Func<IProcessAutoAssign>> _funcDictionary = new Dictionary
+        private static readonly Dictionary<int, Func<IProcessAutoAssign>> FuncDictionary = new Dictionary
             <int, Func<IProcessAutoAssign>>
         {
             {0, () => new DefaultAutoAssign()},
@@ -17,7 +17,7 @@ namespace OrderWorkflow.Domain.AutoAssign
         public static IProcessAutoAssign CreateAutoAssign(int id)
         {
             var moddedId = id%4;
-            var func = _funcDictionary[moddedId];
+            var func = FuncDictionary[moddedId];
             return func();
 
         }
