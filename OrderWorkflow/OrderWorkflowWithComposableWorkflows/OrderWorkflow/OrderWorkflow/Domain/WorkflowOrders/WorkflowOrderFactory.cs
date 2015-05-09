@@ -14,7 +14,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             {OrderStatus.Submitted, GetSubmittedOrder},
             {OrderStatus.Rejected, GetRejectedOrder },
             {OrderStatus.ManualAssign, (_, id, dto) => new ManualAssignOrder(id,dto)},
-            {OrderStatus.Closed, (_, id, dto) => GetClosedOrder(id, dto)},
+            {OrderStatus.Closed, (_, id, dto) => new ClosedOrder(id, dto)},
             {OrderStatus.ReviewSubmission, (_,id, dto) => new ReviewSubmissionOrder(id,dto)},
             {OrderStatus.ReviewAcceptance, (_, id, dto) => new ReviewAcceptanceOrder(id, dto)},
             {OrderStatus.ClientAccepted, (_, id, dto) => new ClientAcceptedOrder(id, dto)}
@@ -35,11 +35,6 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         private static RejectedOrder GetRejectedOrder(int clientId, Guid orderId, OrderWorkflowDto orderDto)
         {
             return clientId%3 == 0 ? new CustomRejectedOrder(orderId, orderDto) : new RejectedOrder(orderId, orderDto);
-        }
-        
-        private static ClosedOrder GetClosedOrder(Guid orderId, OrderWorkflowDto orderDto)
-        {
-            return new ClosedOrder(orderId, orderDto);
         }
     }
 }

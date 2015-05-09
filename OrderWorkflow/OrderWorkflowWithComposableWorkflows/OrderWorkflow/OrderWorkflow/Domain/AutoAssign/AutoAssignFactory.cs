@@ -19,7 +19,6 @@ namespace OrderWorkflow.Domain.AutoAssign
             var moddedId = id%4;
             var func = FuncDictionary[moddedId];
             return func();
-
         }
     }
 }
