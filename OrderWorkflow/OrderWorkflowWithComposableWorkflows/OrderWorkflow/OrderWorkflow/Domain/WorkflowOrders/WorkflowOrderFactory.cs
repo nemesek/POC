@@ -19,6 +19,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             {OrderStatus.ReviewAcceptance, (_, id, dto) => new ReviewAcceptanceOrder(id, dto)},
             {OrderStatus.ClientAccepted, (_, id, dto) => new ClientAcceptedOrder(id, dto)}
         };
+
         public static Order GetWorkflowOrder(int clientId, Guid orderId, OrderStatus orderStatus, OrderWorkflowDto orderWorkFlowDto)
         {
             var orderfunc = FuncDictionary[orderStatus];
