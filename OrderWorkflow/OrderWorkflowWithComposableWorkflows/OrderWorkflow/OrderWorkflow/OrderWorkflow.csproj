@@ -54,9 +54,9 @@
     <Compile Include="Domain\NullVendor.cs" />
     <Compile Include="Domain\OrderEdit\Order.cs" />
     <Compile Include="Domain\WorkflowOrders\ClientAcceptedOrder.cs" />
-    <Compile Include="Domain\WorkflowOrders\CustomRejectedOrder.cs" />
-    <Compile Include="Domain\WorkflowOrders\DansCustomSubmittedOrder.cs" />
-    <Compile Include="Domain\WorkflowOrders\JohnsCustomSubmittedOrder.cs" />
+    <Compile Include="Domain\WorkflowOrders\DerivedOrders\CustomRejectedOrder.cs" />
+    <Compile Include="Domain\WorkflowOrders\DerivedOrders\DansCustomSubmittedOrder.cs" />
+    <Compile Include="Domain\WorkflowOrders\DerivedOrders\JohnsCustomSubmittedOrder.cs" />
     <Compile Include="Domain\WorkflowOrders\Order.cs" />
     <Compile Include="Domain\WorkflowOrders\OrderWorkflowDto.cs" />
     <Compile Include="Domain\WorkflowOrders\RejectedOrder.cs" />

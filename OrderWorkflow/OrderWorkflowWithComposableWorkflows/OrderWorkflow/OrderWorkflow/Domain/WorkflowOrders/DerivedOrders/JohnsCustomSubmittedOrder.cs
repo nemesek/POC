@@ -1,7 +1,7 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
 
-namespace OrderWorkflow.Domain.WorkflowOrders
+namespace OrderWorkflow.Domain.WorkflowOrders.DerivedOrders
 {
     public class JohnsCustomSubmittedOrder : SubmittedOrder
     {
