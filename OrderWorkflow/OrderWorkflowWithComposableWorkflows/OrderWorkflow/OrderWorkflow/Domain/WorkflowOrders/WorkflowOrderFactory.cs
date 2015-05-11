@@ -6,8 +6,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 {
     public class WorkflowOrderFactory
     {
-        private static readonly Dictionary<OrderStatus, Func<int,Guid, OrderWorkflowDto, Order>> FuncDictionary = new Dictionary
-            <OrderStatus, Func<int,Guid, OrderWorkflowDto,Order>>
+        private static readonly Dictionary<OrderStatus, Func<int,Guid, OrderWorkflowDto, Order>> 
+            FuncDictionary = new Dictionary<OrderStatus, Func<int,Guid, OrderWorkflowDto,Order>>
         {
             {OrderStatus.Unassigned, (_, id, dto) => new UnassignedOrder(id,dto) },
             {OrderStatus.Assigned, (_,id,dto) => new AssignedOrder(id,dto)},
