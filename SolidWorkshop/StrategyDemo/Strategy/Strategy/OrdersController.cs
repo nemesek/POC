@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Strategy.Domain.StrategyOCP;
 
 namespace Strategy
 {
@@ -42,6 +43,17 @@ namespace Strategy
             }
 
             Console.WriteLine("Running {0} Logic for CMS {1}", output, cmsId);
+        }
+
+        public void DoSomethingWithDelegation(int cmsId)
+        {
+            var foobarService = new FoobarService();
+            Console.WriteLine(foobarService.GetAction(cmsId));
+        }
+
+        public void DoSomethingWithStrategy(int cmsId, FoobarService service)
+        {
+            Console.WriteLine(service.GetAction(cmsId));
         }
     }
 }
