@@ -44,15 +44,20 @@ namespace Strategy
 
         // demo something changing bar to baz
         // demo something being added
-        //static void DemoFoobarWithStrategy(int id)
-        //{
-        //    var controller = new OrdersController();
-        //    var service = new BetterFoobarService();
-        //    controller.DoSomethingWithStrategy(id, service);
-        //}
+        static void DemoFoobarWithStrategy(int id)
+        {
+            var controller = new OrdersController();
+            var service = new BetterFoobarService();
+            controller.DoSomethingWithStrategy(id, service);
+        }
         // have class walk you through  strategy pattern implementation of auto assign
         // add another case
         // show how Orders automatically picked up ability to run new case without changing OCP
+        #endregion
+
+        #region Factory demo
+        // show how changing the ctor requires all callers to change
+        // show how adding a new class requires all callers to know about it
         #endregion
 
     }
