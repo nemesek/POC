@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WarrorsAndWarlocks
+namespace WarriorsAndWarlocks
 {
     class Program
     {
@@ -16,7 +16,7 @@ namespace WarrorsAndWarlocks
 
         static void GoIntoBattle(Player player)
         {
-            player.Equip(new Staff());
+            player.Equip(new Sword());
             var damage = player.Attack();
             Console.WriteLine("Damage is {0}", damage);
         }

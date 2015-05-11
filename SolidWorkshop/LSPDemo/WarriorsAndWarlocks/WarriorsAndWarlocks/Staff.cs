@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WarrorsAndWarlocks
+namespace WarriorsAndWarlocks
 {
-    public class Sword: Weapon
+    public class Staff : Weapon
     {
         public override int GetDamagePoints()
         {
-            return 10;
+            return 7;
         }
     }
 }
