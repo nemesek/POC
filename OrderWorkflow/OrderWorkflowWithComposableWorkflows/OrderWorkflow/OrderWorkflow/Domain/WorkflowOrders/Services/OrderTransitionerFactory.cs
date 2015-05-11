@@ -48,11 +48,11 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
 
         private static Tuple<bool, TransitionType> ClientFilter(int clientId)
         {
-            if (clientId%21 == 0 || clientId%14 == 0 || clientId%24 == 0)
-                return new Tuple<bool, TransitionType>(true, TransitionType.JohnCustom);
+            if (clientId%21 == 0 || clientId%14 == 0 || clientId%24 == 0) return new Tuple<bool, TransitionType>(true, TransitionType.JohnCustom);
 
-            if (clientId % 5 == 0) return new Tuple<bool,TransitionType>(true,TransitionType.Custom);
-            return new Tuple<bool, TransitionType>(false, TransitionType.Undefined);
+            return clientId % 5 == 0 ?
+                new Tuple<bool,TransitionType>(true,TransitionType.Custom) 
+                : new Tuple<bool, TransitionType>(false, TransitionType.Undefined);
         }
 
         private enum TransitionType
@@ -62,7 +62,5 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
             Custom = 2,
             JohnCustom = 3
         };
-
-
     }
 }
