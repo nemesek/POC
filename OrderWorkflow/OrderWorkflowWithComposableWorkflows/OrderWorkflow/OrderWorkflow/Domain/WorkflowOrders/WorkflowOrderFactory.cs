@@ -28,6 +28,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         private static SubmittedOrder GetSubmittedOrder(int clientId, Guid orderId, OrderWorkflowDto orderDto)
         {
+            // todo: uncomment for demo if (clientId == 32) return new DansCustomSubmittedOrder(orderId, orderDto);
             if (clientId % 17 == 0 || clientId % 16 == 0 || clientId % 22 == 0) return new JohnsCustomSubmittedOrder(orderId, orderDto);
             return new SubmittedOrder(orderId, orderDto);
         }
