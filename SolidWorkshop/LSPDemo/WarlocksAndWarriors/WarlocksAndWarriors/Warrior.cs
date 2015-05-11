@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WarriorsAndWarlocks
+namespace WarlocksAndWarriors
 {
     public class Warrior : Player
     {
@@ -16,7 +16,7 @@ namespace WarriorsAndWarlocks
         {
             // we don't allow warriors to carry staffs
             var staffWeapon = weapon as Staff;
-            if(staffWeapon == null) base.Weapon = weapon;
+            if (staffWeapon == null) base.Weapon = weapon;
         }
 
         public override int Attack()

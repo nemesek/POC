@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WarriorsAndWarlocks
+namespace WarlocksAndWarriors
 {
-    public class Sword: Weapon
+    public class Sword : Weapon
     {
         public override int GetDamagePoints()
         {

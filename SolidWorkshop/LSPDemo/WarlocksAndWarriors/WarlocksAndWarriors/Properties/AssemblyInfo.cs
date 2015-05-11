@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WarrorsAndWarlocks")]
+[assembly: AssemblyTitle("WarlocksAndWarriors")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WarrorsAndWarlocks")]
+[assembly: AssemblyProduct("WarlocksAndWarriors")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3900068b-0992-4523-9336-06bf94d7cf8f")]
+[assembly: Guid("ab53ef3c-48c1-4069-a57e-b9dbc8d062fa")]
 
 // Version information for an assembly consists of the following four values:
 //
