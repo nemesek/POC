@@ -47,9 +47,19 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
 
         private static TransitionType ClientFilter(int clientId)
         {
-            if (clientId%21 == 0 || clientId%14 == 0 || clientId%24 == 0) return TransitionType.JohnCustom;
+            if (clientId%21 == 0 || clientId%14 == 0 || clientId%24 == 0)
+            {
+                Console.WriteLine("$$$$Applying John custom state machine for clientId {0}$$$$", clientId);
+                return TransitionType.JohnCustom;
+            }
 
-            return clientId % 5 == 0 ? TransitionType.Custom : TransitionType.Undefined;
+            if (clientId%5 == 0)
+            {
+                Console.WriteLine("$$$$Applying custom state machine for clientId {0}", clientId);
+                return TransitionType.Custom;
+            }
+
+            return TransitionType.Undefined;
         }
 
         private enum TransitionType
