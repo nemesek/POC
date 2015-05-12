@@ -12,7 +12,7 @@ namespace BiggerBallOfMud
             while (order.Status != OrderStatus.Closed)
             {
                 order.Save();
-                //Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Console.WriteLine("++++++++++++++Incoming Request about to be processed.+++++++++++++");
                 order.ProcessNextStep();
             }

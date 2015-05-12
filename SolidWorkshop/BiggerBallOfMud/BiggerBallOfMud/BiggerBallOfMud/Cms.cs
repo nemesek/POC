@@ -13,7 +13,7 @@ namespace BiggerBallOfMud
 
         public Order CreateNewOrder()
         {
-            var order = new Order { OrderId = Guid.NewGuid(), Status = OrderStatus.Unassigned, ClientId = _id, ZipCode = "38655" };
+            var order = new Order { OrderId = Guid.NewGuid(), Status = OrderStatus.Unassigned, ClientId = _id, ZipCode = "38655", ServiceId = 1 };
             return order;
         }
     }

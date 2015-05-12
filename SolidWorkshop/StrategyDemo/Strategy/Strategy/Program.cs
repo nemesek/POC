@@ -33,7 +33,9 @@ namespace Strategy
             var controller = new OrdersController();
             controller.DoSomethingWithDelegation(id);
         }
+
         // demo strategy pattern via foobarservice
+        // demo something changing bar to baz
         static void DemoFoobarWithStrategy()
         {
             var id = Randomizer.RandomYes() ? 1 : 2;
@@ -41,8 +43,7 @@ namespace Strategy
             var service = new FoobarService();
             controller.DoSomethingWithStrategy(id, service);
         }
-
-        // demo something changing bar to baz
+        
         // demo something being added
         static void DemoFoobarWithStrategy(int id)
         {
@@ -55,9 +56,12 @@ namespace Strategy
         // show how Orders automatically picked up ability to run new case without changing OCP
         #endregion
 
-        #region Factory demo
+        #region Factory/SRP/DIP demo
         // show how changing the ctor requires all callers to change
         // show how adding a new class requires all callers to know about it
+        // demo foobarservice factory
+        // To show DIP add dep on foobar for dataAccess to do logging
+
         #endregion
 
     }

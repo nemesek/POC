@@ -30,6 +30,7 @@ namespace BiggerBallOfMud
         public Vendor Vendor { get; set; }
         public int ClientId { get; set; }
         public string ZipCode { get; set; }
+        public int ServiceId { get; set; }
 
         public void ProcessNextStep()
         {
@@ -88,10 +89,21 @@ namespace BiggerBallOfMud
                 }
                 else
                 {
-                    var vendor = new Vendor(0, "38655", "Daniel Garrett");
-                    Console.WriteLine("About to assign order to {0}", vendor.Name);
-                    Vendor = vendor;
-                    this.Status = OrderStatus.Assigned;
+                    if (random.Next(1, 100)%2 != 0)
+                    {
+                        var vendor = new Vendor(0, "38655", "Daniel Garrett");
+                        Console.WriteLine("About to assign order to {0}", vendor.Name);
+                        Vendor = vendor;
+                        this.Status = OrderStatus.Assigned;
+                    }
+                    else
+                    {
+                        var vendor = new Vendor(0, "38655", "Dwain Richardson");
+                        Console.WriteLine("About to assign order to {0}", vendor.Name);
+                        Vendor = vendor;
+                        this.Status = OrderStatus.Assigned;
+                    }
+
                 }
                 
             }
@@ -146,6 +158,7 @@ namespace BiggerBallOfMud
                 }
                 else if (ClientId == 17 || ClientId == 16 || ClientId == 22)
                 {
+                    // bbom
                     Console.WriteLine("Doing John Additional Order Submitted Buisness Logic");
                 }
                 else
@@ -182,7 +195,7 @@ namespace BiggerBallOfMud
                 if (ClientId%3 == 0)
                 {
                     Console.WriteLine("**************Applying custom rejected order business logic******************");
-                    // bbom 3
+                    // bbom 
                 }
                 else
                 {
