@@ -102,7 +102,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
             return WorkflowOrderFactory.GetWorkflowOrder(orderDto.ClientId, orderId, OrderStatus.Unassigned, orderDto);
         }
 
-        private Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> BuildTransitionFunc(
+        private static Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> BuildTransitionFunc(
             Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> forwardExpression,
             Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> backwardExpression)
         {
