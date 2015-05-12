@@ -43,7 +43,9 @@ namespace OrderWorkflow.Domain
         {
             // randomly return false to simulate rejection
             if (!Randomizer.RandomYes()) return false;
-            var vendor = new Vendor(0, "38655", "Daniel Garrett");
+            var vendor = Randomizer.RandomYes()
+                ? new Vendor(0, "38655", "Daniel Garrett")
+                : new Vendor(0, "38655", "Dwain Richardson");
             order.AssignVendor(vendor);
             return true;
         }
