@@ -12,6 +12,9 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
             _safeAssign = safeAssign;
 
         }
+
+        // using the strategy pattern here to inject in client specific auto assign logic
+        // http://www.dofactory.com/net/strategy-design-pattern
         public virtual IWorkflowOrder CreateNewOrder(Func<ICanBeAutoAssigned, Vendor> defaultAssignFunc, int clientId)
         {
             var dto = new OrderWorkflowDto

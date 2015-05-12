@@ -1,6 +1,5 @@
 ﻿using System;
 using OrderWorkflow.Controllers;
-using OrderWorkflow.Domain.WorkflowOrders.Services;
 
 namespace OrderWorkflow
 {
@@ -21,11 +20,9 @@ namespace OrderWorkflow
             }
 
             // app root - DI Container would go here
-            var orderProcessor = new OrderProcessor();
             Console.WriteLine("About to process order for Cms with ID: {0}", cmsId);
-            var controller = new OrdersController(orderProcessor);
-            var order = controller.ProcessOrder(cmsId);
-            order.Save();
+            var controller = new OrdersController();
+            controller.ProcessOrder(cmsId);
         }
     }
 }

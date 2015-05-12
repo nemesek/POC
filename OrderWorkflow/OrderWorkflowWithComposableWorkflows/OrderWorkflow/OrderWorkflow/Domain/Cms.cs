@@ -23,13 +23,18 @@ namespace OrderWorkflow.Domain
             {
                 serviceId = Randomizer.RandomYes() ? 2 : 3;
             }
+
+            // calling into a factory to get cms/service specific transitions
             var stateMachine = OrderTransitionerFactory.GetTransitionLogic(_id, serviceId, _ => null);
+            // injecting in AA logic to statemachine - Strategy Pattern
+            // http://www.dofactory.com/net/strategy-design-pattern
             return stateMachine.CreateNewOrder(FindBestVendor(), _id);
-            //return _orderTransitioner.CreateNewOrder(FindBestVendor(), _id, serviceId);
+            
         }
 
         public Func<ICanBeAutoAssigned, Vendor> FindBestVendor()
         {
+            // calling into a factory to get cms specific auto assign
             var autoAssign = AutoAssignFactory.CreateAutoAssign(_id);
             return autoAssign.FindBestVendor;
         }

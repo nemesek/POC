@@ -16,12 +16,23 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             _vendor = orderWorkflowDto.Vendor;
         }
 
+        // MakeTransition and Status combine for my variation of state pattern
+        // http://www.dofactory.com/net/state-design-pattern
         public abstract IWorkflowOrder MakeTransition();
         public abstract OrderStatus Status { get; }
 
         protected Vendor Vendor{ get { return _vendor; } }
         protected int ClientId { get { return _clientId; } }
         public Guid OrderId { get { return _id; } }
+
+        public IWorkflowOrder ProcessNextStep()
+        {
+            // variation of the template method pattern
+            // http://www.dofactory.com/net/template-method-design-pattern
+            var next = this.MakeTransition();
+            next.Save();
+            return next;
+        }
         
         public void AssignVendor(Vendor vendor)
         {
