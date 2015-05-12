@@ -18,12 +18,7 @@ namespace OrderWorkflow.Domain
 
         public IWorkflowOrder CreateNewOrder()
         {
-            var serviceId = 1;      // default this show cases how you can get different functionality based off of service Id
-            if (_id > 24)
-            {
-                serviceId = Randomizer.RandomYes() ? 2 : 3;
-            }
-
+            var serviceId = GetServiceId();
             // calling into a factory to get cms/service specific transitions
             var stateMachine = OrderTransitionerFactory.GetTransitionLogic(_id, serviceId, _ => null);
             // injecting in AA logic to statemachine - Strategy Pattern
@@ -53,6 +48,13 @@ namespace OrderWorkflow.Domain
         public bool ReviewAcceptance(IWorkflowOrder order)
         {
             return Randomizer.RandomYes();
+        }
+
+        private int GetServiceId()
+        {
+            var serviceId = 1;      // default this show cases how you can get different functionality based off of service Id
+            if (_id > 24) serviceId = Randomizer.RandomYes() ? 2 : 3;
+            return serviceId;
         }
     }
 }
