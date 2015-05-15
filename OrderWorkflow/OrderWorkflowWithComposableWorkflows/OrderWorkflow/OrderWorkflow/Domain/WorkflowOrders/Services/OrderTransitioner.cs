@@ -10,7 +10,6 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
         public OrderTransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign)
         {
             _safeAssign = safeAssign;
-
         }
 
         // using the strategy pattern here to inject in client specific auto assign logic

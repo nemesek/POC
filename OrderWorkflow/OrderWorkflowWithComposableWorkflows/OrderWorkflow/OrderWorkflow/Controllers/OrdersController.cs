@@ -11,7 +11,6 @@ namespace OrderWorkflow.Controllers
         {
             var cms = new Cms(cmsId);
             var order = cms.CreateNewOrder();
-            order.Save();
             while (order.Status != OrderStatus.Closed)
             {
                 Thread.Sleep(1000);

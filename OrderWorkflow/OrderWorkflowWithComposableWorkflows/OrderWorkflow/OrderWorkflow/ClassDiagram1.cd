@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OrderWorkflow.Program" Collapsed="true">
+    <Position X="30" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Randomizer" Collapsed="true">
+    <Position X="31.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Randomizer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Controllers.OrdersController" Collapsed="true">
+    <Position X="31.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Controllers\OrdersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.AutoAssign.AutoAssignFactory" Collapsed="true">
+    <Position X="26.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\AutoAssign\AutoAssignFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.AutoAssign.CmsNetAutoAssign" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\AutoAssign\CmsNetAutoAssign.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="OrderWorkflow.Domain.AutoAssign.CmsNextAutoAssign" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="31.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\AutoAssign\CmsNextAutoAssign.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="OrderWorkflow.Domain.AutoAssign.DefaultAutoAssign" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\AutoAssign\DefaultAutoAssign.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="OrderWorkflow.Domain.AutoAssign.LegacyAutoAssign" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\AutoAssign\LegacyAutoAssign.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="OrderWorkflow.Domain.Cms" Collapsed="true">
+    <Position X="28.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAEAAAAAACBAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Cms.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.NullVendor" Collapsed="true">
+    <Position X="5.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\NullVendor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.Vendor" Collapsed="true">
+    <Position X="5.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAgAAAAgAAAEAQAAAAAgIABAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Vendor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.VendorRepository" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\VendorRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.OrderEdit.Order" Collapsed="true">
+    <Position X="30" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\OrderEdit\Order.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.AssignedOrder" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\AssignedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.ClientAcceptedOrder" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\ClientAcceptedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.ClosedOrder" Collapsed="true">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\ClosedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.ManualAssignOrder" Collapsed="true">
+    <Position X="21.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\ManualAssignOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.Order" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAAAAIAEAAAAAEAAwABAAAAAAAAAAABCAAAAAARABAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\Order.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.OrderWorkflowDto" Collapsed="true">
+    <Position X="28.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAgAAAAAAAAAAAAABBACAAAAAAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\OrderWorkflowDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.RejectedOrder" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\RejectedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.ReviewAcceptanceOrder" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\ReviewAcceptanceOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.ReviewSubmissionOrder" Collapsed="true">
+    <Position X="12.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\ReviewSubmissionOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.SubmittedOrder" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\SubmittedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.UnassignedOrder" Collapsed="true">
+    <Position X="24" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEgAAAAAAAAAAAgAAAAAAAAAABAAgAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\UnassignedOrder.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.VendorAcceptedOrder" Collapsed="true">
+    <Position X="1.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\VendorAcceptedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.WorkflowOrderFactory" Collapsed="true">
+    <Position X="28.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAACAAIAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\WorkflowOrderFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.DerivedOrders.CustomRejectedOrder" Collapsed="true">
+    <Position X="3.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\DerivedOrders\CustomRejectedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.DerivedOrders.DansCustomSubmittedOrder">
+    <Position X="17.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\DerivedOrders\DansCustomSubmittedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.DerivedOrders.JohnsCustomSubmittedOrder">
+    <Position X="19.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\DerivedOrders\JohnsCustomSubmittedOrder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.Services.CustomOrdertransitioner" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\Services\CustomOrdertransitioner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.Services.JohnsCustomTransitioner" Collapsed="true">
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\Services\JohnsCustomTransitioner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.Services.OrderTransitioner" Collapsed="true">
+    <Position X="1.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAQAAigAQAAAAAAgAAQBAAAAQAAAAAAAQIAEA=</HashCode>
+      <FileName>Domain\WorkflowOrders\Services\OrderTransitioner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.Services.OrderTransitionerFactory" Collapsed="true">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="OrderWorkflow.Domain.WorkflowOrders.Services.OrderTransitionerFactory.TransitionType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Domain\WorkflowOrders\Services\OrderTransitionerFactory.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAACAAAQAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Domain\WorkflowOrders\Services\OrderTransitionerFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="OrderWorkflow.Domain.Contracts.ICanBeAutoAssigned" Collapsed="true">
+    <Position X="26.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Contracts\ICanBeAutoAssigned.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderWorkflow.Domain.Contracts.IProcessAutoAssign" Collapsed="true">
+    <Position X="28.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Contracts\IProcessAutoAssign.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderWorkflow.Domain.Contracts.IWorkflowOrder" Collapsed="true">
+    <Position X="30" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAIAEAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Contracts\IWorkflowOrder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="OrderWorkflow.Domain.OrderStatus" Collapsed="true">
+    <Position X="26.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAQABAgAAABAACBAAAAAQAAAAAAAAACAAgA=</HashCode>
+      <FileName>Domain\OrderStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

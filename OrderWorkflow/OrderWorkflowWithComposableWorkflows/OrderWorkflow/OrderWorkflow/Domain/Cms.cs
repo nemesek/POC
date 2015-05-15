@@ -12,7 +12,6 @@ namespace OrderWorkflow.Domain
         public Cms(int id)
         {
             _id = id;
-            
         }
 
 
@@ -23,8 +22,9 @@ namespace OrderWorkflow.Domain
             var stateMachine = OrderTransitionerFactory.GetTransitionLogic(_id, serviceId, _ => null);
             // injecting in AA logic to statemachine - Strategy Pattern
             // http://www.dofactory.com/net/strategy-design-pattern
-            return stateMachine.CreateNewOrder(FindBestVendor(), _id);
-            
+            var order =  stateMachine.CreateNewOrder(FindBestVendor(), _id);
+            order.Save();
+            return order;
         }
 
         public Func<ICanBeAutoAssigned, Vendor> FindBestVendor()
