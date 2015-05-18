@@ -7,6 +7,7 @@ namespace OrderWorkflow.Controllers
 		public void ProcessOrder()
 		{
 			Console.WriteLine("Hello from Controller.");
+			Console.WriteLine("Hello from Mac");
 		}
 	}
 }
