@@ -7,6 +7,7 @@ namespace OrderWorkflow
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Here we go.");
             // app root - DI Container would go here
             Action<string, int> outputAction = (str, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", str, id);
             var cmsId = GetCmsId(args);

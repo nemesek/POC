@@ -20,6 +20,8 @@ namespace OrderWorkflow.Domain.OrderCreation
 		public Order Create(Address address)
 		{
 			_address = address;
+		    this.Save();
+            return this;
 		}
 		
 		private void Save()
