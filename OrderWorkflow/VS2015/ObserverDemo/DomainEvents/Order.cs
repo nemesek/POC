@@ -13,12 +13,14 @@ namespace DomainEvents
             Console.WriteLine("Exiting CreateOrder");
         }
 
-        //public async Task<bool> CreateOrderAsync()
-        //{
-        //    this.Id = Guid.NewGuid();
-        //    await DomainEvents.RaiseAsync(new OrderCreatedEvent { Order = this });
-        //    Console.WriteLine("Exiting CreateOrder");
-        //    return true;
-        //}
+        public async Task<bool> CreateOrderAsync()
+        {
+            this.Id = Guid.NewGuid();
+            await Task.Delay(100);
+            //await DomainEvents.RaiseAsync(new OrderCreatedEvent { Order = this });
+            DomainEvents.RaiseAsync(new OrderCreatedEvent {Order = this});
+            Console.WriteLine("Exiting CreateOrder");
+            return true;
+        }
     }
 }

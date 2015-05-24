@@ -12,7 +12,8 @@ namespace DomainEvents
 	    [ThreadStatic] //so that each thread has its own callbacks
 	    private static List<Delegate> _actions;// = new List<delegate>();
 
-	   // private static List<Func<IDomainEvent, bool> _funcs;
+	    private static List<Func<IDomainEvent,bool>> _funcs;
+	    //private static List<Task<bool>> _tasks;
 		
 		//public static IContainer Container {get; set;}
 		
@@ -24,11 +25,11 @@ namespace DomainEvents
 			_actions.Add(callback);
 		}
 
-        public static void Register<T>(Func<T, bool> callback) where T : IDomainEvent
+        public static void Register(Func<IDomainEvent, bool> callback)
         {
-            if (_actions == null) _actions = new List<Delegate>();
+            if (_funcs == null) _funcs = new List<Func<IDomainEvent,bool>>();
 
-            _actions.Add(callback);
+            _funcs.Add(callback);
         }
 
         //Clears callbacks passed to Register on the current thread
@@ -57,18 +58,23 @@ namespace DomainEvents
             }
         }
 
-	    //public static async Task<bool> RaiseAsync<T>(T args) where T : IDomainEvent
-	    //{
-     //       if (_actions == null) return false;
-     //       foreach (var a in _actions.Select(action => action as Action<T>))
-     //       {
-     //           if (a != null)
-     //           {
-     //               a.Invoke(default(T));
-     //           }
-     //       }
-     //       //return Task.FromResult<bool>(true);
-     //       return true;
-	    //}
-    }
+        public static async Task<bool> RaiseAsync(IDomainEvent args)
+        {
+            // if (_actions == null) return false;
+            var funcs = _funcs
+                .Select(action => action as Func<IDomainEvent, bool>)
+                .Where(a => a != null)
+                .Select(Asyncify);
+
+            await Task.WhenAll(funcs);
+      
+            //return Task.FromResult<bool>(true);
+            return true;
+        }
+
+	    private static Task<Func<IDomainEvent, bool>> Asyncify(Func<IDomainEvent, bool> func)
+	    {
+	        return Task.FromResult(func);
+	    }
+	}
 }

@@ -36,10 +36,19 @@ namespace WebDomainEvents.Controllers
         public async Task<string> Events()
         {
             await Task.Delay(100);
-            DomainEvents.DomainEvents.Register<OrderCreatedEvent>(async e => await DoSomething());
-            DomainEvents.DomainEvents.Register <OrderCreatedEvent>(async e => await DoSomethingElse());
+            //DomainEvents.DomainEvents.Register<OrderCreatedEvent>(async e => await DoSomething());
+            //DomainEvents.DomainEvents.Register <OrderCreatedEvent>(async e => await DoSomethingElse());
+            //DomainEvents.DomainEvents.Register<OrderCreatedEvent>(_ => DoSomething());
+            //DomainEvents.DomainEvents.Register<OrderCreatedEvent>(_ => DoSomethingElse());
+
+            DomainEvents.DomainEvents.Register(e => true);
+            DomainEvents.DomainEvents.Register(e =>
+            {
+                Task.Delay(100);
+                return true;
+            });
             var order = new Order();
-            order.CreateOrder();
+            await order.CreateOrderAsync();
             return "Hello Domain Event2";
         }
 
