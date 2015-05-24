@@ -16,6 +16,7 @@ namespace OrderWorkflow.Domain
         public Cms(int id)
         {
             _id = id;
+            RegisterEventHandlers();
         }
 
 
@@ -33,21 +34,18 @@ namespace OrderWorkflow.Domain
         
         public void EditOrderAddress(Address newAddress)
         {
-            DomainEvents.Register<OrderUpdatedEvent>(async e => await LogOrderUpdateAsync(e));
             var order = OrderEditRepository.GetOrder(_id);
             order.UpdateAddress(newAddress);
+            //DomainEvents.ClearCallbacks();
         }
         
         public OrderCreation.Order CreateOrder()
         {
             var order = new OrderCreation.Order(_id);
             var address = new Address("Dallas", "TX", "75019", "Elm", "456");
-            DomainEvents.Register<OrderCreatedEvent>(async _ => await LogOrderCreationAsync());
-            DomainEvents.Register<OrderCreatedEvent>(async e => await SendOrderCreationNotificationAsync(e));
-            DomainEvents.Register<OrderCreatedEvent>(async e => await SendOrderToWorkflowQueueAsync(e));
             order.Create(address);
             Console.WriteLine("Order Created from CMS");
-            DomainEvents.ClearCallbacks();
+            //DomainEvents.ClearCallbacks();
             return order;
         }
 
@@ -79,6 +77,17 @@ namespace OrderWorkflow.Domain
             var serviceId = 1;      // default this show cases how you can get different functionality based off of service Id
             if (_id > 24) serviceId = Randomizer.RandomYes() ? 2 : 3;
             return serviceId;
+        }
+
+        private static void RegisterEventHandlers()
+        {
+            // order creation handlers
+            DomainEvents.Register<OrderCreatedEvent>(async _ => await LogOrderCreationAsync());
+            DomainEvents.Register<OrderCreatedEvent>(async e => await SendOrderCreationNotificationAsync(e));
+            DomainEvents.Register<OrderCreatedEvent>(async e => await SendOrderToWorkflowQueueAsync(e));
+
+            // order update handlers
+            DomainEvents.Register<OrderUpdatedEvent>(async e => await LogOrderUpdateAsync(e));
         }
 
         private static async Task<bool> LogOrderCreationAsync()
