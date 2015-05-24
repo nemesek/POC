@@ -55,6 +55,7 @@
     <None Include="project.lock.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleHelper.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Domain\AutoAssign\AutoAssignFactory.cs" />
     <Compile Include="Domain\AutoAssign\CmsNetAutoAssign.cs" />

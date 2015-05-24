@@ -12,7 +12,11 @@ namespace OrderWorkflow.Domain.WorkflowOrders.DerivedOrders
 
         public override IWorkflowOrder MakeTransition()
         {
-            Console.WriteLine("Doing Dan Additional Order Submitted Buisness Logic implementation details");
+            const string output = "Doing Dan Additional Order Submitted Buisness Logic implementation details";
+            ConsoleHelper.WriteWithStyle(ConsoleColor.Magenta, ConsoleColor.White, output);
+            //ConsoleHelper.SetColors(ConsoleColor.Magenta, ConsoleColor.White);
+            //Console.WriteLine("Doing Dan Additional Order Submitted Buisness Logic implementation details");
+            //ConsoleHelper.ResetColors();
             return base.MakeTransition();
         }
     }

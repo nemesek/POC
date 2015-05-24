@@ -11,6 +11,7 @@ namespace OrderWorkflow
         {
             var backGround = Console.BackgroundColor;
             var foreGround = Console.ForegroundColor;
+            ConsoleHelper.ResetAction = ResetAction(backGround, foreGround);
             Console.WriteLine("Here we go.");
             // app root - DI Container would go here
             Action<string, int> outputAction = (str, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", str, id);
@@ -37,14 +38,22 @@ namespace OrderWorkflow
             Reset(backGround, foreGround);
         }
 
+        static Action ResetAction(ConsoleColor background, ConsoleColor foreground)
+        {
+            return () =>
+            {
+                Console.BackgroundColor = background;
+                Console.ForegroundColor = foreground;
+            };
+        }
+
         static void Reset(ConsoleColor background, ConsoleColor foreground)
         {
             // to allow the event handler to display output
             // we wouldn't want to re enter the request thread 
             // in a real app
             Thread.Sleep(1000);
-            Console.BackgroundColor = background;
-            Console.ForegroundColor = foreground;
+            ResetAction(background, foreground).Invoke();
             Console.ReadLine();
         }
         
