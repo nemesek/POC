@@ -11,14 +11,15 @@ namespace DomainEvents
 	{
 	    [ThreadStatic] //so that each thread has its own callbacks
 	    private static List<Delegate> _actions;// = new List<delegate>();
+        [ThreadStatic]
+        private static List<Func<IDomainEvent,bool>> _funcs;
+        [ThreadStatic]
+        private static List<Task<bool>> _tasks;
 
-	    private static List<Func<IDomainEvent,bool>> _funcs;
-	    //private static List<Task<bool>> _tasks;
-		
-		//public static IContainer Container {get; set;}
-		
-		// Registers a callback for the given domain event
-		public static void Register<T>(Action<T> callback)  where T : IDomainEvent
+        //public static IContainer Container {get; set;}
+
+        // Registers a callback for the given domain event
+        public static void Register<T>(Action<T> callback)  where T : IDomainEvent
 		{
 			if(_actions == null) _actions = new List<Delegate>();
 			
@@ -32,10 +33,12 @@ namespace DomainEvents
             _funcs.Add(callback);
         }
 
+
         //Clears callbacks passed to Register on the current thread
         public static void ClearCallbacks ()
        {
            _actions = null;
+            _funcs = null;
        }
 	   
 	   //Raises the given domain event
@@ -72,7 +75,8 @@ namespace DomainEvents
             return true;
         }
 
-	    private static Task<Func<IDomainEvent, bool>> Asyncify(Func<IDomainEvent, bool> func)
+
+        private static Task<Func<IDomainEvent, bool>> Asyncify(Func<IDomainEvent, bool> func)
 	    {
 	        return Task.FromResult(func);
 	    }
