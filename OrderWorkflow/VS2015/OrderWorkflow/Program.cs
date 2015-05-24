@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using OrderWorkflow.Controllers;
 
 namespace OrderWorkflow
@@ -8,8 +9,8 @@ namespace OrderWorkflow
     {
         static void Main(string[] args)
         {
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            var backGround = Console.BackgroundColor;
+            var foreGround = Console.ForegroundColor;
             Console.WriteLine("Here we go.");
             // app root - DI Container would go here
             Action<string, int> outputAction = (str, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", str, id);
@@ -21,26 +22,29 @@ namespace OrderWorkflow
                 if(cmsId == 100)
                 {
                     controller.CreateOrder(cmsId);
-                    Reset();
+                    Reset(backGround,foreGround);
                     return;
                 }
 
                 outputAction("edit", cmsId);
                 controller.EditOrderAddress(cmsId);
-                Reset();
+                Reset(backGround, foreGround);
                 return;
             }
             
             outputAction("process", cmsId);
             controller.ProcessOrder(cmsId);
-            Reset();
+            Reset(backGround, foreGround);
         }
 
-        static void Reset()
+        static void Reset(ConsoleColor background, ConsoleColor foreground)
         {
             // to allow the event handler to display output
             // we wouldn't want to re enter the request thread 
             // in a real app
+            Thread.Sleep(1000);
+            Console.BackgroundColor = background;
+            Console.ForegroundColor = foreground;
             Console.ReadLine();
         }
         
