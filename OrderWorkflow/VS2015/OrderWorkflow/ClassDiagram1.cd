@@ -3,7 +3,7 @@
   <Class Name="OrderWorkflow.Program" Collapsed="true">
     <Position X="30" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -17,7 +17,7 @@
   <Class Name="OrderWorkflow.Controllers.OrdersController" Collapsed="true">
     <Position X="31.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAI=</HashCode>
       <FileName>Controllers\OrdersController.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -66,7 +66,7 @@
   <Class Name="OrderWorkflow.Domain.Cms" Collapsed="true">
     <Position X="28.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAEAAAAAACBAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAEAAACAAABAAAACBAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Domain\Cms.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -94,11 +94,11 @@
   <Class Name="OrderWorkflow.Domain.OrderEdit.Order" Collapsed="true">
     <Position X="30" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>ABACAIAAAAAAAAAAgABAAAAAAAAAAAACAIAAAEAAAAA=</HashCode>
       <FileName>Domain\OrderEdit\Order.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OrderWorkflow.Domain.WorkflowOrders.AssignedOrder" Collapsed="true">
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.AssignedOrder">
     <Position X="6" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
@@ -191,7 +191,7 @@
       <FileName>Domain\WorkflowOrders\WorkflowOrderFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OrderWorkflow.Domain.WorkflowOrders.DerivedOrders.CustomRejectedOrder" Collapsed="true">
+  <Class Name="OrderWorkflow.Domain.WorkflowOrders.DerivedOrders.CustomRejectedOrder">
     <Position X="3.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
@@ -229,19 +229,12 @@
   <Class Name="OrderWorkflow.Domain.WorkflowOrders.Services.OrderTransitioner" Collapsed="true">
     <Position X="1.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAQAAigAQAAAAAAgAAQBAAAAQAAAAAAAQIAEA=</HashCode>
+      <HashCode>AEAAAAAAQAAggAQAAAAAAgAAQBABAAQAAAAAAAQIAEA=</HashCode>
       <FileName>Domain\WorkflowOrders\Services\OrderTransitioner.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="OrderWorkflow.Domain.WorkflowOrders.Services.OrderTransitionerFactory" Collapsed="true">
     <Position X="26.5" Y="2.5" Width="1.5" />
-    <NestedTypes>
-      <Enum Name="OrderWorkflow.Domain.WorkflowOrders.Services.OrderTransitionerFactory.TransitionType" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Domain\WorkflowOrders\Services\OrderTransitionerFactory.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAAgAAACAAAQAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Domain\WorkflowOrders\Services\OrderTransitionerFactory.cs</FileName>
