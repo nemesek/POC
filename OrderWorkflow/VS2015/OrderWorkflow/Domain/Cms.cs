@@ -84,9 +84,7 @@ namespace OrderWorkflow.Domain
         private static async Task<bool> LogOrderCreationAsync()
         {
             await Task.Delay(100);
-            Console.BackgroundColor = ConsoleColor.DarkYellow;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Logging Order Creation.");
+            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkYellow, ConsoleColor.White, "Logging Order Creationl");
             await Task.Delay(1000);
             return true;
         }
@@ -94,27 +92,21 @@ namespace OrderWorkflow.Domain
         private static async Task<bool> SendOrderCreationNotificationAsync(OrderCreatedEvent evt)
         {
             await Task.Delay(100);
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Sending email notification for Order {0}", evt.Order.Id);
+            ConsoleHelper.WriteWithStyle(ConsoleColor.Blue, ConsoleColor.White, $"Sending email notification for Order {evt.Order.Id}");
             return true;
         }
 
         private static async Task<bool> SendOrderToWorkflowQueueAsync(OrderCreatedEvent evt)
         {
             await Task.Delay(100);
-            Console.BackgroundColor = ConsoleColor.Green; // sometimes doesn't work because of async timing
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Queueing up Order {0} to workflow context", evt.Order.Id);
+            ConsoleHelper.WriteWithStyle(ConsoleColor.Green, ConsoleColor.White, $"Queueing up Order {evt.Order.Id} to workflow context");
             return true;
         }
 
         private static async Task<bool> LogOrderUpdateAsync(OrderUpdatedEvent evt)
         {
             await Task.Delay(100);
-            Console.BackgroundColor = ConsoleColor.DarkRed; // sometimes doesn't work because of async timing
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Order {0} updated", evt.Order.Id);
+            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkRed, ConsoleColor.White, $"Order {evt.Order.Id} updated");
             return true;
         }
     }
