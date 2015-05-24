@@ -17,8 +17,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             _zipCode = orderWorkflowDto.ZipCode;
         }
 
-        public override OrderStatus Status { get { return OrderStatus.Unassigned; } }
-        public string ZipCode { get { return _zipCode; } }
+        public override OrderStatus Status => OrderStatus.Unassigned;
+        public string ZipCode => _zipCode;
 
         public override IWorkflowOrder MakeTransition()
         {

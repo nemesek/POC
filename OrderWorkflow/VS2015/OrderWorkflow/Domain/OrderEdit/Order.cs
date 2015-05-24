@@ -1,13 +1,14 @@
 ﻿using System;
 using OrderWorkflow.Domain.Common;
+using OrderWorkflow.Domain.Events;
 
 namespace OrderWorkflow.Domain.OrderEdit
 {
     public class Order
     {
         private Address _address = new Address("Oxford", "MS", "38655", "Lamar", "123");
-        private int _cmsId;
-        private Guid _id;
+        private readonly int _cmsId;
+        private readonly Guid _id;
         
         public Order(Guid orderId, int cmsId)
         {
@@ -16,8 +17,9 @@ namespace OrderWorkflow.Domain.OrderEdit
         }
         
         
-        public Guid Id {get {return _id;}}
-        public int ClientId {get {return _cmsId;}}
+        public Guid Id => _id;
+        public int ClientId => _cmsId;
+
         public Address GetAddress()
         {
             return _address;                                         
@@ -25,16 +27,17 @@ namespace OrderWorkflow.Domain.OrderEdit
         
         public void UpdateAddress(Address address)
         {
-            if(address == null)throw new ArgumentNullException("address");
+            if(address == null)throw new ArgumentNullException(nameof(address));
             
             _address = address;
             this.Save();
-            
+            DomainEvents.Raise(new OrderUpdatedEvent {Order = this});
+
         }
         
         private void Save()
         {
-            Console.WriteLine("Saving edited order.");
+            Console.WriteLine("Saving edited order to DB.");
         }
     }
 }

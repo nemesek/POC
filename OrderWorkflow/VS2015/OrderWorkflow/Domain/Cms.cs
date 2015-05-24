@@ -1,12 +1,11 @@
 ﻿using System;
-using OrderWorkflow.Domain.AutoAssign;
-using OrderWorkflow.Domain.Contracts;
-using OrderWorkflow.Domain.WorkflowOrders.Services;
-using OrderWorkflow.Domain.OrderEdit;
-using OrderWorkflow.Domain.OrderCreation;
-using OrderWorkflow.Domain.Events;
 using System.Threading.Tasks;
+using OrderWorkflow.Domain.AutoAssign;
 using OrderWorkflow.Domain.Common;
+using OrderWorkflow.Domain.Contracts;
+using OrderWorkflow.Domain.Events;
+using OrderWorkflow.Domain.OrderEdit;
+using OrderWorkflow.Domain.WorkflowOrders.Services;
 
 namespace OrderWorkflow.Domain
 {
@@ -32,10 +31,11 @@ namespace OrderWorkflow.Domain
             return order;
         }
         
-        public OrderEdit.Order GetEditableOrder()
+        public void EditOrderAddress(Address newAddress)
         {
+            DomainEvents.Register<OrderUpdatedEvent>(async e => await LogOrderUpdateAsync(e));
             var order = OrderEditRepository.GetOrder(_id);
-            return order;
+            order.UpdateAddress(newAddress);
         }
         
         public OrderCreation.Order CreateOrder()
@@ -47,6 +47,7 @@ namespace OrderWorkflow.Domain
             DomainEvents.Register<OrderCreatedEvent>(async e => await SendOrderToWorkflowQueueAsync(e));
             order.Create(address);
             Console.WriteLine("Order Created from CMS");
+            DomainEvents.ClearCallbacks();
             return order;
         }
 
@@ -79,26 +80,41 @@ namespace OrderWorkflow.Domain
             if (_id > 24) serviceId = Randomizer.RandomYes() ? 2 : 3;
             return serviceId;
         }
-        
+
         private static async Task<bool> LogOrderCreationAsync()
         {
             await Task.Delay(100);
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Logging Order Creation.");
             await Task.Delay(1000);
             return true;
         }
-        
+
         private static async Task<bool> SendOrderCreationNotificationAsync(OrderCreatedEvent evt)
         {
             await Task.Delay(100);
-            Console.WriteLine("Sending notification for Order {0}", evt.Order.Id);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Sending email notification for Order {0}", evt.Order.Id);
             return true;
         }
-        
+
         private static async Task<bool> SendOrderToWorkflowQueueAsync(OrderCreatedEvent evt)
         {
             await Task.Delay(100);
+            Console.BackgroundColor = ConsoleColor.Green; // sometimes doesn't work because of async timing
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Queueing up Order {0} to workflow context", evt.Order.Id);
+            return true;
+        }
+
+        private static async Task<bool> LogOrderUpdateAsync(OrderUpdatedEvent evt)
+        {
+            await Task.Delay(100);
+            Console.BackgroundColor = ConsoleColor.DarkRed; // sometimes doesn't work because of async timing
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Order {0} updated", evt.Order.Id);
             return true;
         }
     }

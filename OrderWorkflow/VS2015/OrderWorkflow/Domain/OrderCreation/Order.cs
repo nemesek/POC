@@ -18,9 +18,9 @@ namespace OrderWorkflow.Domain.OrderCreation
 			_id = Guid.NewGuid();
 		}
 		
-		public Guid Id {get {return _id;}}
-		
-		public Order Create(Address address)
+		public Guid Id => _id;
+
+	    public Order Create(Address address)
 		{
 			_address = address;
 		    this.Save();

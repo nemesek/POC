@@ -1,10 +1,8 @@
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// from http://www.udidahan.com/2009/06/14/domain-events-salvation/
 namespace OrderWorkflow.Domain.Events
 {
 	public static class DomainEvents
@@ -52,7 +50,7 @@ namespace OrderWorkflow.Domain.Events
         {
             // if (_actions == null) return false;
             var funcs = _funcs
-                .Select(action => action as Func<IDomainEvent, bool>)
+                .Select(action => action)
                 .Where(a => a != null)
                 .Select(Asyncify);
 

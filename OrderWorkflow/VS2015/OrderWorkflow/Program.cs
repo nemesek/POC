@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OrderWorkflow.Controllers;
 
 namespace OrderWorkflow
@@ -7,6 +8,8 @@ namespace OrderWorkflow
     {
         static void Main(string[] args)
         {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Here we go.");
             // app root - DI Container would go here
             Action<string, int> outputAction = (str, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", str, id);
@@ -18,35 +21,41 @@ namespace OrderWorkflow
                 if(cmsId == 100)
                 {
                     controller.CreateOrder(cmsId);
-                    // to allow the event handler to display output
-                    // we wouldn't want to re enter the request thread 
-                    // in a real app
-                    Console.ReadLine(); 
+                    Reset();
                     return;
                 }
+
                 outputAction("edit", cmsId);
                 controller.EditOrderAddress(cmsId);
+                Reset();
                 return;
             }
             
             outputAction("process", cmsId);
             controller.ProcessOrder(cmsId);
+            Reset();
+        }
+
+        static void Reset()
+        {
+            // to allow the event handler to display output
+            // we wouldn't want to re enter the request thread 
+            // in a real app
+            Console.ReadLine();
         }
         
-        static int GetCmsId(string[] args)
+        static int GetCmsId(IReadOnlyList<string> args)
         {
             var cmsId = 0;
-            if (args.Length > 0)
+            if (args.Count > 0)
             {
-                Int32.TryParse(args[0], out cmsId);    
+                int.TryParse(args[0], out cmsId);    
             }
 
-            if (cmsId < 1)
-            {
-                var random = new Random();
-                cmsId = random.Next(1, 25);
-            }
-            
+            if (cmsId >= 1) return cmsId;
+            var random = new Random();
+            cmsId = random.Next(1, 25);
+
             return cmsId;
         }
     }

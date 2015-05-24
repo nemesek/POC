@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
 using OrderWorkflow.Domain;
-using OrderWorkflow.Domain.Contracts;
-using OrderWorkflow.Domain.OrderEdit;
 using OrderWorkflow.Domain.Common;
+using OrderWorkflow.Domain.Contracts;
 
 namespace OrderWorkflow.Controllers
 {
@@ -26,16 +25,15 @@ namespace OrderWorkflow.Controllers
         public void EditOrderAddress(int cmsId)
         {
             var cms = new Cms(cmsId);
-            var order = cms.GetEditableOrder();
-            var address = order.GetAddress();
             var newAddress = new Address("Dallas", "TX", "75019", "Elm", "456");
-            order.UpdateAddress(newAddress);
+            cms.EditOrderAddress(newAddress);
         }
         
         public void CreateOrder(int cmsId)
         {
             var cms = new Cms(cmsId);
             var order = cms.CreateOrder();
+            Console.WriteLine("Mapping order {0} to DTO", order.Id);
         }
 
     }
