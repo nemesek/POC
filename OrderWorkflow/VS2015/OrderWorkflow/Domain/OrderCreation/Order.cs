@@ -1,5 +1,6 @@
 using System;
 using OrderWorkflow.Domain.Common;
+using OrderWorkflow.Domain.Events;
 
 namespace OrderWorkflow.Domain.OrderCreation
 {
@@ -17,6 +18,8 @@ namespace OrderWorkflow.Domain.OrderCreation
 			_id = Guid.NewGuid();
 		}
 		
+		public Guid Id {get {return _id;}}
+		
 		public Order Create(Address address)
 		{
 			_address = address;
@@ -27,6 +30,7 @@ namespace OrderWorkflow.Domain.OrderCreation
 		private void Save()
 		{
 			Console.WriteLine("Saving orderId, cmsId, address, and status to DB.");
+			DomainEvents.Raise(new OrderCreatedEvent { Order = this });
 		}
 	}
 }

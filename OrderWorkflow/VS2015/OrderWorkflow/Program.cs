@@ -15,6 +15,15 @@ namespace OrderWorkflow
             
             if(cmsId > 99)
             {
+                if(cmsId == 100)
+                {
+                    controller.CreateOrder(cmsId);
+                    // to allow the event handler to display output
+                    // we wouldn't want to re enter the request thread 
+                    // in a real app
+                    Console.ReadLine(); 
+                    return;
+                }
                 outputAction("edit", cmsId);
                 controller.EditOrderAddress(cmsId);
                 return;
@@ -22,8 +31,6 @@ namespace OrderWorkflow
             
             outputAction("process", cmsId);
             controller.ProcessOrder(cmsId);
-            
-
         }
         
         static int GetCmsId(string[] args)

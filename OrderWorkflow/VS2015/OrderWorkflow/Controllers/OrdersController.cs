@@ -31,6 +31,12 @@ namespace OrderWorkflow.Controllers
             var newAddress = new Address("Dallas", "TX", "75019", "Elm", "456");
             order.UpdateAddress(newAddress);
         }
+        
+        public void CreateOrder(int cmsId)
+        {
+            var cms = new Cms(cmsId);
+            var order = cms.CreateOrder();
+        }
 
     }
 }
