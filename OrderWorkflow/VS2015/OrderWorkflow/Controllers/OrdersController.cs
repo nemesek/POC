@@ -14,12 +14,9 @@ namespace OrderWorkflow.Controllers
             var order = cms.GetWorkflowOrder();
             while (order.Status != OrderStatus.Closed)
             {
+                const string output = "++++++++++++++Incoming Request about to be processed.+++++++++++++";
                 Thread.Sleep(1000);
-                //ConsoleHelper.SetColors(ConsoleColor.DarkCyan, ConsoleColor.White);
-                //Console.WriteLine("++++++++++++++Incoming Request about to be processed.+++++++++++++");
-                ConsoleHelper.WriteWithStyle(ConsoleColor.DarkCyan, ConsoleColor.White,
-                    "++++++++++++++Incoming Request about to be processed.+++++++++++++");
-                
+                ConsoleHelper.WriteWithStyle(ConsoleColor.DarkCyan, ConsoleColor.White, output);
                 order = order.ProcessNextStep();
             }
 

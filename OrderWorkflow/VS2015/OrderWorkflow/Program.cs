@@ -9,11 +9,8 @@ namespace OrderWorkflow
     {
         static void Main(string[] args)
         {
-            var backGround = Console.BackgroundColor;
-            var foreGround = Console.ForegroundColor;
-            ConsoleHelper.ResetAction = ResetAction(backGround, foreGround);
-            Console.WriteLine("Here we go.");
             // app root - DI Container would go here
+            Console.WriteLine("Here we go.");
             Action<string, int> outputAction = (str, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", str, id);
             var cmsId = GetCmsId(args);
             var controller = new OrdersController();
@@ -23,37 +20,28 @@ namespace OrderWorkflow
                 if(cmsId == 100)
                 {
                     controller.CreateOrder(cmsId);
-                    Reset(backGround,foreGround);
+                    Reset();
                     return;
                 }
 
                 outputAction("edit", cmsId);
                 controller.EditOrderAddress(cmsId);
-                Reset(backGround, foreGround);
+                Reset();
                 return;
             }
             
             outputAction("process", cmsId);
             controller.ProcessOrder(cmsId);
-            Reset(backGround, foreGround);
+            Reset();
         }
 
-        static Action ResetAction(ConsoleColor background, ConsoleColor foreground)
-        {
-            return () =>
-            {
-                Console.BackgroundColor = background;
-                Console.ForegroundColor = foreground;
-            };
-        }
-
-        static void Reset(ConsoleColor background, ConsoleColor foreground)
+        static void Reset()
         {
             // to allow the event handler to display output
             // we wouldn't want to re enter the request thread 
             // in a real app
             Thread.Sleep(1000);
-            ResetAction(background, foreground).Invoke();
+            Console.ResetColor();
             Console.ReadLine();
         }
         

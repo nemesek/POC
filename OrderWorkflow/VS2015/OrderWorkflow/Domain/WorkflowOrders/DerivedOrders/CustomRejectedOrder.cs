@@ -9,9 +9,9 @@ namespace OrderWorkflow.Domain.WorkflowOrders.DerivedOrders
 
         public override IWorkflowOrder MakeTransition()
         {
-            ConsoleHelper.SetColors(ConsoleColor.DarkYellow, ConsoleColor.White);
-            Console.WriteLine("**************Applying custom rejected order business logic implementation details******************");
-            ConsoleHelper.ResetColors();
+            const string output =
+                "**************Applying custom rejected order business logic implementation details******************";
+            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkYellow, ConsoleColor.White, output);
             return base.MakeTransition();
         }
     }

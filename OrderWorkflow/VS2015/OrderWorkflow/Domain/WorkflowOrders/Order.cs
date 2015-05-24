@@ -68,7 +68,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public void Save()
         {
-            ConsoleHelper.ResetColors();
+            Console.ResetColor();
             Console.WriteLine("Saving {0} State to DB", Status);
         }
     }

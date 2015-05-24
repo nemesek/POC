@@ -4,12 +4,6 @@ namespace OrderWorkflow
 {
     public static class ConsoleHelper
     {
-        public static Action ResetAction { get; set; }
-
-        public static void ResetColors()
-        {
-            ResetAction();
-        }
 
         public static void SetColors(ConsoleColor background, ConsoleColor foreground)
         {
@@ -21,7 +15,8 @@ namespace OrderWorkflow
         {
             SetColors(background, foreground);
             Console.WriteLine(output);
-            ResetAction();
+            Console.ResetColor();
+            Console.WriteLine();
         }
     }
 }
