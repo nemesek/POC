@@ -91,7 +91,7 @@ namespace OrderWorkflow.Domain
         private static async Task<bool> SendOrderCreationNotificationAsync(OrderCreatedEvent evt)
         {
             await Task.Delay(100);
-            Console.WriteLine("Sending notificatin for Order {0}", evt.Order.Id);
+            Console.WriteLine("Sending notification for Order {0}", evt.Order.Id);
             return true;
         }
         
