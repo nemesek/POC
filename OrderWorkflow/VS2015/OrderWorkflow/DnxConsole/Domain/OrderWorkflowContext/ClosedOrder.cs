@@ -1,8 +1,8 @@
 ﻿using System;
-using OrderWorkflow.Domain.Common;
-using OrderWorkflow.Domain.Contracts;
+using DnxConsole.Domain.Common;
+using DnxConsole.Domain.Contracts;
 
-namespace OrderWorkflow.Domain.WorkflowOrders
+namespace DnxConsole.Domain.OrderWorkflowContext
 {
     public class ClosedOrder : Order
     {
