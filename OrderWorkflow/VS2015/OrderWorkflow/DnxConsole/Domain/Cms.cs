@@ -6,6 +6,7 @@ using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.Events;
 using DnxConsole.Domain.OrderEditContext;
 using DnxConsole.Domain.OrderWorkflowContext.Services;
+using DnxConsole.Utilities;
 
 
 namespace DnxConsole.Domain

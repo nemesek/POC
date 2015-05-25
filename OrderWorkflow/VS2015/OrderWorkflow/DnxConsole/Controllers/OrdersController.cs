@@ -4,12 +4,13 @@ using DnxConsole.Domain;
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.Events;
+using DnxConsole.Utilities;
 
 namespace DnxConsole.Controllers
 {
     public class OrdersController
     {
-        public IWorkflowOrder ProcessOrder(int cmsId)
+        public IWorkflowOrder ProcessOrder(int cmsId, bool isDemo)
         {
             var isOpen = true;
             DomainEvents.Register<OrderClosedEvent>(_ => isOpen = false);
@@ -22,6 +23,7 @@ namespace DnxConsole.Controllers
                 ConsoleHelper.WriteWithStyle(ConsoleColor.DarkCyan, ConsoleColor.White, output);
                 order = order.ProcessNextStep();
                 Thread.Sleep(500);
+                if (isDemo) Console.ReadLine();
             }
 
             return order;

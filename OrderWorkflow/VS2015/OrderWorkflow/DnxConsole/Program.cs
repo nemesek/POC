@@ -13,6 +13,8 @@ namespace DnxConsole
             Console.WriteLine("Here we go from Application Root.");
             Action<string, int> outputAction = (str, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", str, id);
             var cmsId = GetCmsId(args);
+            var demoMode = IsDemo(args);
+            if (demoMode) Console.WriteLine("Running in demo mode");
             var controller = new OrdersController();
 
             if (cmsId > 99)
@@ -32,7 +34,7 @@ namespace DnxConsole
             }
 
             outputAction("process", cmsId);
-            controller.ProcessOrder(cmsId);
+            controller.ProcessOrder(cmsId, demoMode);
             Reset();
         }
 
@@ -60,6 +62,17 @@ namespace DnxConsole
             cmsId = random.Next(1, 25);
 
             return cmsId;
+        }
+
+        static bool IsDemo(IReadOnlyList<string> args)
+        {
+            var isDemo = false;
+            if (args.Count > 1)
+            {
+                isDemo = string.Compare(args[1].Trim(), "demo", StringComparison.OrdinalIgnoreCase) == 0;
+            }
+
+            return isDemo;
         }
     }
 }

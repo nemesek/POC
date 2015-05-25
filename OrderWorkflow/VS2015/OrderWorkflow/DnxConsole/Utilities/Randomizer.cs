@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace DnxConsole
+namespace DnxConsole.Utilities
 {
     public class Randomizer
     {
