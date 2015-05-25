@@ -71,6 +71,7 @@
     <Compile Include="Domain\Contracts\IWorkflowOrder.cs" />
     <Compile Include="Domain\Events\DomainEvents.cs" />
     <Compile Include="Domain\Events\IDomainEvent.cs" />
+    <Compile Include="Domain\Events\OrderClosedEvent.cs" />
     <Compile Include="Domain\Events\OrderCreatedEvent.cs" />
     <Compile Include="Domain\Events\OrderUpdatedEvent.cs" />
     <Compile Include="Domain\NullVendor.cs" />

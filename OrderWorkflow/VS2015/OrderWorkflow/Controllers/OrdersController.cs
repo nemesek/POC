@@ -3,6 +3,7 @@ using System.Threading;
 using OrderWorkflow.Domain;
 using OrderWorkflow.Domain.Common;
 using OrderWorkflow.Domain.Contracts;
+using OrderWorkflow.Domain.Events;
 
 namespace OrderWorkflow.Controllers
 {
@@ -10,14 +11,17 @@ namespace OrderWorkflow.Controllers
     {
         public IWorkflowOrder ProcessOrder(int cmsId)
         {
+            var isOpen = true;
+            DomainEvents.Register<OrderClosedEvent>(_ => isOpen = false);
             var cms = new Cms(cmsId);
             var order = cms.GetWorkflowOrder();
-            while (order.Status != OrderStatus.Closed)
+            while (isOpen)
             {
+                Thread.Sleep(500);
                 const string output = "++++++++++++++Incoming Request about to be processed.+++++++++++++";
-                Thread.Sleep(1000);
                 ConsoleHelper.WriteWithStyle(ConsoleColor.DarkCyan, ConsoleColor.White, output);
                 order = order.ProcessNextStep();
+                Thread.Sleep(500);
             }
 
             return order;

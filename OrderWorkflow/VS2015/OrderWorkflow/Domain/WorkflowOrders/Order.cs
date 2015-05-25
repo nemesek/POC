@@ -1,19 +1,20 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
 using OrderWorkflow.Domain.Common;
+using OrderWorkflow.Domain.Events;
 
 namespace OrderWorkflow.Domain.WorkflowOrders
 {
     public abstract class Order : IWorkflowOrder
     {
         private readonly Guid _id;
-        private readonly int _clientId;
+        private readonly Cms _cms;
         private Vendor _vendor;
 
         protected Order(Guid id, OrderWorkflowDto orderWorkflowDto)
         {
             _id = id;
-            _clientId = orderWorkflowDto.ClientId;
+            _cms = orderWorkflowDto.Cms;
             _vendor = orderWorkflowDto.Vendor;
         }
 
@@ -22,9 +23,9 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         public abstract IWorkflowOrder MakeTransition();
         public abstract OrderStatus Status { get; }
 
-        protected Vendor Vendor{ get { return _vendor; } }
-        protected int ClientId { get { return _clientId; } }
-        public Guid OrderId { get { return _id; } }
+        protected Vendor Vendor => _vendor;
+        protected Cms Cms => _cms;
+        public Guid OrderId => _id;
 
         public IWorkflowOrder ProcessNextStep()
         {
@@ -32,6 +33,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             // http://www.dofactory.com/net/template-method-design-pattern
             var next = this.MakeTransition();
             next.Save();
+            if (next.Status == OrderStatus.Closed) DomainEvents.Raise<OrderClosedEvent>(new OrderClosedEvent {Order = this});
             return next;
         }
         
@@ -61,7 +63,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         {
             return () => new OrderWorkflowDto
             {
-                ClientId = _clientId,
+                Cms = _cms,
                 Vendor = _vendor
             };
         }

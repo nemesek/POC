@@ -9,7 +9,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         public Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> StateTransitionFunc { get; set; }
         public string ZipCode { get; set; }
         public Vendor Vendor { get; set; }
-        public int ClientId { get; set; }
+        public Cms Cms { get; set; }
         
     }
 }

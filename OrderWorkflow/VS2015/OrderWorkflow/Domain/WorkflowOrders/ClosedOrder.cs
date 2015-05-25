@@ -1,6 +1,7 @@
 ﻿using System;
 using OrderWorkflow.Domain.Contracts;
 using OrderWorkflow.Domain.Common;
+using OrderWorkflow.Domain.Events;
 
 namespace OrderWorkflow.Domain.WorkflowOrders
 {
@@ -13,8 +14,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
 
-        public override OrderStatus Status { get { return OrderStatus.Closed; } }
-        
+        public override OrderStatus Status => OrderStatus.Closed;
+
         public override IWorkflowOrder MakeTransition()
         {
             var order = _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);

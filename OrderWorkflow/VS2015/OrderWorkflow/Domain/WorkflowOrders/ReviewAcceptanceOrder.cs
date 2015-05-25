@@ -15,8 +15,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
 
         public override IWorkflowOrder MakeTransition()
         {
-            var cms = new Cms(base.ClientId);
-            var reviewPassed = cms.ReviewAcceptance(this);
+            var reviewPassed = base.Cms.ReviewAcceptance(this);
             if (!reviewPassed)
             {
                 Console.WriteLine("Accept With Conditions will not be met.");
@@ -24,9 +23,6 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), reviewPassed);
         }
 
-        public override OrderStatus Status
-        {
-            get { return OrderStatus.ReviewAcceptance; }
-        }
+        public override OrderStatus Status => OrderStatus.ReviewAcceptance;
     }
 }
