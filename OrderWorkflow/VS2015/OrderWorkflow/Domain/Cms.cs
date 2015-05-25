@@ -93,6 +93,8 @@ namespace OrderWorkflow.Domain
 
         private static void RegisterEventHandlers()
         {
+            // in the spirit of the observer pattern
+            // http://www.dofactory.com/net/observer-design-pattern
             // order creation handlers
             DomainEvents.Register<OrderCreatedEvent>(async _ => await LogOrderCreationAsync());
             DomainEvents.Register<OrderCreatedEvent>(async e => await SendOrderCreationNotificationAsync(e));
@@ -138,14 +140,14 @@ namespace OrderWorkflow.Domain
         private static async Task<bool> SendOrderClosedNotificationAsync(OrderClosedEvent evt)
         {
             await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.Yellow, ConsoleColor.White, $"Sending Order Closed notifcation for {evt.Order.OrderId}");
+            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkYellow, ConsoleColor.White, $"Sending Order Closed notifcation for {evt.Order.OrderId}");
             return true;
         }
 
         private static async Task<bool> SendOrderToBillingSystem(OrderClosedEvent evt)
         {
             await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkCyan, ConsoleColor.White, $"Sending Order {evt.Order.OrderId} to billing system.");
+            ConsoleHelper.WriteWithStyle(ConsoleColor.Green, ConsoleColor.White, $"Sending Order {evt.Order.OrderId} to billing system.");
             return true;
         }
     }

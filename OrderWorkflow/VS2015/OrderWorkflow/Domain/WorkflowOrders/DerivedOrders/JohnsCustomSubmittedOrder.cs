@@ -11,7 +11,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders.DerivedOrders
 
         public override IWorkflowOrder MakeTransition()
         {
-            Console.WriteLine("Doing John Additional Order Submitted Buisness Logic implementation details");
+            const string output = "Doing John Additional Order Submitted Buisness Logic implementation details";
+            ConsoleHelper.WriteWithStyle(ConsoleColor.Magenta, ConsoleColor.White, output);
             return base.MakeTransition();
         }
     }

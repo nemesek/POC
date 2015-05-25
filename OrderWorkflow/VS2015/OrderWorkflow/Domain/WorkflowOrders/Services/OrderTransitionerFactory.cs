@@ -35,13 +35,15 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
         {
             if (serviceId == 2)
             {
-                Console.WriteLine("$$$$Applying custom state machine implementation details for serviceId 2$$$$");
+                const string output = "$$$$Applying custom state machine implementation details for serviceId 2$$$$";
+                ConsoleHelper.WriteWithStyle(ConsoleColor.Magenta, ConsoleColor.White, output);
                 return TransitionType.Custom;
             }
 
             if (serviceId <= 1 || clientId != 30) return TransitionType.Undefined;
-
-            Console.WriteLine("%%%%%%Applying John custom state machine implementation details for clientId 30 and service 2 and 3");
+    	   
+            const string output30 = "%%%%%%Applying John custom state machine implementation details for clientId 30 and service 2 and 3";
+            ConsoleHelper.WriteWithStyle(ConsoleColor.Magenta, ConsoleColor.White, output30);
             return TransitionType.JohnCustom;
         }
 
@@ -49,13 +51,15 @@ namespace OrderWorkflow.Domain.WorkflowOrders.Services
         {
             if (clientId%21 == 0 || clientId%14 == 0 || clientId%24 == 0)
             {
-                Console.WriteLine("$$$$Applying John custom state machine implementation details for clientId {0}$$$$", clientId);
+                ConsoleHelper.WriteWithStyle(ConsoleColor.Magenta, ConsoleColor.White,
+                    $"$$$$Applying John custom state machine implementation details for clientId {clientId}$$$$");
                 return TransitionType.JohnCustom;
             }
 
             if (clientId%5 == 0)
             {
-                Console.WriteLine("$$$$Applying custom state machine implementation details for clientId {0}", clientId);
+                ConsoleHelper.WriteWithStyle(ConsoleColor.Magenta, ConsoleColor.White,
+                    $"$$$$Applying custom state machine implementation details for clientId {clientId}$$$$");
                 return TransitionType.Custom;
             }
 
