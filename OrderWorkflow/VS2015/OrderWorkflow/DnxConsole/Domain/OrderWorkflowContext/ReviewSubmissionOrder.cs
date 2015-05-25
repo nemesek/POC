@@ -21,8 +21,5 @@ namespace DnxConsole.Domain.OrderWorkflowContext
             Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");
             return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), false);
         }
-
-        
-
     }
 }
