@@ -19,7 +19,7 @@ namespace DnxConsole.Controllers
             var delay = isDemo ? (() => Console.ReadLine()) : new Action (() => Thread.Sleep(1000));
             while (isOpen)
             {
-                const string output = "++++++++++++++Incoming Request about to be processed.+++++++++++++";
+                var output = $"+++Incoming Request about to process order with status {order.Status}.+++++";
                 ConsoleHelper.WriteWithStyle(ConsoleColor.DarkCyan, ConsoleColor.White, output);
                 order = order.ProcessNextStep();
                 delay();
