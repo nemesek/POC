@@ -19,6 +19,7 @@ namespace OrderWorkflow
             {
                 if(cmsId == 100)
                 {
+                    outputAction("create", cmsId);
                     controller.CreateOrder(cmsId);
                     Reset();
                     return;
