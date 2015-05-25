@@ -16,7 +16,7 @@ namespace DnxConsole.Controllers
             DomainEvents.Register<OrderClosedEvent>(_ => isOpen = false);
             var cms = new Cms(cmsId);
             var order = cms.GetWorkflowOrder();
-            var delay = isDemo ? (() => Console.ReadLine()) : (Action)(() => Thread.Sleep(1000));
+            var delay = isDemo ? (() => Console.ReadLine()) : new Action (() => Thread.Sleep(1000));
             while (isOpen)
             {
                 const string output = "++++++++++++++Incoming Request about to be processed.+++++++++++++";
