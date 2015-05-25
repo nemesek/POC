@@ -16,14 +16,13 @@ namespace DnxConsole.Controllers
             DomainEvents.Register<OrderClosedEvent>(_ => isOpen = false);
             var cms = new Cms(cmsId);
             var order = cms.GetWorkflowOrder();
+            var delay = isDemo ? (() => Console.ReadLine()) : (Action)(() => Thread.Sleep(1000));
             while (isOpen)
             {
-                Thread.Sleep(500);
                 const string output = "++++++++++++++Incoming Request about to be processed.+++++++++++++";
                 ConsoleHelper.WriteWithStyle(ConsoleColor.DarkCyan, ConsoleColor.White, output);
                 order = order.ProcessNextStep();
-                Thread.Sleep(500);
-                if (isDemo) Console.ReadLine();
+                delay();
             }
 
             return order;
