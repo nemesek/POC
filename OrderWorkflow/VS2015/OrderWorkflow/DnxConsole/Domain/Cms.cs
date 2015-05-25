@@ -113,7 +113,7 @@ namespace DnxConsole.Domain
         private static async Task<bool> LogOrderCreationAsync()
         {
             await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkYellow, ConsoleColor.White, "Logging Order Creationl");
+            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkYellow, ConsoleColor.White, "Logging Order Creation");
             await Task.Delay(1000);
             return true;
         }
