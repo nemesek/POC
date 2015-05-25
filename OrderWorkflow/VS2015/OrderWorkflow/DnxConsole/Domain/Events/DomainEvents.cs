@@ -32,7 +32,7 @@ namespace DnxConsole.Domain.Events
         public static void ClearCallbacks ()
        {
            _actions = null;
-            _funcs = null;
+           _funcs = null;
        }
 	   
 	   //Raises the given domain event
@@ -42,7 +42,6 @@ namespace DnxConsole.Domain.Events
             foreach (var a in _actions.Select(action => action as Action<T>))
             {
                 a?.Invoke(args);
-                
             }
         }
 

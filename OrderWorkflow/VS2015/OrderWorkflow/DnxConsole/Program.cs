@@ -52,26 +52,17 @@ namespace DnxConsole
         static int GetCmsId(IReadOnlyList<string> args)
         {
             var cmsId = 0;
-            if (args.Count > 0)
-            {
-                int.TryParse(args[0], out cmsId);
-            }
-
+            if (args.Count > 0) int.TryParse(args[0], out cmsId);
             if (cmsId >= 1) return cmsId;
             var random = new Random();
             cmsId = random.Next(1, 25);
-
             return cmsId;
         }
 
         static bool IsDemo(IReadOnlyList<string> args)
         {
             var isDemo = false;
-            if (args.Count > 1)
-            {
-                isDemo = string.Compare(args[1].Trim(), "demo", StringComparison.OrdinalIgnoreCase) == 0;
-            }
-
+            if (args.Count > 1) isDemo = string.Compare(args[1].Trim(), "demo", StringComparison.OrdinalIgnoreCase) == 0;
             return isDemo;
         }
     }

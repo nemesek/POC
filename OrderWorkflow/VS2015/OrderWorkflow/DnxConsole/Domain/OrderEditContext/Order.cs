@@ -16,7 +16,6 @@ namespace DnxConsole.Domain.OrderEditContext
             _cmsId = cmsId;
         }
         
-        
         public Guid Id => _id;
         public int ClientId => _cmsId;
 

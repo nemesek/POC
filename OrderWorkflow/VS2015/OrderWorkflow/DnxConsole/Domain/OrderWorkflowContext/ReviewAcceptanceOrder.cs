@@ -18,10 +18,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         public override IWorkflowOrder MakeTransition()
         {
             var reviewPassed = base.Cms.ReviewAcceptance(this);
-            if (!reviewPassed)
-            {
-                Console.WriteLine("Accept With Conditions will not be met.");
-            }
+            if (!reviewPassed) Console.WriteLine("Accept With Conditions will not be met.");
             return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), reviewPassed);
         }
     }
