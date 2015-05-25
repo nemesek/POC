@@ -15,7 +15,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
 
-        public override OrderStatus Status { get { return OrderStatus.Assigned; } }
+        public override OrderStatus Status => OrderStatus.Assigned;
 
         public override IWorkflowOrder MakeTransition()
         {

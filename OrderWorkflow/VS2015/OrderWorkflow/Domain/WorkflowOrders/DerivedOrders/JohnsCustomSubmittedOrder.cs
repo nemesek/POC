@@ -5,9 +5,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders.DerivedOrders
 {
     public class JohnsCustomSubmittedOrder : SubmittedOrder
     {
-        public JohnsCustomSubmittedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
-        {
-        }
+        public JohnsCustomSubmittedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto) {}
 
         public override IWorkflowOrder MakeTransition()
         {

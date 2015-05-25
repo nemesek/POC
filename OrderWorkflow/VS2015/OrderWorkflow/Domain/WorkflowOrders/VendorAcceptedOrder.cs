@@ -13,7 +13,7 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
 
-        public override OrderStatus Status { get { return OrderStatus.VendorAccepted; } }
+        public override OrderStatus Status => OrderStatus.VendorAccepted;
 
         public override IWorkflowOrder MakeTransition()
         {

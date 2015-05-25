@@ -12,6 +12,8 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         {
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
+        
+        public override OrderStatus Status => OrderStatus.ReviewAcceptance;
 
         public override IWorkflowOrder MakeTransition()
         {
@@ -22,7 +24,5 @@ namespace OrderWorkflow.Domain.WorkflowOrders
             }
             return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), reviewPassed);
         }
-
-        public override OrderStatus Status => OrderStatus.ReviewAcceptance;
     }
 }

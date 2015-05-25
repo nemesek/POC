@@ -12,15 +12,12 @@ namespace OrderWorkflow.Domain.WorkflowOrders
         {
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
+        
+        public override OrderStatus Status => OrderStatus.Submitted;
 
         public override IWorkflowOrder MakeTransition()
         {
             return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
-        }
-
-        public override OrderStatus Status
-        {
-            get { return OrderStatus.Submitted; }
         }
     }
 }
