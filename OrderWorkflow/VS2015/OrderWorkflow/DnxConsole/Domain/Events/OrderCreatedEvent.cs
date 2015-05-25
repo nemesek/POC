@@ -1,4 +1,4 @@
-﻿using DnxConsole.OrderCreationContext;
+﻿using DnxConsole.Domain.OrderCreationContext;
 
 namespace DnxConsole.Domain.Events
 {

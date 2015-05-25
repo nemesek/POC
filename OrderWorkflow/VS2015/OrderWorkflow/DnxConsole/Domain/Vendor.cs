@@ -16,9 +16,9 @@ namespace DnxConsole.Domain
             _name = name;
         }
 
-        public int OrderCount { get { return _orderCount; } }
-        public string ZipCode { get { return _zip; } }
-        public string Name { get { return _name; } }
+        public int OrderCount => _orderCount;
+        public string ZipCode => _zip;
+        public string Name => _name;
 
         public virtual void SendMeNotification(IWorkflowOrder order)
         {

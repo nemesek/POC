@@ -2,7 +2,7 @@ using System;
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.Events;
 
-namespace DnxConsole.OrderCreationContext
+namespace DnxConsole.Domain.OrderCreationContext
 {
     public class Order
     {
