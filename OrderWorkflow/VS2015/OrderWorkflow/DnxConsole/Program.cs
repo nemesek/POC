@@ -10,7 +10,7 @@ namespace DnxConsole
         public void Main(string[] args)
         {
             // app root - DI Container would go here
-            Console.WriteLine("Here we go.");
+            Console.WriteLine("Here we go from Application Root.");
             Action<string, int> outputAction = (str, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", str, id);
             var cmsId = GetCmsId(args);
             var controller = new OrdersController();
@@ -43,6 +43,7 @@ namespace DnxConsole
             // in a real app
             Thread.Sleep(1000);
             Console.ResetColor();
+            Console.WriteLine("Au Revoir");
             Console.ReadLine();
         }
 
