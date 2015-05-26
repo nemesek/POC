@@ -19,9 +19,6 @@ namespace DnxConsole.Domain.OrderWorkflowContext
             _vendor = orderWorkflowDto.Vendor;
         }
 
-        // MakeTransition and Status combine for my variation of state pattern
-        // http://www.dofactory.com/net/state-design-pattern
-        protected abstract IWorkflowOrder MakeTransition();
         public abstract OrderStatus Status { get; }
 
         protected Vendor Vendor => _vendor;
@@ -36,6 +33,12 @@ namespace DnxConsole.Domain.OrderWorkflowContext
             next.Save();
             if (next.Status == OrderStatus.Closed) DomainEvents.Raise<OrderClosedEvent>(new OrderClosedEvent {Order = this});
             return next;
+        }
+        
+        public void Save()
+        {
+            Console.ResetColor();
+            Console.WriteLine("Saving {0} State to DB", Status);
         }
         
         public void AssignVendor(Vendor vendor)
@@ -59,6 +62,10 @@ namespace DnxConsole.Domain.OrderWorkflowContext
             // randomly return false to simulate rejection
             return Randomizer.RandomYes();
         }
+        
+        // MakeTransition and Status combine for my variation of state pattern
+        // http://www.dofactory.com/net/state-design-pattern
+        protected abstract IWorkflowOrder MakeTransition();
 
         protected Func<OrderWorkflowDto> MapToOrderWorkflowDto()
         {
@@ -67,12 +74,6 @@ namespace DnxConsole.Domain.OrderWorkflowContext
                 Cms = _cms,
                 Vendor = _vendor
             };
-        }
-
-        public void Save()
-        {
-            Console.ResetColor();
-            Console.WriteLine("Saving {0} State to DB", Status);
         }
     }
 }
