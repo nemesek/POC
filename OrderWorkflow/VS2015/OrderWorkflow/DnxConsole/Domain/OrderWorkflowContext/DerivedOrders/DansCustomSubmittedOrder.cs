@@ -8,7 +8,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.DerivedOrders
     {
         public DansCustomSubmittedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto) {}
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             const string output = "Doing Dan Additional Order Submitted Buisness Logic implementation details";
             ConsoleHelper.WriteWithStyle(ConsoleColor.Magenta, ConsoleColor.White, output);

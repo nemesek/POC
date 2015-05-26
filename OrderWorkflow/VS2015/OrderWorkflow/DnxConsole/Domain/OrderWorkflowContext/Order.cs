@@ -21,7 +21,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
 
         // MakeTransition and Status combine for my variation of state pattern
         // http://www.dofactory.com/net/state-design-pattern
-        public abstract IWorkflowOrder MakeTransition();
+        protected abstract IWorkflowOrder MakeTransition();
         public abstract OrderStatus Status { get; }
 
         protected Vendor Vendor => _vendor;

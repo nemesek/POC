@@ -8,7 +8,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.DerivedOrders
     {
         public CustomRejectedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto) {}
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             const string output =
                 "**************Applying custom rejected order business logic implementation details******************";

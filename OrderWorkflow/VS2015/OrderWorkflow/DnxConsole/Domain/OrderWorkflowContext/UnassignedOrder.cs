@@ -20,7 +20,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         public override OrderStatus Status => OrderStatus.Unassigned;
         public string ZipCode => _zipCode;
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             var vendorToAssign = _assignVendorFunc(this);
             if (vendorToAssign == null)

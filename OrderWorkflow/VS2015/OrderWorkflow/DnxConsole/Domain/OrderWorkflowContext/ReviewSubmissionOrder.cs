@@ -15,7 +15,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         
         public override OrderStatus Status => OrderStatus.ReviewSubmission;
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             if (base.AcceptSubmittedReport()) return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
             Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");

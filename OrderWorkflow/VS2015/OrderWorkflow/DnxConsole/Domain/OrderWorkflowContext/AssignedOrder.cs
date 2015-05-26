@@ -17,7 +17,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
 
         public override OrderStatus Status => OrderStatus.Assigned;
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             _vendor.SendMeNotification(this);
             var vendorAccepted = _vendor.AcceptOrder(this);

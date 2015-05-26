@@ -15,7 +15,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
 
         public override OrderStatus Status => OrderStatus.Closed;
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             var order = _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
             return order;

@@ -15,7 +15,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         
         public override OrderStatus Status => OrderStatus.ReviewAcceptance;
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             var reviewPassed = base.Cms.ReviewAcceptance(this);
             if (!reviewPassed) Console.WriteLine("Accept With Conditions will not be met.");

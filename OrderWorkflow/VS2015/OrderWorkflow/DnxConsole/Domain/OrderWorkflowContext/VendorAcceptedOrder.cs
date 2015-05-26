@@ -15,7 +15,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
 
         public override OrderStatus Status => OrderStatus.VendorAccepted;
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
         }

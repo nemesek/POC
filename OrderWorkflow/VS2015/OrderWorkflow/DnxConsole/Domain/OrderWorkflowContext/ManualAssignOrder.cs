@@ -15,7 +15,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         
         public override OrderStatus Status => OrderStatus.ManualAssign;
 
-        public override IWorkflowOrder MakeTransition()
+        protected override IWorkflowOrder MakeTransition()
         {
             var assigned = base.Cms.ManualAssign(this);
             if (!assigned) Console.WriteLine("^^^^^^^^Reassignment was not successful^^^^^^^^^^");
