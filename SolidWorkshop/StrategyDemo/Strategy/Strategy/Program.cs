@@ -11,13 +11,19 @@ namespace Strategy
     {
         static void Main(string[] args)
         {
-            //var id = Randomizer.RandomYes() ? 1 : 2;
-            //var controller = new OrdersController();
-            //controller.DoSomething(id);
-            //DemoFoobarWithStrategy(3);
+            //DemoDoSomething();
+            
         }
 
         #region Strategy/OCP Demo
+
+        static void DemoDoSomething()
+        {
+            var id = Randomizer.RandomYes() ? 1 : 2;
+            var controller = new OrdersController();
+            controller.DoSomething(id);
+        }
+
         static void DemoAutoAssignConditionally()
         {
             var id = Randomizer.GetRandomFromRange(1, 25);
@@ -53,7 +59,7 @@ namespace Strategy
         }
         // have class walk you through  strategy pattern implementation of auto assign
         // add another case
-        // show how Orders automatically picked up ability to run new case without changing OCP
+        // show how OrdersController automatically picked up ability to run new case without changing OCP
         #endregion
 
         #region Factory/SRP/DIP demo

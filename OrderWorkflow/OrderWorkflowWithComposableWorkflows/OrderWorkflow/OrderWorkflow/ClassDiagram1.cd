@@ -127,7 +127,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="OrderWorkflow.Domain.WorkflowOrders.Order" Collapsed="true">
-    <Position X="12.75" Y="0.5" Width="1.5" />
+    <Position X="12.25" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>kAAAAIAEAAAAAEAAwABAAAAAAAAAAABCAAAAAARABAA=</HashCode>
       <FileName>Domain\WorkflowOrders\Order.cs</FileName>

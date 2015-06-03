@@ -11,7 +11,7 @@ namespace DnxConsole
         {
             // app root - DI Container would go here
             Console.WriteLine("Here we go from Application Root.");
-            Action<string, int> outputAction = (str, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", str, id);
+            Action<string, int> outputAction = (command, id) => Console.WriteLine("About to {0} order for CMS with ID: {1}", command, id);
             var cmsId = GetCmsId(args);
             var demoMode = IsDemo(args);
             if (demoMode) Console.WriteLine("Running in demo mode");
