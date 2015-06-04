@@ -11,6 +11,7 @@ namespace DomainEvents
             Console.WriteLine("Hello Brian");
             DomainEvents.Register<OrderCreatedEvent>(async _ => await DoSomethingAsync());
             DomainEvents.Register<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
+	    DomainEvents.Register<OrderCreatedEvent>(async _ => await OutputAsync("Foo"));
             var order = new Order();
             order.CreateOrder();
             Console.WriteLine(true);
@@ -32,5 +33,13 @@ namespace DomainEvents
             Console.WriteLine("Did Something Else Async");
             return true;
         }
+	
+	private static async Task<bool> OutputAsync(string output)
+	{
+	    await Task.Delay(100);
+	    Console.WriteLine(output);
+	    return true;
+	}
+
     }
 }
