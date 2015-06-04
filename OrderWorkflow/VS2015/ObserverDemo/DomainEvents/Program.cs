@@ -12,7 +12,6 @@ namespace DomainEvents
             DomainEvents.Register<OrderCreatedEvent>(async _ => await DoSomethingAsync());
             DomainEvents.Register<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
             var order = new Order();
-            //var success = order.CreateOrderAsync().Result;
             order.CreateOrder();
             Console.WriteLine(true);
             Console.ReadLine();
@@ -30,9 +29,6 @@ namespace DomainEvents
         public static async Task<bool> DoSomethingElseAsync()
         {
             await Task.Delay(100);
-            //var file = File.Create("C:\test.txt");
-            //file.WriteByte((byte.Parse("Dan is cool")));
-
             Console.WriteLine("Did Something Else Async");
             return true;
         }
