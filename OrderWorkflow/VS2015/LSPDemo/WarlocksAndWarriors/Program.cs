@@ -8,6 +8,7 @@ namespace WarlocksAndWarriors
         {
             var warrior = new Warrior();
             GoIntoBattle(warrior);
+            
         }
 
         static void GoIntoBattle(Player player)
