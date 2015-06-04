@@ -8,10 +8,9 @@ namespace DomainEvents
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello Brian");
+            Console.WriteLine("Hello Class");
             DomainEvents.Register<OrderCreatedEvent>(async _ => await DoSomethingAsync());
             DomainEvents.Register<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
-	    DomainEvents.Register<OrderCreatedEvent>(async _ => await OutputAsync("Foo"));
             var order = new Order();
             order.CreateOrder();
             Console.WriteLine(true);
