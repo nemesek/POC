@@ -109,6 +109,7 @@ namespace DnxConsole.Domain
             DomainEvents.Register<OrderClosedEvent>(async e => await SendOrderToBillingSystem(e));
             DomainEvents.Register<OrderClosedEvent>(async e => await SendOrderClosedNotificationAsync(e));
         }
+        
 
         private static async Task<bool> LogOrderCreationAsync()
         {
