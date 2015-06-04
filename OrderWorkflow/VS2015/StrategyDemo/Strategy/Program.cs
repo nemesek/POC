@@ -7,8 +7,10 @@ namespace Strategy
     {
         static void Main(string[] args)
         {
-            //DemoDoSomething();
-            Console.WriteLine("Not doing anything yet.");
+            DemoDoSomething();
+            //DemoAutoAssignConditionally();
+            //DemoFoobarDelegation();
+            //DemoFoobarWithStrategy();
         }
 
         #region Strategy/OCP Demo

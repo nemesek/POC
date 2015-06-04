@@ -4,8 +4,7 @@
     {
         //public override string GetAction(int cmsId)
         //{
-        //    if (cmsId == 3) return string.Format("I am doing baz for {0}", cmsId);
-        //    return base.GetAction(cmsId);
+        //    return cmsId == 3 ? $"I am doing baz for {cmsId}" : base.GetAction(cmsId);
         //}
     }
 }
