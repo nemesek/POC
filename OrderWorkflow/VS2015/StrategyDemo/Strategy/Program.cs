@@ -1,4 +1,5 @@
-﻿using Strategy.Domain.StrategyOCP;
+﻿using System;
+using Strategy.Domain.StrategyOCP;
 
 namespace Strategy
 {
@@ -7,7 +8,7 @@ namespace Strategy
         static void Main(string[] args)
         {
             //DemoDoSomething();
-            
+            Console.WriteLine("Not doing anything yet.");
         }
 
         #region Strategy/OCP Demo

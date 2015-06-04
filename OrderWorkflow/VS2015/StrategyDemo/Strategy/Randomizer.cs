@@ -1,4 +1,7 @@
-﻿namespace Strategy
+﻿using System;
+using System.Threading;
+
+namespace Strategy
 {
     public class Randomizer
     {

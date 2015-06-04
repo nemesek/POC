@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Strategy.Domain.StrategyOCP
+﻿namespace Strategy.Domain.StrategyOCP
 {
     public class BetterFoobarService : FoobarService
     {
