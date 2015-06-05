@@ -11,7 +11,8 @@ namespace Strategy
             // DemoAutoAssignConditionally();
             // DemoFoobarDelegation();
             // DemoFoobarWithStrategy();
-            DemoAutoAssignWithStrategy();
+            // DemoAutoAssignWithStrategy();
+	    DemoAutoAssignWithStrategyAndFactory();
         }
 
         #region Strategy/OCP Demo
@@ -81,6 +82,14 @@ namespace Strategy
         // show how adding a new class requires all callers to know about it
         // demo foobarservice factory
         // To show DIP add dep on foobar for dataAccess to do logging
+        static void DemoAutoAssignWithStrategyAndFactory()
+        {
+            Console.WriteLine("DemoAAStrategyAndFactory");
+            var id = Randomizer.RandomYes() ? 1 : 2;
+            var autoAssigner = AutoAssignFactory.GetAutoAssignLogic(id);
+            var controller = new OrdersController();
+            controller.RunAutoAssignWithStrategy(autoAssigner);
+        }
 
         #endregion
 
