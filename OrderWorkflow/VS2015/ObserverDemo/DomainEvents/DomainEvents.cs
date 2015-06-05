@@ -1,10 +1,9 @@
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// from http://www.udidahan.com/2009/06/14/domain-events-salvation/
+// tweaked from http://www.udidahan.com/2009/06/14/domain-events-salvation/
 namespace DomainEvents
 {
 	public static class DomainEvents
@@ -13,20 +12,18 @@ namespace DomainEvents
 	    private static List<Delegate> _actions;// = new List<delegate>();
         [ThreadStatic]
         private static List<Func<IDomainEvent,bool>> _funcs;
-        [ThreadStatic]
-        private static List<Task<bool>> _tasks;
 
-        //public static IContainer Container {get; set;}
+	    //public static IContainer Container {get; set;}
 
         // Registers a callback for the given domain event
-        public static void Register<T>(Action<T> callback)  where T : IDomainEvent
+        public static void Subscribe<T>(Action<T> callback)  where T : IDomainEvent
 		{
 			if(_actions == null) _actions = new List<Delegate>();
 			
 			_actions.Add(callback);
 		}
 
-        public static void Register(Func<IDomainEvent, bool> callback)
+        public static void Subscribe(Func<IDomainEvent, bool> callback)
         {
             if (_funcs == null) _funcs = new List<Func<IDomainEvent,bool>>();
 
@@ -42,17 +39,8 @@ namespace DomainEvents
        }
 	   
 	   //Raises the given domain event
-       public static void Raise<T>(T args) where T : IDomainEvent
+       public static void Publish<T>(T args) where T : IDomainEvent
        {
-            //           if (Container != null)
-            // 		  {
-            //            	foreach(var handler in Container.ResolveAll<Handles<T>>())
-            //                 {
-            // 					handler.Handle(args);
-            // 				}
-            // 		  }
-
-
             if (_actions == null) return;
             foreach (var a in _actions.Select(action => action as Action<T>))
             {
@@ -61,7 +49,7 @@ namespace DomainEvents
             }
         }
 
-        public static async Task<bool> RaiseAsync(IDomainEvent args)
+        public static async Task<bool> PublishAsync(IDomainEvent args)
         {
             // if (_actions == null) return false;
             var funcs = _funcs

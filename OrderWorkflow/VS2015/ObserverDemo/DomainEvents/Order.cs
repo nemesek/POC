@@ -9,7 +9,7 @@ namespace DomainEvents
         public void CreateOrder()
         {
             this.Id = Guid.NewGuid();
-            DomainEvents.Raise(new OrderCreatedEvent { Order = this });
+            DomainEvents.Publish(new OrderCreatedEvent { Order = this });
             Console.WriteLine("Exiting CreateOrder");
         }
 

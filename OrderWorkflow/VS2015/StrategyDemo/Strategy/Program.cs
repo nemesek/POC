@@ -11,6 +11,7 @@ namespace Strategy
             //DemoAutoAssignConditionally();
             //DemoFoobarDelegation();
             //DemoFoobarWithStrategy();
+            //DemoFoobarWithStrategy(3);
         }
 
         #region Strategy/OCP Demo

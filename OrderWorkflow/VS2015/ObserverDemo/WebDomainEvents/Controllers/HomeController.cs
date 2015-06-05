@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DomainEvents;
 using Microsoft.AspNet.Mvc;
 
@@ -39,23 +36,23 @@ namespace WebDomainEvents.Controllers
 
             RegisterFuncs();
             var order = new Order();
-            await order.CreateOrderAsync(async e => await DomainEvents.DomainEvents.RaiseAsync(e));
+            await order.CreateOrderAsync(async e => await DomainEvents.DomainEvents.PublishAsync(e));
             DomainEvents.DomainEvents.ClearCallbacks();
             return "Hello Domain Event2";
         }
 
         private void RegisterActions()
         {
-            DomainEvents.DomainEvents.Register<OrderCreatedEvent>(async e => await DoSomething());
-            DomainEvents.DomainEvents.Register<OrderCreatedEvent>(async e => await DoSomethingElse());
-            DomainEvents.DomainEvents.Register<OrderCreatedEvent>(_ => DoSomething());
-            DomainEvents.DomainEvents.Register<OrderCreatedEvent>(_ => DoSomethingElse());
+            DomainEvents.DomainEvents.Subscribe<OrderCreatedEvent>(async e => await DoSomething());
+            DomainEvents.DomainEvents.Subscribe<OrderCreatedEvent>(async e => await DoSomethingElse());
+            DomainEvents.DomainEvents.Subscribe<OrderCreatedEvent>(_ => DoSomething());
+            DomainEvents.DomainEvents.Subscribe<OrderCreatedEvent>(_ => DoSomethingElse());
         }
 
         private void RegisterFuncs()
         {
-            DomainEvents.DomainEvents.Register(e => true);
-            DomainEvents.DomainEvents.Register(e =>
+            DomainEvents.DomainEvents.Subscribe(e => true);
+            DomainEvents.DomainEvents.Subscribe(e =>
             {
                 Task.Delay(100);
                 return true;

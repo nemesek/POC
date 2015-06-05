@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace DomainEvents
@@ -9,13 +8,12 @@ namespace DomainEvents
         public static void Main(string[] args)
         {
             Console.WriteLine("Hello Class");
-            DomainEvents.Register<OrderCreatedEvent>(async _ => await DoSomethingAsync());
-            DomainEvents.Register<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
+            DomainEvents.Subscribe<OrderCreatedEvent>(async _ => await DoSomethingAsync());
+            DomainEvents.Subscribe<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
             var order = new Order();
             order.CreateOrder();
-            Console.WriteLine(true);
             Console.ReadLine();
-           
+
         }
 
         public static async Task<bool> DoSomethingAsync()
@@ -32,13 +30,13 @@ namespace DomainEvents
             Console.WriteLine("Did Something Else Async");
             return true;
         }
-	
-	private static async Task<bool> OutputAsync(string output)
-	{
-	    await Task.Delay(100);
-	    Console.WriteLine(output);
-	    return true;
-	}
+
+        private static async Task<bool> OutputAsync(string output)
+        {
+            await Task.Delay(100);
+            Console.WriteLine(output);
+            return true;
+        }
 
     }
 }
