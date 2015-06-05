@@ -12,7 +12,7 @@ namespace Strategy
             // DemoFoobarDelegation();
             // DemoFoobarWithStrategy();
             // DemoAutoAssignWithStrategy();
-	    DemoAutoAssignWithStrategyAndFactory();
+	        DemoAutoAssignWithStrategyAndFactory();
         }
 
         #region Strategy/OCP Demo
