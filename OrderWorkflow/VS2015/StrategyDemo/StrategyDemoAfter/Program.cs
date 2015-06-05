@@ -11,8 +11,8 @@ namespace Strategy
             // DemoAutoAssignConditionally();
             // DemoFoobarDelegation();
             // DemoFoobarWithStrategy();
-            // DemoAutoAssignWithStrategy();
-	        DemoAutoAssignWithStrategyAndFactory();
+            DemoAutoAssignWithStrategy();
+	    DemoAutoAssignWithStrategyAndFactory();
         }
 
         #region Strategy/OCP Demo
@@ -62,6 +62,7 @@ namespace Strategy
         // show how OrdersController automatically picked up ability to run new case without changing OCP
         static void DemoAutoAssignWithStrategy()
         {
+            Console.WriteLine("DemoAAStrategy");
             var id = Randomizer.RandomYes() ? 1 : 2;
             IProcessAutoAssign autoAssigner;
             if(id == 1)
