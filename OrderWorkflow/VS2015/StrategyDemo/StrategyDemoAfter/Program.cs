@@ -12,7 +12,7 @@ namespace Strategy
             // DemoFoobarDelegation();
             // DemoFoobarWithStrategy();
             DemoAutoAssignWithStrategy();
-	    DemoAutoAssignWithStrategyAndFactory();
+            DemoAutoAssignWithStrategyAndFactory();
         }
 
         #region Strategy/OCP Demo
@@ -86,7 +86,7 @@ namespace Strategy
         static void DemoAutoAssignWithStrategyAndFactory()
         {
             Console.WriteLine("DemoAAStrategyAndFactory");
-            var id = Randomizer.RandomYes() ? 1 : 2;
+            var id = Randomizer.GetRandomFromRange(1,4);
             var autoAssigner = AutoAssignFactory.GetAutoAssignLogic(id);
             var controller = new OrdersController();
             controller.RunAutoAssignWithStrategy(autoAssigner);

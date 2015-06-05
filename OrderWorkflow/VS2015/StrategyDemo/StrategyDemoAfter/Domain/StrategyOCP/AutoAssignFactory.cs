@@ -10,12 +10,12 @@ namespace Strategy.Domain.StrategyOCP
         {
             {0, () => new DefaultAutoAssign(0)},
             {1, () => new Custom1AutoAssign(1)},
-            //  {2, () => new CmsNextAutoAssign()},
+            {2, () => new Custom2AutoAssign(2)},
             //  {3, () => new LegacyAutoAssign()}
         };
 		public static IProcessAutoAssign GetAutoAssignLogic(int cmsId)
 		{
-			var id = cmsId % 2;
+			var id = cmsId % 3;
 			return FuncDictionary[id].Invoke();
 		}
 		
