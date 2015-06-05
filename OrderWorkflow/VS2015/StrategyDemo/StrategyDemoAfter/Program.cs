@@ -7,7 +7,7 @@ namespace Strategy
     {
         static void Main(string[] args)
         {
-//             DemoDoSomething();
+            // DemoDoSomething();
             // DemoAutoAssignConditionally();
             // DemoFoobarDelegation();
             // DemoFoobarWithStrategy();
@@ -62,7 +62,15 @@ namespace Strategy
         static void DemoAutoAssignWithStrategy()
         {
             var id = Randomizer.RandomYes() ? 1 : 2;
-            var autoAssigner = new DefaultAutoAssign(id);
+            IProcessAutoAssign autoAssigner;
+            if(id == 1)
+            {
+                autoAssigner = new Custom1AutoAssign(id);
+            }
+            else
+            {
+                autoAssigner = new DefaultAutoAssign(id);
+            }
             var controller = new OrdersController();
             controller.RunAutoAssignWithStrategy(autoAssigner);
         }
