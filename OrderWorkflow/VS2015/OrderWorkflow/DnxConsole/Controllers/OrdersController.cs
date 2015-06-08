@@ -11,7 +11,7 @@ namespace DnxConsole.Controllers
     public class OrdersController
     {
         private readonly ILogEvents _logger;
-        private ISendExternalMessenges _messenger;
+        private readonly ISendExternalMessenges _messenger;
 
         public OrdersController(ILogEvents logger, ISendExternalMessenges messenger)
         {
