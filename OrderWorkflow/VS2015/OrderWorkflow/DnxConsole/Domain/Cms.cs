@@ -38,17 +38,6 @@ namespace DnxConsole.Domain
             return order;
         }
 
-        public IWorkflowOrder GetWorkflowOrder(Guid orderId, int serviceId)
-        {
-            // calling into a factory to get cms/service specific transitions
-            var stateMachine = OrderTransitionerFactory.GetTransitionLogic(_id, serviceId, _ => null);
-            // injecting in AA logic to statemachine - Strategy Pattern
-            // http://www.dofactory.com/net/strategy-design-pattern
-            var order = stateMachine.GetUnassignedOrder(FindBestVendor(), this);
-            order.Save();
-            return order;
-        }
-
         public void EditOrderAddress(Address newAddress)
         {
             var order = OrderEditRepository.GetOrder(_id);

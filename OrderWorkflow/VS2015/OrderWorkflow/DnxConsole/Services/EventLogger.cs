@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.Events;
+using DnxConsole.Utilities;
 
-namespace DnxConsole.Utilities
+namespace DnxConsole.Services
 {
     public class EventLogger : ILogEvents
     {

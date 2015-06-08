@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using DnxConsole.Controllers;
-using DnxConsole.Utilities;
+using DnxConsole.Services;
 
 namespace DnxConsole
 {
