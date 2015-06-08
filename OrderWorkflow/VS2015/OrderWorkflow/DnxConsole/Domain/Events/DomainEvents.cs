@@ -13,14 +13,14 @@ namespace DnxConsole.Domain.Events
         private static List<Func<IDomainEvent,bool>> _funcs;
 
         // Registers a callback for the given domain event
-        public static void Subscribe<T>(Action<T> callback)  where T : IDomainEvent
+        public static void SubscribeTo<T>(Action<T> callback)  where T : IDomainEvent
 		{
 			if(_actions == null) _actions = new List<Delegate>();
 			
 			_actions.Add(callback);
 		}
 
-        public static void Subscribe(Func<IDomainEvent, bool> callback)
+        public static void SubscribeTo(Func<IDomainEvent, bool> callback)
         {
             if (_funcs == null) _funcs = new List<Func<IDomainEvent,bool>>();
 

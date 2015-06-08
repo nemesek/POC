@@ -90,16 +90,16 @@ namespace DnxConsole.Domain
             // in the spirit of the observer pattern
             // http://www.dofactory.com/net/observer-design-pattern
             // order creation handlers
-            DomainEvents.Subscribe<OrderCreatedEvent>(async e => await _logger.LogOrderCreationAsync(e));
-            DomainEvents.Subscribe<OrderCreatedEvent>(async e => await _messenger.SendOrderCreationNotificationAsync(e));
-            DomainEvents.Subscribe<OrderCreatedEvent>(async e => await _messenger.SendToWorkflowQueue(e));
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async e => await _logger.LogOrderCreationAsync(e));
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async e => await _messenger.SendOrderCreationNotificationAsync(e));
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async e => await _messenger.SendToWorkflowQueue(e));
 
             // order update handlers
-            DomainEvents.Subscribe<OrderUpdatedEvent>(async e => await _logger.LogOrderUpdatedAsync(e));
+            DomainEvents.SubscribeTo<OrderUpdatedEvent>(async e => await _logger.LogOrderUpdatedAsync(e));
 
             // order closed handlers
-            DomainEvents.Subscribe<OrderClosedEvent>(async e => await _messenger.SendToBillingSystem(e));
-            DomainEvents.Subscribe<OrderClosedEvent>(async e => await _logger.LogOrderClosedAsync(e));
+            DomainEvents.SubscribeTo<OrderClosedEvent>(async e => await _messenger.SendToBillingSystem(e));
+            DomainEvents.SubscribeTo<OrderClosedEvent>(async e => await _logger.LogOrderClosedAsync(e));
         }
     }
 }

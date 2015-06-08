@@ -21,7 +21,7 @@ namespace DnxConsole.Controllers
         public IWorkflowOrder ProcessOrder(int cmsId, bool isDemo)
         {
             var isOpen = true;
-            DomainEvents.Subscribe<OrderClosedEvent>(_ => isOpen = false);
+            DomainEvents.SubscribeTo<OrderClosedEvent>(_ => isOpen = false);
             var cms = new Cms(cmsId, _logger,_messenger);
             var order = cms.GetWorkflowOrder();
             var delay = isDemo ? (() => Console.ReadLine()) : new Action (() => Thread.Sleep(1000));
