@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using DnxConsole.Controllers;
+using DnxConsole.Utilities;
 
 namespace DnxConsole
 {
@@ -15,7 +16,7 @@ namespace DnxConsole
             var cmsId = GetCmsId(args);
             var demoMode = IsDemo(args);
             if (demoMode) Console.WriteLine("Running in demo mode");
-            var controller = new OrdersController();
+            var controller = new OrdersController(new EventLogger(), new RestfulMessenger());
 
             if (cmsId > 99)
             {

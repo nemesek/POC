@@ -14,10 +14,14 @@ namespace DnxConsole.Domain
     public class Cms
     {
         private readonly int _id;
+        private readonly ILogEvents _logger;
+        private ISendExternalMessenges _messenger;
 
-        public Cms(int id)
+        public Cms(int id, ILogEvents logger, ISendExternalMessenges messenger)
         {
             _id = id;
+            _logger = logger;
+            _messenger = messenger;
             RegisterEventHandlers();
         }
 
@@ -93,65 +97,21 @@ namespace DnxConsole.Domain
             return serviceId;
         }
 
-        private static void RegisterEventHandlers()
+        private void RegisterEventHandlers()
         {
             // in the spirit of the observer pattern
             // http://www.dofactory.com/net/observer-design-pattern
             // order creation handlers
-            DomainEvents.Register<OrderCreatedEvent>(async _ => await LogOrderCreationAsync());
-            DomainEvents.Register<OrderCreatedEvent>(async e => await SendOrderCreationNotificationAsync(e));
-            DomainEvents.Register<OrderCreatedEvent>(async e => await SendOrderToWorkflowQueueAsync(e));
+            DomainEvents.Register<OrderCreatedEvent>(async e => await _logger.LogOrderCreationAsync (e));
+            DomainEvents.Register<OrderCreatedEvent>(async e => await _messenger.SendOrderCreationNotificationAsync(e));
+            DomainEvents.Register<OrderCreatedEvent>(async e => await _messenger.SendToWorkflowQueue(e));
 
             // order update handlers
-            DomainEvents.Register<OrderUpdatedEvent>(async e => await LogOrderUpdateAsync(e));
+            DomainEvents.Register<OrderUpdatedEvent>(async e => await _logger.LogOrderUpdatedAsync(e));
 
             // order closed handlers
-            DomainEvents.Register<OrderClosedEvent>(async e => await SendOrderToBillingSystem(e));
-            DomainEvents.Register<OrderClosedEvent>(async e => await SendOrderClosedNotificationAsync(e));
-        }
-        
-
-        private static async Task<bool> LogOrderCreationAsync()
-        {
-            await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkYellow, ConsoleColor.White, "Logging Order Creation");
-            await Task.Delay(1000);
-            return true;
-        }
-
-        private static async Task<bool> SendOrderCreationNotificationAsync(OrderCreatedEvent evt)
-        {
-            await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.Blue, ConsoleColor.White, $"Sending email notification for Order {evt.Order.Id}");
-            return true;
-        }
-
-        private static async Task<bool> SendOrderToWorkflowQueueAsync(OrderCreatedEvent evt)
-        {
-            await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.Green, ConsoleColor.White, $"Queueing up Order {evt.Order.Id} to workflow context");
-            return true;
-        }
-
-        private static async Task<bool> LogOrderUpdateAsync(OrderUpdatedEvent evt)
-        {
-            await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkRed, ConsoleColor.White, $"Order {evt.Order.Id} updated");
-            return true;
-        }
-
-        private static async Task<bool> SendOrderClosedNotificationAsync(OrderClosedEvent evt)
-        {
-            await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkYellow, ConsoleColor.White, $"Sending Order Closed notifcation for {evt.Order.OrderId}");
-            return true;
-        }
-
-        private static async Task<bool> SendOrderToBillingSystem(OrderClosedEvent evt)
-        {
-            await Task.Delay(100);
-            ConsoleHelper.WriteWithStyle(ConsoleColor.Green, ConsoleColor.White, $"Sending Order {evt.Order.OrderId} to billing system.");
-            return true;
+            DomainEvents.Register<OrderClosedEvent>(async e => await _messenger.SendToBillingSystem(e));
+            DomainEvents.Register<OrderClosedEvent>(async e => await _logger.LogOrderClosedAsync(e));
         }
     }
 }
