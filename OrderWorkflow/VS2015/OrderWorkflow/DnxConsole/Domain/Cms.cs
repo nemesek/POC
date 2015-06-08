@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using DnxConsole.Domain.AutoAssign;
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.Contracts;
@@ -7,7 +6,7 @@ using DnxConsole.Domain.Events;
 using DnxConsole.Domain.OrderEditContext;
 using DnxConsole.Domain.OrderWorkflowContext.Services;
 using DnxConsole.Utilities;
-
+using Order = DnxConsole.Domain.OrderCreationContext.Order;
 
 namespace DnxConsole.Domain
 {
@@ -15,7 +14,7 @@ namespace DnxConsole.Domain
     {
         private readonly int _id;
         private readonly ILogEvents _logger;
-        private ISendExternalMessenges _messenger;
+        private readonly ISendExternalMessenges _messenger;
 
         public Cms(int id, ILogEvents logger, ISendExternalMessenges messenger)
         {
@@ -57,9 +56,9 @@ namespace DnxConsole.Domain
             //DomainEvents.ClearCallbacks();
         }
         
-        public OrderCreationContext.Order CreateOrder()
+        public Order CreateOrder()
         {
-            var order = new OrderCreationContext.Order(_id);
+            var order = new Order(_id);
             var address = new Address("Dallas", "TX", "75019", "Elm", "456");
             order.Create(address);
             Console.WriteLine("Order Created from CMS");
