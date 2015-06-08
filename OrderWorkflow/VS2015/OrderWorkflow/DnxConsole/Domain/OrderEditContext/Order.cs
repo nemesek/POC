@@ -30,7 +30,7 @@ namespace DnxConsole.Domain.OrderEditContext
             
             _address = address;
             this.Save();
-            DomainEvents.Raise(new OrderUpdatedEvent {Order = this});
+            DomainEvents.Publish(new OrderUpdatedEvent {Order = this});
 
         }
         

@@ -30,7 +30,7 @@ namespace DnxConsole.Domain.OrderCreationContext
         private void Save()
         {
             Console.WriteLine("Saving orderId, cmsId, address, and status to DB.");
-            DomainEvents.Raise(new OrderCreatedEvent { Order = this });
+            DomainEvents.Publish(new OrderCreatedEvent { Order = this });
 
         }
     }

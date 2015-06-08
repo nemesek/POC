@@ -31,7 +31,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
             // http://www.dofactory.com/net/template-method-design-pattern
             var next = this.MakeTransition();
             next.Save();
-            if (next.Status == OrderStatus.Closed) DomainEvents.Raise<OrderClosedEvent>(new OrderClosedEvent {Order = this});
+            if (next.Status == OrderStatus.Closed) DomainEvents.Publish<OrderClosedEvent>(new OrderClosedEvent {Order = this});
             return next;
         }
         
