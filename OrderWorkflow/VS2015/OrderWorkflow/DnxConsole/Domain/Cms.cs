@@ -42,7 +42,6 @@ namespace DnxConsole.Domain
         {
             var order = OrderEditRepository.GetOrder(_id);
             order.UpdateAddress(newAddress);
-            //DomainEvents.ClearCallbacks();
         }
         
         public Order CreateOrder()
@@ -51,7 +50,6 @@ namespace DnxConsole.Domain
             var address = new Address("Dallas", "TX", "75019", "Elm", "456");
             order.Create(address);
             Console.WriteLine("Order Created from CMS");
-            //DomainEvents.ClearCallbacks();
             return order;
         }
 
