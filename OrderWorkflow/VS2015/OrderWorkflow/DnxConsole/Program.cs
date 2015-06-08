@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using DnxConsole.Controllers;
+using DnxConsole.Domain.Events;
 using DnxConsole.Services;
 
 namespace DnxConsole
@@ -48,6 +49,7 @@ namespace DnxConsole
             Console.ResetColor();
             Console.WriteLine("Au Revoir");
             Console.ReadLine();
+            DomainEvents.ClearCallbacks();
         }
 
         static int GetCmsId(IReadOnlyList<string> args)

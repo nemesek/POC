@@ -90,7 +90,7 @@ namespace DnxConsole.Domain
             // in the spirit of the observer pattern
             // http://www.dofactory.com/net/observer-design-pattern
             // order creation handlers
-            DomainEvents.Subscribe<OrderCreatedEvent>(async e => await _logger.LogOrderCreationAsync (e));
+            DomainEvents.Subscribe<OrderCreatedEvent>(async e => await _logger.LogOrderCreationAsync(e));
             DomainEvents.Subscribe<OrderCreatedEvent>(async e => await _messenger.SendOrderCreationNotificationAsync(e));
             DomainEvents.Subscribe<OrderCreatedEvent>(async e => await _messenger.SendToWorkflowQueue(e));
 
