@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DnxConsole.Utilities
+namespace DnxConsole.Infrastructure.Utilities
 {
     public static class ConsoleHelper
     {

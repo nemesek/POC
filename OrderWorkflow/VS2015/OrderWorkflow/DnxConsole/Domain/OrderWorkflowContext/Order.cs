@@ -2,7 +2,7 @@
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.Events;
-using DnxConsole.Utilities;
+using DnxConsole.Infrastructure.Utilities;
 
 namespace DnxConsole.Domain.OrderWorkflowContext
 {

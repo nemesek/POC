@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using DnxConsole.Controllers;
 using DnxConsole.Domain.Events;
-using DnxConsole.Services;
+using DnxConsole.Infrastructure.Services;
 
 namespace DnxConsole
 {
