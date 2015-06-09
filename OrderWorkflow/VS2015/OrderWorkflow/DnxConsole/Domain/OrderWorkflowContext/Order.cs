@@ -42,7 +42,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         {
             Console.ResetColor();
             Console.WriteLine("Saving {0} State to repository", Status);
-            _repository.PersistThisUpdatedDataSomeWhere(this.MapToOrderWorkflowDto()());
+            _repository.PersistThisUpdatedDataSomeWhere(this.MapToOrderWorkflowDto());
         }
         
         public void AssignVendor(Vendor vendor)

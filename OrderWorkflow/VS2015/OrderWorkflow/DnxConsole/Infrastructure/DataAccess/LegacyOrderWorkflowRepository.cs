@@ -7,10 +7,10 @@ namespace DnxConsole.Infrastructure.DataAccess
 {
     public class LegacyOrderWorkflowRepository : IOrderRepository
     {
-        public void PersistThisUpdatedDataSomeWhere(OrderWorkflowDto orderWorkflowDto)
+        public void PersistThisUpdatedDataSomeWhere(Func<OrderWorkflowDto> orderWorkflowDtoFunc)
         {
             ConsoleHelper.WriteWithStyle(ConsoleColor.DarkGreen, ConsoleColor.White,
-                $"Legacy Repo calling a stored proc somewhere to persist order {orderWorkflowDto.OrderId} and mapping order Id to document_Id");
+                $"Legacy Repo calling a stored proc somewhere to persist order {orderWorkflowDtoFunc().OrderId} and mapping order Id to document_Id");
         }
     }
 }

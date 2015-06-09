@@ -7,10 +7,10 @@ namespace DnxConsole.Infrastructure.DataAccess
 {
     public class CmsNextOrderWorkflowRepository : IOrderRepository
     {
-        public void PersistThisUpdatedDataSomeWhere(OrderWorkflowDto orderWorkflowDto)
+        public void PersistThisUpdatedDataSomeWhere(Func<OrderWorkflowDto> orderWorkflowDtoFunc)
         {
             ConsoleHelper.WriteWithStyle(ConsoleColor.DarkBlue, ConsoleColor.White,
-                $"CmsNext Repo persisting order {orderWorkflowDto.OrderId} data somewhere and doing it faster");
+             $"CmsNext Repo persisting order {orderWorkflowDtoFunc().OrderId} data somewhere and doing it faster");
         }
     }
 }

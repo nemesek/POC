@@ -1,7 +1,9 @@
-﻿namespace DnxConsole.Domain.OrderWorkflowContext.Contracts
+﻿using System;
+
+namespace DnxConsole.Domain.OrderWorkflowContext.Contracts
 {
     public interface IOrderRepository
     {
-        void PersistThisUpdatedDataSomeWhere(OrderWorkflowDto orderWorkflowDto);
+        void PersistThisUpdatedDataSomeWhere(Func<OrderWorkflowDto> orderWorkflowDtoFunc);
     }
 }
