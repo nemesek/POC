@@ -15,6 +15,7 @@ namespace DomainEvents
             //DomainEvents.SubscribeTo<OrderCreatedEvent>(_ => success = DoSomethingLongAsync(3).Result);
             var order = new Order();
             order.CreateOrder();
+            //order.CreateOrder((o) => DomainEvents.Publish(new OrderCreatedEvent {Order = o}));
             Console.ReadLine();
 
         }

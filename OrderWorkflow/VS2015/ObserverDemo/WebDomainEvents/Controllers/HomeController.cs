@@ -43,16 +43,16 @@ namespace WebDomainEvents.Controllers
 
         private void RegisterActions()
         {
-            DomainEvents.DomainEvents.Subscribe<OrderCreatedEvent>(async e => await DoSomething());
-            DomainEvents.DomainEvents.Subscribe<OrderCreatedEvent>(async e => await DoSomethingElse());
-            DomainEvents.DomainEvents.Subscribe<OrderCreatedEvent>(_ => DoSomething());
-            DomainEvents.DomainEvents.Subscribe<OrderCreatedEvent>(_ => DoSomethingElse());
+            DomainEvents.DomainEvents.SubscribeTo<OrderCreatedEvent>(async e => await DoSomething());
+            DomainEvents.DomainEvents.SubscribeTo<OrderCreatedEvent>(async e => await DoSomethingElse());
+            DomainEvents.DomainEvents.SubscribeTo<OrderCreatedEvent>(_ => DoSomething());
+            DomainEvents.DomainEvents.SubscribeTo<OrderCreatedEvent>(_ => DoSomethingElse());
         }
 
         private void RegisterFuncs()
         {
-            DomainEvents.DomainEvents.Subscribe(e => true);
-            DomainEvents.DomainEvents.Subscribe(e =>
+            DomainEvents.DomainEvents.SubscribeTo(e => true);
+            DomainEvents.DomainEvents.SubscribeTo(e =>
             {
                 Task.Delay(100);
                 return true;

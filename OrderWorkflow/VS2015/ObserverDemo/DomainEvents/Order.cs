@@ -13,6 +13,16 @@ namespace DomainEvents
             Console.WriteLine("Exiting CreateOrder");
         }
 
+
+        // you can even decouple the event type being raised
+        // from the event raiser
+        public void CreateOrder(Action<Order> eventAction)
+        {
+            this.Id = Guid.NewGuid();
+            eventAction?.Invoke(this);
+            Console.WriteLine("Exiting CreateOrder");
+        }
+
         public async Task<bool> CreateOrderAsync(Action<IDomainEvent> action)
         {
             this.Id = Guid.NewGuid();
