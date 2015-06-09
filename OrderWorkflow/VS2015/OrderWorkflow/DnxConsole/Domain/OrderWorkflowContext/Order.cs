@@ -41,6 +41,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         public void Save()
         {
             Console.ResetColor();
+            this.Validate();
             Console.WriteLine("Saving {0} State to repository", Status);
             _repository.PersistThisUpdatedDataSomeWhere(this.MapToOrderWorkflowDto());
         }
@@ -79,6 +80,10 @@ namespace DnxConsole.Domain.OrderWorkflowContext
                 Cms = _cms,
                 Vendor = _vendor
             };
+        }
+
+        private void Validate()
+        {
         }
     }
 }
