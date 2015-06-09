@@ -7,7 +7,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.DerivedOrders
 {
     public class JohnsCustomSubmittedOrder : SubmittedOrder
     {
-        public JohnsCustomSubmittedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto) {}
+        public JohnsCustomSubmittedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository) {}
 
         protected override IWorkflowOrder MakeTransition()
         {

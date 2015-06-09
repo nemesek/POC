@@ -9,7 +9,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
     {
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
 
-        public ReviewAcceptanceOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
+        public ReviewAcceptanceOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository)
         {
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }

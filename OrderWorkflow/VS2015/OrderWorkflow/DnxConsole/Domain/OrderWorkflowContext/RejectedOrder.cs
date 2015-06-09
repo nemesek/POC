@@ -1,6 +1,5 @@
 ﻿using System;
 using DnxConsole.Domain.Common;
-using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
 namespace DnxConsole.Domain.OrderWorkflowContext
@@ -9,7 +8,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
     {
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
 
-        public RejectedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto)
+        public RejectedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository)
         {
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }

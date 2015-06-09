@@ -1,6 +1,5 @@
 ﻿using System;
 using DnxConsole.Domain.Common;
-using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
@@ -11,7 +10,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         private readonly Vendor _vendor;
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
 
-        public AssignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto):base(id,orderWorkflowDto)
+        public AssignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository)
         {
             _vendor = base.Vendor;
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;

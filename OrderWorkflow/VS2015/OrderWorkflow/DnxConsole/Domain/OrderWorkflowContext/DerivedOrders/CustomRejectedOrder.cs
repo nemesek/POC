@@ -7,7 +7,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.DerivedOrders
 {
     public class CustomRejectedOrder : RejectedOrder
     {
-        public CustomRejectedOrder(Guid id, OrderWorkflowDto orderWorkflowDto) : base(id, orderWorkflowDto) {}
+        public CustomRejectedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository) {}
 
         protected override IWorkflowOrder MakeTransition()
         {

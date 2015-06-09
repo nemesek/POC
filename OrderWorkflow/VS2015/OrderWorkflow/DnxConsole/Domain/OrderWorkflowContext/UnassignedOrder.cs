@@ -12,7 +12,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool,IWorkflowOrder> _transitionFunc;
         private readonly string _zipCode;
 
-        public UnassignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto):base(id, orderWorkflowDto)
+        public UnassignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id, orderWorkflowDto,repository)
         {
             _assignVendorFunc = orderWorkflowDto.AssignVendorFunc;
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;

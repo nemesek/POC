@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using DnxConsole.Domain;
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.Events;

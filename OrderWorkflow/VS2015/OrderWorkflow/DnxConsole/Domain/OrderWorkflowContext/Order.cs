@@ -13,12 +13,14 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         private readonly Guid _id;
         private readonly Cms _cms;
         private Vendor _vendor;
+        private IOrderRepository _repository;
 
-        protected Order(Guid id, OrderWorkflowDto orderWorkflowDto)
+        protected Order(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository)
         {
             _id = id;
             _cms = orderWorkflowDto.Cms;
             _vendor = orderWorkflowDto.Vendor;
+            _repository = repository;
         }
 
         public abstract OrderStatus Status { get; }
@@ -40,7 +42,8 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         public void Save()
         {
             Console.ResetColor();
-            Console.WriteLine("Saving {0} State to DB", Status);
+            Console.WriteLine("Saving {0} State to repository", Status);
+            _repository.PersistThisUpdatedDataSomeWhere(this.MapToOrderWorkflowDto()());
         }
         
         public void AssignVendor(Vendor vendor)
@@ -73,6 +76,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         {
             return () => new OrderWorkflowDto
             {
+                OrderId = _id,
                 Cms = _cms,
                 Vendor = _vendor
             };
