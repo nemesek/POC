@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using DnxConsole.Domain.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
-namespace DnxConsole.Domain.AutoAssign
+namespace DnxConsole.Domain.OrderWorkflowContext.AutoAssign
 {
     public class AutoAssignFactory
     {

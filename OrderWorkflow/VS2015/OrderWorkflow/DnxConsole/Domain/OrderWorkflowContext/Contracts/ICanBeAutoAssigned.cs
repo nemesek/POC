@@ -1,4 +1,4 @@
-﻿namespace DnxConsole.Domain.Contracts
+﻿namespace DnxConsole.Domain.OrderWorkflowContext.Contracts
 {
     public interface ICanBeAutoAssigned 
     {

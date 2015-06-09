@@ -1,7 +1,7 @@
 ﻿using System;
-using DnxConsole.Domain.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
-namespace DnxConsole.Domain
+namespace DnxConsole.Domain.OrderWorkflowContext.Vendors
 {
     public class NullVendor : Vendor
     {

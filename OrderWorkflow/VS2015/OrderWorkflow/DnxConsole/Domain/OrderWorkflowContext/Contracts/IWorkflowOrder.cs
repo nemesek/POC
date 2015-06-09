@@ -1,7 +1,8 @@
 ﻿using System;
 using DnxConsole.Domain.Common;
+using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
-namespace DnxConsole.Domain.Contracts
+namespace DnxConsole.Domain.OrderWorkflowContext.Contracts
 {
     public interface IWorkflowOrder
     {

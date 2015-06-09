@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DnxConsole.Domain
+namespace DnxConsole.Domain.OrderWorkflowContext.Vendors
 {
     public class VendorRepository
     {

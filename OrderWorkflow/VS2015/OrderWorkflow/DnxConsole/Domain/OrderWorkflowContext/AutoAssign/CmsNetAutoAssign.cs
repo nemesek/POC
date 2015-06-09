@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using DnxConsole.Domain.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
-namespace DnxConsole.Domain.AutoAssign
+namespace DnxConsole.Domain.OrderWorkflowContext.AutoAssign
 {
     public class CmsNetAutoAssign : IProcessAutoAssign
     {

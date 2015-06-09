@@ -1,6 +1,7 @@
 ﻿using System;
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
 namespace DnxConsole.Domain.OrderWorkflowContext
 {

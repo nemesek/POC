@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using DnxConsole.Domain.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 using DnxConsole.Infrastructure.Utilities;
 
 namespace DnxConsole.Domain.OrderWorkflowContext.Services
