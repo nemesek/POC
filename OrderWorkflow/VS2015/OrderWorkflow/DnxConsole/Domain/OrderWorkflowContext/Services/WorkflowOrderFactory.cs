@@ -40,7 +40,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
 
         private static SubmittedOrder GetSubmittedOrder(Guid orderId, OrderWorkflowDto orderDto, int repoId)
         {
-            var clientId = repoId;
+            var clientId = orderDto.Cms.Id;
             if (clientId == 32) return new DansCustomSubmittedOrder(orderId, orderDto, RepositoryMap[repoId]());
             if (clientId % 17 == 0 || clientId % 16 == 0 || clientId % 22 == 0) return new JohnsCustomSubmittedOrder(orderId, orderDto, RepositoryMap[repoId]());
             return new SubmittedOrder(orderId, orderDto, RepositoryMap[repoId]());
