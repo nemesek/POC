@@ -23,6 +23,7 @@ namespace DnxConsole.Domain.OrderCreationContext
         public Order Create(Address address)
         {
             _address = address;
+            this.Validate();
             this.Save();
             return this;
         }
@@ -31,7 +32,11 @@ namespace DnxConsole.Domain.OrderCreationContext
         {
             Console.WriteLine("Saving orderId, cmsId, address, and status to DB.");
             DomainEvents.Publish(new OrderCreatedEvent { Order = this });
-
+        }
+        
+        private void Validate()
+        {
+            // doing some business validation
         }
     }
 
