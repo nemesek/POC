@@ -7,10 +7,12 @@ namespace DomainEvents
     {
         public static void Main(string[] args)
         {
+            var success = false;
             Console.WriteLine("Hello Class");
-            DomainEvents.Subscribe<OrderCreatedEvent>(async _ => await DoSomethingAsync());
-            DomainEvents.Subscribe<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
-            DomainEvents.Subscribe<OrderCreatedEvent>(async _ => await DoSomethingLongAsync(3));
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingAsync());
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingLongAsync(3));
+            //DomainEvents.SubscribeTo<OrderCreatedEvent>(_ => success = DoSomethingLongAsync(3).Result);
             var order = new Order();
             order.CreateOrder();
             Console.ReadLine();
