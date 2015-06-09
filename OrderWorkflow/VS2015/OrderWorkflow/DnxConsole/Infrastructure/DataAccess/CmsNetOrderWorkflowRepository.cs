@@ -9,7 +9,7 @@ namespace DnxConsole.Infrastructure.DataAccess
     {
         public void PersistThisUpdatedDataSomeWhere(OrderWorkflowDto orderWorkflowDto)
         {
-            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkMagenta, ConsoleColor.DarkGray, 
+            ConsoleHelper.WriteWithStyle(ConsoleColor.DarkMagenta, ConsoleColor.White, 
                 $"CmsNet Repo persisting order {orderWorkflowDto.OrderId} data somewhere and mapping order Id to DocId");
         }
     }
