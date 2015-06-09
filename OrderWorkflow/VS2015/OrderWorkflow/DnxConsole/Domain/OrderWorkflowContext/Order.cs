@@ -1,6 +1,5 @@
 ﻿using System;
 using DnxConsole.Domain.Common;
-using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.Events;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Vendors;
@@ -13,7 +12,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         private readonly Guid _id;
         private readonly Cms _cms;
         private Vendor _vendor;
-        private IOrderRepository _repository;
+        private readonly IOrderRepository _repository;
 
         protected Order(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository)
         {
@@ -35,7 +34,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
             // http://www.dofactory.com/net/template-method-design-pattern
             var next = this.MakeTransition();
             next.Save();
-            if (next.Status == OrderStatus.Closed) DomainEvents.Publish<OrderClosedEvent>(new OrderClosedEvent {Order = this});
+            if (next.Status == OrderStatus.Closed) DomainEvents.Publish(new OrderClosedEvent {Order = this});
             return next;
         }
         
