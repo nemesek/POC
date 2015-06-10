@@ -1,7 +1,6 @@
 ﻿using System;
-using DnxConsole.Domain.Contracts;
+using DnxConsole.Domain.Common.Utilities;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
-using DnxConsole.Infrastructure.Utilities;
 
 namespace DnxConsole.Domain.OrderWorkflowContext.DerivedOrders
 {

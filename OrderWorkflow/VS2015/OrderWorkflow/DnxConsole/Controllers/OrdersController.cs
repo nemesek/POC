@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using DnxConsole.Domain.Common;
+using DnxConsole.Domain.Common.Utilities;
 using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.Events;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
-using DnxConsole.Infrastructure.Utilities;
 
 namespace DnxConsole.Controllers
 {

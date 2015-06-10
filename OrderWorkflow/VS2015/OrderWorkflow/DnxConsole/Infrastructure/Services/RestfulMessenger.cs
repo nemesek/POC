@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DnxConsole.Domain.Common.Utilities;
 using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.Events;
-using DnxConsole.Infrastructure.Utilities;
 
 namespace DnxConsole.Infrastructure.Services
 {

@@ -50,6 +50,5 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
         {
             return repoId %3 == 0 ? new CustomRejectedOrder(orderId, orderDto, RepositoryMap[repoId]()) : new RejectedOrder(orderId, orderDto, RepositoryMap[repoId]());
         }
-
     }
 }

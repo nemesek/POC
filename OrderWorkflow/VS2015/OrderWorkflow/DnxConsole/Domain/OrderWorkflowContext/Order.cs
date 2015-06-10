@@ -1,9 +1,9 @@
 ﻿using System;
 using DnxConsole.Domain.Common;
+using DnxConsole.Domain.Common.Utilities;
 using DnxConsole.Domain.Events;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Vendors;
-using DnxConsole.Infrastructure.Utilities;
 
 namespace DnxConsole.Domain.OrderWorkflowContext
 {
