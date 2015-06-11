@@ -8,6 +8,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Vendors
         private readonly int _orderCount;
         private readonly string _zip;
         private readonly string _name;
+        private readonly string _clientUserId;
 
         public Vendor(int orderCount, string zipCode, string name)
         {
@@ -19,6 +20,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Vendors
         public int OrderCount => _orderCount;
         public string ZipCode => _zip;
         public string Name => _name;
+        public string ClientUserId => _clientUserId;
 
         public virtual void SendMeNotification(IWorkflowOrder order)
         {

@@ -3,7 +3,7 @@ using DnxConsole.Domain.Common.Utilities;
 using DnxConsole.Domain.OrderWorkflowContext;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
-namespace DnxConsole.Infrastructure.DataAccess
+namespace DnxConsole.Infrastructure.DataAccess.Repositories
 {
     public class LegacyOrderWorkflowRepository : IOrderRepository
     {

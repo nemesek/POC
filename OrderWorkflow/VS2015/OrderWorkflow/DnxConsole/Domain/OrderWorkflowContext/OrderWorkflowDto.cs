@@ -13,6 +13,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         public string ZipCode { get; set; }
         public Vendor Vendor { get; set; }
         public Cms Cms { get; set; }
+        public OrderStatus Status { get; set; }
         
     }
 }
