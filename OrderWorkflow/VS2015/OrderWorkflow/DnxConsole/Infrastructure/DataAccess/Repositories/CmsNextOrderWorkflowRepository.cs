@@ -1,18 +1,33 @@
 ﻿using System;
 using DnxConsole.Domain.Common.Utilities;
+using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Infrastructure.DataAccess.DataTransferObjects;
+using Order = DnxConsole.Domain.OrderEditContext.Order;
 
 namespace DnxConsole.Infrastructure.DataAccess.Repositories
 {
-    public class CmsNextOrderWorkflowRepository : IOrderRepository
+    public class CmsNextOrderWorkflowRepository : IOrderRepository, IOrderContextRepository
     {
         public void PersistThisUpdatedDataSomeWhere(Func<OrderWorkflowDto> orderWorkflowDtoFunc)
         {
             UpdateOrderFromOrderWorkFlowDto(orderWorkflowDtoFunc());
             ConsoleHelper.WriteWithStyle(ConsoleColor.DarkBlue, ConsoleColor.White,
              $"CmsNext Repo persisting order {orderWorkflowDtoFunc().OrderId} data somewhere and doing it faster");
+        }
+
+        public static Order GetOrder(int cmsId)
+        {
+            // todo : bring in the orderId
+            return new Order(Guid.NewGuid(), cmsId);
+        }
+
+        public static Order CreateOrder(int cmsId)
+        {
+            var order = new Order(Guid.NewGuid(), cmsId);
+            Console.WriteLine("Created order with Id {0}", order.Id);
+            return order;
         }
 
         private static void UpdateOrderFromOrderWorkFlowDto(OrderWorkflowDto orderWorkflowDto)

@@ -8,10 +8,12 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
     public class OrderTransitioner
     {
         private readonly Func<ICanBeAutoAssigned, Vendor> _safeAssign;
+        protected WorkflowOrderFactory OrderFactory;
 
-        public OrderTransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign)
+        public OrderTransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign, WorkflowOrderFactory orderFactory)
         {
             _safeAssign = safeAssign;
+            OrderFactory = orderFactory;
         }
 
         // using the strategy pattern here to inject in client specific auto assign logic
@@ -25,7 +27,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
                 ZipCode = "38655",
                 Cms = cms
             };
-            return WorkflowOrderFactory.GetWorkflowOrder(Guid.NewGuid(), OrderStatus.Unassigned, dto);
+            return OrderFactory.GetWorkflowOrder(Guid.NewGuid(), OrderStatus.Unassigned, dto);
         }
 
         protected virtual IWorkflowOrder TransitionToAssigned(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
@@ -33,14 +35,14 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
             var transitionFunc = BuildTransitionFunc(TransitionToVendorAccepted, TransitionOrderBackToUnassigned);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.Assigned, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.Assigned, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToVendorAccepted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = TransitionToReviewAcceptance;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.VendorAccepted, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.VendorAccepted, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToReviewAcceptance(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
@@ -48,21 +50,21 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
             var transitionFunc = BuildTransitionFunc(TransitionToClientAccepted, TransitionOrderBackToUnassigned);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.ReviewAcceptance, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.ReviewAcceptance, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToClientAccepted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = TransitionToSubmitted;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.ClientAccepted, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.ClientAccepted, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToSubmitted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = TransitionToReviewSubmission;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.Submitted, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.Submitted, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToReviewSubmission(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
@@ -70,21 +72,21 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
             var transitionFunc = BuildTransitionFunc(TransitionToClosed, TransitionToRejected);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.ReviewSubmission, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.ReviewSubmission, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToRejected(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = TransitionToReviewSubmission;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.Rejected, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.Rejected, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToClosed(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = TransitionToClosed;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.Closed, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.Closed, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionToManualAssign(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
@@ -92,7 +94,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
             var transitionFunc = BuildTransitionFunc(TransitionToAssigned, TransitionToManualAssign);
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = transitionFunc;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.ManualAssign, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.ManualAssign, orderDto);
         }
 
         protected virtual IWorkflowOrder TransitionOrderBackToUnassigned(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
@@ -100,7 +102,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
             var orderDto = orderDtoFunc();
             orderDto.AssignVendorFunc = _safeAssign;
             orderDto.StateTransitionFunc = BuildTransitionFunc(TransitionToAssigned, TransitionToManualAssign);
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.Unassigned, orderDto);
+            return OrderFactory.GetWorkflowOrder(orderId, OrderStatus.Unassigned, orderDto);
         }
 
         private static Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> BuildTransitionFunc(

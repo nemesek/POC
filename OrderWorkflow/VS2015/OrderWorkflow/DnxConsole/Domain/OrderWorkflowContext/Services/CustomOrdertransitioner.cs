@@ -7,13 +7,15 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
 {
     public class CustomOrdertransitioner : OrderTransitioner
     {
-        public CustomOrdertransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign) : base(safeAssign){}
+        public CustomOrdertransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign, WorkflowOrderFactory orderFactory)
+            : base(safeAssign, orderFactory) {}
 
         protected override IWorkflowOrder TransitionToVendorAccepted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)
         {
             var orderDto = orderDtoFunc();
             orderDto.StateTransitionFunc = base.TransitionToClosed;
-            return WorkflowOrderFactory.GetWorkflowOrder(orderId, OrderStatus.VendorAccepted, orderDto);
+            return base.OrderFactory.GetWorkflowOrder(orderId, OrderStatus.VendorAccepted, orderDto);
+
         }
     }
 }

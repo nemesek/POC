@@ -16,12 +16,14 @@ namespace DnxConsole.Domain.Common
         private readonly int _id;
         private readonly ILogEvents _logger;
         private readonly ISendExternalMessenges _messenger;
+        private readonly OrderTransitionerFactory _transitionFactory;
 
-        public Cms(int id, ILogEvents logger, ISendExternalMessenges messenger)
+        public Cms(int id, ILogEvents logger, ISendExternalMessenges messenger, OrderTransitionerFactory transitionFactory)
         {
             _id = id;
             _logger = logger;
             _messenger = messenger;
+            _transitionFactory = transitionFactory;
             RegisterEventHandlers();
         }
 
@@ -31,7 +33,7 @@ namespace DnxConsole.Domain.Common
         {
             var serviceId = GetServiceId();
             // calling into a factory to get cms/service specific transitions
-            var stateMachine = OrderTransitionerFactory.GetTransitionLogic(_id, serviceId, _ => null);
+            var stateMachine = _transitionFactory.GetTransitionLogic(_id, serviceId, _ => null);
             // injecting in AA logic to statemachine - Strategy Pattern
             // http://www.dofactory.com/net/strategy-design-pattern
             var order =  stateMachine.GetUnassignedOrder(FindBestVendor(), this);

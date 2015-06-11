@@ -17,7 +17,7 @@ namespace DnxConsole
             var cmsId = GetCmsId(args);
             var demoMode = IsDemo(args);
             if (demoMode) Console.WriteLine("Running in demo mode");
-            var controller = new OrdersController(new EventLogger(), new RestfulMessenger());
+            var controller = new OrdersController();
 
             if (cmsId > 99)
             {

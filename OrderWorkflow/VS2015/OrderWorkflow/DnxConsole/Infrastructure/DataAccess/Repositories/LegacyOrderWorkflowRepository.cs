@@ -1,11 +1,12 @@
 ﻿using System;
 using DnxConsole.Domain.Common.Utilities;
+using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
 namespace DnxConsole.Infrastructure.DataAccess.Repositories
 {
-    public class LegacyOrderWorkflowRepository : IOrderRepository
+    public class LegacyOrderWorkflowRepository : IOrderRepository, IOrderContextRepository
     {
         public void PersistThisUpdatedDataSomeWhere(Func<OrderWorkflowDto> orderWorkflowDtoFunc)
         {

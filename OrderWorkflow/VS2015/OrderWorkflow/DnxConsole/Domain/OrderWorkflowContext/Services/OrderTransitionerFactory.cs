@@ -8,14 +8,16 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
 {
     public class OrderTransitionerFactory
     {
-        private static readonly Dictionary<TransitionType, Func<Func<ICanBeAutoAssigned, Vendor>, OrderTransitioner>>
-            CustomTransitionsDictionary = new Dictionary<TransitionType, Func<Func<ICanBeAutoAssigned, Vendor>, OrderTransitioner>>
-            {
-                {TransitionType.Custom, (sa) => new CustomOrdertransitioner(sa)},
-                {TransitionType.JohnCustom, (sa) => new JohnsCustomTransitioner(sa)}
-            };
+        private readonly WorkflowOrderFactory _orderFactory;
 
-        public static OrderTransitioner GetTransitionLogic(int clientId,int serviceId, Func<ICanBeAutoAssigned, Vendor> safeAssign)
+        private Dictionary<TransitionType, Func<Func<ICanBeAutoAssigned, Vendor>, OrderTransitioner>> _customTransitionsMap;
+
+        public OrderTransitionerFactory(WorkflowOrderFactory orderFactory)
+        {
+            _orderFactory = orderFactory;
+            InitializeTransitionMap();
+        }
+        public OrderTransitioner GetTransitionLogic(int clientId,int serviceId, Func<ICanBeAutoAssigned, Vendor> safeAssign)
         {
             // Note that we would never really use the mod of the clientId to determine what we are really going to return
             // as it could cause conflicts with other functions that determine which state machine to return
@@ -23,13 +25,13 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
             var serviceTransitionType = ServiceClientFilter(serviceId, clientId);
             if (serviceTransitionType != TransitionType.Undefined)
             {
-                return CustomTransitionsDictionary[serviceTransitionType].Invoke(safeAssign);
+                return _customTransitionsMap[serviceTransitionType].Invoke(safeAssign);
             }
 
             var clientTransitionType = ClientFilter(clientId);
             return clientTransitionType != TransitionType.Undefined
-                ? CustomTransitionsDictionary[clientTransitionType].Invoke(safeAssign)
-                : new OrderTransitioner(safeAssign);
+                ? _customTransitionsMap[clientTransitionType].Invoke(safeAssign)
+                : new OrderTransitioner(safeAssign, _orderFactory);
         }
 
 
@@ -66,6 +68,15 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
             }
 
             return TransitionType.Undefined;
+        }
+
+        private void InitializeTransitionMap()
+        {
+            _customTransitionsMap = new Dictionary<TransitionType, Func<Func<ICanBeAutoAssigned, Vendor>, OrderTransitioner>>
+            {
+                {TransitionType.Custom, (sa) => new CustomOrdertransitioner(sa, _orderFactory)},
+                {TransitionType.JohnCustom, (sa) => new JohnsCustomTransitioner(sa, _orderFactory)}
+            };
         }
 
         private enum TransitionType
