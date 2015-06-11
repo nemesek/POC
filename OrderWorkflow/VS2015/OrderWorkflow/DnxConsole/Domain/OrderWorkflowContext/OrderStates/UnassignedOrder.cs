@@ -7,13 +7,13 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
 {
     public class UnassignedOrder : Order, ICanBeAutoAssigned
     {
-        private readonly Func<ICanBeAutoAssigned,Vendor> _assignVendorFunc;
+        private readonly Func<ICanBeAutoAssigned,Vendor> _assignVendor;
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool,IWorkflowOrder> _makeTransition;
         private readonly string _zipCode;
 
         public UnassignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id, orderWorkflowDto,repository)
         {
-            _assignVendorFunc = orderWorkflowDto.AssignVendorFunc;
+            _assignVendor = orderWorkflowDto.AssignVendorFunc;
             _makeTransition = orderWorkflowDto.StateTransitionFunc;
             _zipCode = orderWorkflowDto.ZipCode;
         }
@@ -23,7 +23,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
 
         protected override IWorkflowOrder MakeTransition()
         {
-            var vendorToAssign = _assignVendorFunc(this);
+            var vendorToAssign = _assignVendor(this);
             if (vendorToAssign == null)
             {
                 return _makeTransition(base.OrderId, base.MapToOrderWorkflowDto(), false);
