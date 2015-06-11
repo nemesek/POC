@@ -7,7 +7,7 @@ using DnxConsole.Infrastructure.DataAccess.DataTransferObjects;
 
 namespace DnxConsole.Infrastructure.DataAccess.Repositories
 {
-    public class CmsNetOrderWorkflowRepository : IOrderRepository, IOrderContextRepository
+    public class CmsNetOrderWorkflowRepository : IOrderRepository
     {
         public void PersistThisUpdatedDataSomeWhere(Func<OrderWorkflowDto> orderWorkflowDtoFunc)
         {

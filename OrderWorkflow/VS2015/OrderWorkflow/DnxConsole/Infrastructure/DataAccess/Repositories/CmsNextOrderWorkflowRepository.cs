@@ -8,7 +8,7 @@ using Order = DnxConsole.Domain.OrderEditContext.Order;
 
 namespace DnxConsole.Infrastructure.DataAccess.Repositories
 {
-    public class CmsNextOrderWorkflowRepository : IOrderRepository, IOrderContextRepository
+    public class CmsNextOrderWorkflowRepository : IOrderRepository
     {
         public void PersistThisUpdatedDataSomeWhere(Func<OrderWorkflowDto> orderWorkflowDtoFunc)
         {

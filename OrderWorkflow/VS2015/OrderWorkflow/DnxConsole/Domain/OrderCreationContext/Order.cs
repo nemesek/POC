@@ -11,11 +11,14 @@ namespace DnxConsole.Domain.OrderCreationContext
 
         private readonly Guid _id;
         private Address _address;
-        public Order(int cmsId)
+        private readonly IOrderCreationRepository _repository;
+
+        public Order(int cmsId, IOrderCreationRepository repository)
         {
             _cmsId = cmsId;
             _status = OrderStatus.Unassigned;
             _id = Guid.NewGuid();
+            _repository = repository;
         }
 
         public Guid Id => _id;
@@ -30,7 +33,8 @@ namespace DnxConsole.Domain.OrderCreationContext
 
         private void Save()
         {
-            Console.WriteLine("Saving orderId, cmsId, address, and status to DB.");
+            //Console.WriteLine("Saving orderId, cmsId, address, and status to DB.");
+            _repository.CreateOrder(this);
             DomainEvents.Publish(new OrderCreatedEvent { Order = this });
         }
         
