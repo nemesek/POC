@@ -6,11 +6,11 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
 {
     public class ManualAssignOrder : Order
     {
-        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _makeTransition;
 
         public ManualAssignOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository)
         {
-            _transitionFunc = orderWorkflowDto.StateTransitionFunc;
+            _makeTransition = orderWorkflowDto.StateTransitionFunc;
         }
         
         public override OrderStatus Status => OrderStatus.ManualAssign;
@@ -19,7 +19,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
         {
             var assigned = base.Cms.ManualAssign(this);
             if (!assigned) Console.WriteLine("^^^^^^^^Reassignment was not successful^^^^^^^^^^");
-            return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), assigned);
+            return _makeTransition(base.OrderId, base.MapToOrderWorkflowDto(), assigned);
         }
     }
 }

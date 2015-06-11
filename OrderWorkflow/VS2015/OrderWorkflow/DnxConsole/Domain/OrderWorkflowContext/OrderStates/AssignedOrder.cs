@@ -8,12 +8,12 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
     public class AssignedOrder : Order
     {
         private readonly Vendor _vendor;
-        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _makeTransition;
 
         public AssignedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository)
         {
             _vendor = base.Vendor;
-            _transitionFunc = orderWorkflowDto.StateTransitionFunc;
+            _makeTransition = orderWorkflowDto.StateTransitionFunc;
         }
 
         public override OrderStatus Status => OrderStatus.Assigned;
@@ -22,7 +22,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
         {
             _vendor.SendMeNotification(this);
             var vendorAccepted = _vendor.AcceptOrder(this);
-            return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(),vendorAccepted);
+            return _makeTransition(base.OrderId, base.MapToOrderWorkflowDto(),vendorAccepted);
         }
     }
 }

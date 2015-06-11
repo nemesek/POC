@@ -6,18 +6,18 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
 {
     public class ClosedOrder : Order
     {
-        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _makeTransition;
 
         public ClosedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository orderRepository) : base(id, orderWorkflowDto, orderRepository)
         {
-            _transitionFunc = orderWorkflowDto.StateTransitionFunc;
+            _makeTransition = orderWorkflowDto.StateTransitionFunc;
         }
 
         public override OrderStatus Status => OrderStatus.Closed;
 
         protected override IWorkflowOrder MakeTransition()
         {
-            var order = _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), true);
+            var order = _makeTransition(base.OrderId, base.MapToOrderWorkflowDto(), true);
             return order;
         }
     }

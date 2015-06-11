@@ -6,11 +6,11 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
 {
     public class ReviewAcceptanceOrder : Order
     {
-        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
+        private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _makeTransition;
 
         public ReviewAcceptanceOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository)
         {
-            _transitionFunc = orderWorkflowDto.StateTransitionFunc;
+            _makeTransition = orderWorkflowDto.StateTransitionFunc;
         }
         
         public override OrderStatus Status => OrderStatus.ReviewAcceptance;
@@ -19,7 +19,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
         {
             var reviewPassed = base.Cms.ReviewAcceptance(this);
             if (!reviewPassed) Console.WriteLine("Accept With Conditions will not be met.");
-            return _transitionFunc(base.OrderId, base.MapToOrderWorkflowDto(), reviewPassed);
+            return _makeTransition(base.OrderId, base.MapToOrderWorkflowDto(), reviewPassed);
         }
     }
 }
