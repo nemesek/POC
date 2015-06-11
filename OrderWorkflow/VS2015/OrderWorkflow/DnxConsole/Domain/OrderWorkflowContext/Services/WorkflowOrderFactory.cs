@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.DerivedOrders;
+using DnxConsole.Domain.OrderWorkflowContext.OrderStates;
 
 namespace DnxConsole.Domain.OrderWorkflowContext.Services
 {

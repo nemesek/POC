@@ -2,7 +2,7 @@
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
-namespace DnxConsole.Domain.OrderWorkflowContext
+namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
 {
     public class VendorAcceptedOrder : Order
     {

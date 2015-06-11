@@ -2,18 +2,18 @@
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
-namespace DnxConsole.Domain.OrderWorkflowContext
+namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
 {
-    public class RejectedOrder : Order
+    public class SubmittedOrder : Order
     {
         private readonly Func<Guid, Func<OrderWorkflowDto>, bool, IWorkflowOrder> _transitionFunc;
 
-        public RejectedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository)
+        public SubmittedOrder(Guid id, OrderWorkflowDto orderWorkflowDto, IOrderRepository repository):base(id,orderWorkflowDto, repository)
         {
             _transitionFunc = orderWorkflowDto.StateTransitionFunc;
         }
         
-        public override OrderStatus Status => OrderStatus.Rejected;
+        public override OrderStatus Status => OrderStatus.Submitted;
 
         protected override IWorkflowOrder MakeTransition()
         {

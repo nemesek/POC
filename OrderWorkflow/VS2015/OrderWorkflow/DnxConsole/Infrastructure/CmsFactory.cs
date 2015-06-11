@@ -13,13 +13,6 @@ namespace DnxConsole.Infrastructure
     {
         private readonly ILogEvents _eventLogger = new EventLogger();
         private readonly ISendExternalMessenges _messenger = new RestfulMessenger();
-
-        //private static readonly Dictionary<OrderContext, Func<int, IOrderContextRepository>>
-        //    RepositoryMap = new Dictionary<OrderContext, Func<int, IOrderContextRepository>>
-        //{
-        //    {OrderContext.Workflow, (id) => WorkflowRepositoryMap[id]()}
-        //};
-
         private static readonly Dictionary<int, Func<IOrderRepository>> 
             WorkflowRepositoryMap = new Dictionary<int, Func<IOrderRepository>>
         {
@@ -28,30 +21,34 @@ namespace DnxConsole.Infrastructure
             {2, () => new CmsNextOrderWorkflowRepository()},
             {3, () => new LegacyOrderWorkflowRepository()}
         };
+
         public Cms GetCms(int cmsId, OrderContext context)
         {
             return GetWorkflowCms(cmsId);
         }
 
-        private Cms GetWorkflowCms(int cmsId)
+        public Domain.OrderWorkflowContext.Cms GetWorkflowCms(int cmsId)
         {
             var repodId = cmsId%4;
             var orderFactory = GetOrderWorkflowFactory(repodId);
             var transitionFactory = new OrderTransitionerFactory(orderFactory);
-            return new Cms(cmsId, _eventLogger, _messenger, transitionFactory);
+            return new Domain.OrderWorkflowContext.Cms(cmsId, _eventLogger, _messenger, transitionFactory);
         }
 
-        private WorkflowOrderFactory GetOrderWorkflowFactory(int repoId)
+        public Domain.OrderEditContext.Cms GetOrderEditCms(int cmsId)
+        {
+            return new Domain.OrderEditContext.Cms(cmsId, _eventLogger, _messenger);
+        }
+
+        public Domain.OrderCreationContext.Cms GetOrderCreationCms(int cmsId)
+        {
+            return new Domain.OrderCreationContext.Cms(cmsId, _eventLogger, _messenger);
+        }
+
+        private static WorkflowOrderFactory GetOrderWorkflowFactory(int repoId)
         {
             var repository = WorkflowRepositoryMap[repoId]();
             return new WorkflowOrderFactory(repository);
-        }
-
-        private IOrderContextRepository GetRepositoryContext(OrderContext context, int cmsId)
-        {
-            //var repoId = cmsId % 4;
-            //return RepositoryMap[context](repoId);
-            return null;
         }
     }
 }

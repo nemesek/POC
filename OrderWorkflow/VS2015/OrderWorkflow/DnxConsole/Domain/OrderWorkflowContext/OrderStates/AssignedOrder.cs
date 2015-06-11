@@ -3,7 +3,7 @@ using DnxConsole.Domain.Common;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
-namespace DnxConsole.Domain.OrderWorkflowContext
+namespace DnxConsole.Domain.OrderWorkflowContext.OrderStates
 {
     public class AssignedOrder : Order
     {

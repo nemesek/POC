@@ -15,7 +15,7 @@ namespace DnxConsole.Infrastructure.Web.Controllers
         {
             var isOpen = true;
             DomainEvents.SubscribeTo<OrderClosedEvent>(_ => isOpen = false);
-            var cms = _factory.GetCms(cmsId, OrderContext.Workflow);
+            var cms = _factory.GetWorkflowCms(cmsId);
             var order = cms.GetWorkflowOrder();
             var delay = isDemo ? (() => Console.ReadLine()) : new Action (() => Thread.Sleep(1000));
             while (isOpen)
@@ -31,14 +31,14 @@ namespace DnxConsole.Infrastructure.Web.Controllers
 
         public void EditOrderAddress(int cmsId)
         {
-            var cms = _factory.GetCms(cmsId, OrderContext.Edit);
+            var cms = _factory.GetOrderEditCms(cmsId);
             var newAddress = new Address("Dallas", "TX", "75019", "Elm", "456");
             cms.EditOrderAddress(newAddress);
         }
 
         public void CreateOrder(int cmsId)
         {
-            var cms = _factory.GetCms(cmsId, OrderContext.Creation);
+            var cms = _factory.GetOrderCreationCms(cmsId);
             var order = cms.CreateOrder();
             Console.WriteLine("Mapping order {0} to DTO", order.Id);
         }
