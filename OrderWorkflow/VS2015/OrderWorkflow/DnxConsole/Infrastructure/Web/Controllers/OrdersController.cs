@@ -5,7 +5,7 @@ using DnxConsole.Domain.Common.Utilities;
 using DnxConsole.Domain.Events;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
-namespace DnxConsole.Controllers
+namespace DnxConsole.Infrastructure.Web.Controllers
 {
     public class OrdersController
     {

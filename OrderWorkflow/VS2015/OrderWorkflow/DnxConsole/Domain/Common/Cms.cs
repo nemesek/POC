@@ -18,7 +18,10 @@ namespace DnxConsole.Domain.Common
         private readonly ISendExternalMessenges _messenger;
         private readonly OrderTransitionerFactory _transitionFactory;
 
-        public Cms(int id, ILogEvents logger, ISendExternalMessenges messenger, OrderTransitionerFactory transitionFactory)
+        public Cms(int id,
+            ILogEvents logger,
+            ISendExternalMessenges messenger,
+            OrderTransitionerFactory transitionFactory)
         {
             _id = id;
             _logger = logger;

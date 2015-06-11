@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using DnxConsole.Controllers;
 using DnxConsole.Domain.Events;
 using DnxConsole.Infrastructure.Services;
+using DnxConsole.Infrastructure.Web.Controllers;
 
 namespace DnxConsole
 {

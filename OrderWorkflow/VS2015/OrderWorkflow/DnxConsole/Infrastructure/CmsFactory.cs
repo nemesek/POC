@@ -7,7 +7,7 @@ using DnxConsole.Domain.OrderWorkflowContext.Services;
 using DnxConsole.Infrastructure.DataAccess.Repositories;
 using DnxConsole.Infrastructure.Services;
 
-namespace DnxConsole.Controllers
+namespace DnxConsole.Infrastructure
 {
     public class CmsFactory
     {
