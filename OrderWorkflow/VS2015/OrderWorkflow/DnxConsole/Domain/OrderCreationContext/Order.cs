@@ -1,6 +1,7 @@
 using System;
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.Common.Events;
+using DnxConsole.Domain.Common.Utilities;
 
 namespace DnxConsole.Domain.OrderCreationContext
 {
@@ -40,7 +41,8 @@ namespace DnxConsole.Domain.OrderCreationContext
         
         private void Validate()
         {
-            // doing some business validation
+            ConsoleHelper.WriteWithStyle(ConsoleColor.Blue, ConsoleColor.White,
+                "Validating order data within order object");
         }
     }
 
