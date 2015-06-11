@@ -1,5 +1,5 @@
 ﻿using DnxConsole.Domain.Common;
-using DnxConsole.Domain.Contracts;
+using DnxConsole.Domain.Common.Contracts;
 
 namespace DnxConsole.Domain.OrderEditContext
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using DnxConsole.Domain.Common;
+using DnxConsole.Domain.Common.Events;
 using DnxConsole.Domain.Common.Utilities;
-using DnxConsole.Domain.Events;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
 namespace DnxConsole.Infrastructure.Web.Controllers

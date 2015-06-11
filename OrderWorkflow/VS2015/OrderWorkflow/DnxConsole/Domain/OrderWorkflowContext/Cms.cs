@@ -1,6 +1,6 @@
 ﻿using System;
+using DnxConsole.Domain.Common.Contracts;
 using DnxConsole.Domain.Common.Utilities;
-using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.AutoAssign;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Services;

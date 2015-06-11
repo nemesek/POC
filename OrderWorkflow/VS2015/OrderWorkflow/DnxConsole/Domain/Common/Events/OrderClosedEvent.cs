@@ -1,6 +1,7 @@
-﻿using DnxConsole.Domain.OrderWorkflowContext;
+﻿using DnxConsole.Domain.Common.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext;
 
-namespace DnxConsole.Domain.Events
+namespace DnxConsole.Domain.Common.Events
 {
     public class OrderClosedEvent : IDomainEvent
     {

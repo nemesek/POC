@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using DnxConsole.Domain.Events;
+using DnxConsole.Domain.Common.Events;
 
-namespace DnxConsole.Domain.Contracts
+namespace DnxConsole.Domain.Common.Contracts
 {
     public interface ILogEvents
     {

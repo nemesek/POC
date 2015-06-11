@@ -1,5 +1,5 @@
-﻿using DnxConsole.Domain.Contracts;
-using DnxConsole.Domain.Events;
+﻿using DnxConsole.Domain.Common.Contracts;
+using DnxConsole.Domain.Common.Events;
 
 namespace DnxConsole.Domain.Common
 {

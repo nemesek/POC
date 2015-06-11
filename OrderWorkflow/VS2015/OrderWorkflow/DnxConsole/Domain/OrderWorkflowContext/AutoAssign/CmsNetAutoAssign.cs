@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 

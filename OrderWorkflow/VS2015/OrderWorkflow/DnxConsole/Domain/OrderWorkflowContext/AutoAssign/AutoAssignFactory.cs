@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DnxConsole.Domain.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 
 namespace DnxConsole.Domain.OrderWorkflowContext.AutoAssign

@@ -1,6 +1,6 @@
 using System;
 using DnxConsole.Domain.Common;
-using DnxConsole.Domain.Events;
+using DnxConsole.Domain.Common.Events;
 
 namespace DnxConsole.Domain.OrderCreationContext
 {

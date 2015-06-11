@@ -1,6 +1,7 @@
-﻿using DnxConsole.Domain.OrderCreationContext;
+﻿using DnxConsole.Domain.Common.Contracts;
+using DnxConsole.Domain.OrderCreationContext;
 
-namespace DnxConsole.Domain.Events
+namespace DnxConsole.Domain.Common.Events
 {
     public class OrderCreatedEvent : IDomainEvent
     {
