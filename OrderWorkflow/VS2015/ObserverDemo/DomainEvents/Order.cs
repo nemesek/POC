@@ -7,7 +7,7 @@ namespace DomainEvents
     {
         public Guid Id { get; private set; }
 
-        public String Status { get; private set; }
+        public string Status { get; private set; }
 
         // business logic is to create a order with status new 
         // set the order Id

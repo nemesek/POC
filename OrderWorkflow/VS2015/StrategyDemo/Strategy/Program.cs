@@ -7,11 +7,11 @@ namespace Strategy
     {
         static void Main(string[] args)
         {
-            DemoDoSomething();
+            //DemoDoSomething();
             //DemoAutoAssignConditionally();
             //DemoFoobarDelegation();
             //DemoFoobarWithStrategy();
-            //DemoFoobarWithStrategy(3);
+            //DemoFoobarWithStrategy(Randomizer.GetRandomFromRange(1,4));
         }
 
         #region Strategy/OCP Demo
