@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DnxConsole.Domain.Common.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext;
+using DnxConsole.Domain.OrderWorkflowContext.AutoAssign;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Services;
 using DnxConsole.Infrastructure.DataAccess.Repositories;
@@ -27,7 +28,8 @@ namespace DnxConsole.Infrastructure
             var repodId = cmsId%4;
             var orderFactory = GetOrderWorkflowFactory(repodId);
             var transitionFactory = new OrderTransitionerFactory(orderFactory);
-            return new Cms(cmsId, _eventLogger, _messenger, transitionFactory);
+            var autoAssignFactory = new AutoAssignFactory(new VendorRepository());
+            return new Cms(cmsId, _eventLogger, _messenger, transitionFactory, autoAssignFactory);
         }
 
         public Domain.OrderEditContext.Cms GetOrderEditCms(int cmsId)

@@ -6,15 +6,19 @@ namespace DnxConsole.Domain.OrderWorkflowContext.AutoAssign
 {
     public class CmsNextAutoAssign : IProcessAutoAssign
     {
+        private readonly IVendorRepository _repository;
+
+        public CmsNextAutoAssign(IVendorRepository repository)
+        {
+            _repository = repository;
+        }
         public Vendor FindBestVendor(ICanBeAutoAssigned order)
         {
-            var repo = new VendorRepository();
-            var vendor = repo
+            var vendor = _repository
                 .GetVendors()
                 .Where(v => v.ZipCode == order.ZipCode)
                 .OrderBy(v => v.OrderCount)
                 .FirstOrDefault();
-
             return vendor;
         }
     }

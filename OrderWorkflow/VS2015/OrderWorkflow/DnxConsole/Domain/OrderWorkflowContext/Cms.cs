@@ -11,10 +11,16 @@ namespace DnxConsole.Domain.OrderWorkflowContext
     public class Cms : Common.Cms
     {
         private readonly OrderTransitionerFactory _transitionFactory;
+        private readonly AutoAssignFactory _autoAssignFactory;
 
-        public Cms(int id, ILogEvents logger, ISendExternalMessenges messenger, OrderTransitionerFactory transitionFactory) : base(id, logger, messenger)
+        public Cms(int id, 
+            ILogEvents logger,
+            ISendExternalMessenges messenger,
+            OrderTransitionerFactory transitionFactory,
+            AutoAssignFactory autoAssignFactory) : base(id, logger, messenger)
         {
             _transitionFactory = transitionFactory;
+            _autoAssignFactory = autoAssignFactory;
         }
 
         public IWorkflowOrder GetWorkflowOrder()
@@ -32,7 +38,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext
         public Func<ICanBeAutoAssigned, Vendor> FindBestVendor()
         {
             // calling into a factory to get cms specific auto assign
-            var autoAssign = AutoAssignFactory.CreateAutoAssign(base.Id);
+            var autoAssign = _autoAssignFactory.CreateAutoAssign(base.Id);
             return autoAssign.FindBestVendor;
         }
 

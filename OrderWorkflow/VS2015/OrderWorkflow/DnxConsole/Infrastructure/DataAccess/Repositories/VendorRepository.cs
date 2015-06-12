@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using DnxConsole.Domain.OrderWorkflowContext.Contracts;
+using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
-namespace DnxConsole.Domain.OrderWorkflowContext.Vendors
+namespace DnxConsole.Infrastructure.DataAccess.Repositories
 {
-    public class VendorRepository
+    public class VendorRepository : IVendorRepository
     {
         public IEnumerable<Vendor> GetVendors()
         {

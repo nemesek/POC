@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DnxConsole.Domain.OrderWorkflowContext.Contracts;
 using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
@@ -6,10 +7,16 @@ namespace DnxConsole.Domain.OrderWorkflowContext.AutoAssign
 {
     public class DefaultAutoAssign : IProcessAutoAssign
     {
-        public Vendor FindBestVendor(ICanBeAutoAssigned order)
+        private readonly IVendorRepository _repository;
+
+        public DefaultAutoAssign(IVendorRepository repository)
         {
-            var vendors = new VendorRepository().GetVendors();
-            return vendors.FirstOrDefault();
+            _repository = repository;
+        }
+        public Vendor FindBestVendor(ICanBeAutoAssigned orders)
+        {
+            //var vendors = new VendorRepository().GetVendors();
+            return _repository.GetVendors().FirstOrDefault();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.AutoAssign
 {
     public class LegacyAutoAssign : IProcessAutoAssign
     {
-        public Vendor FindBestVendor(ICanBeAutoAssigned order)
+        public Vendor FindBestVendor(ICanBeAutoAssigned orders)
         {
             // null object pattern to avoid LSP violation
             // http://en.wikipedia.org/wiki/Null_Object_pattern

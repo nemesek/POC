@@ -3,8 +3,8 @@ using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
 namespace DnxConsole.Domain.OrderWorkflowContext.Contracts
 {
-    public interface IProcessAutoAssign
+    public interface IVendorRepository
     {
-        Vendor FindBestVendor(ICanBeAutoAssigned orders);
+        IEnumerable<Vendor> GetVendors();
     }
 }
