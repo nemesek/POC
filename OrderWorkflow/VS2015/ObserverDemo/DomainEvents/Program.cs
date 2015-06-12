@@ -7,18 +7,15 @@ namespace DomainEvents
     {
         public static void Main(string[] args)
         {
-            var success = false;
             Console.WriteLine("Hello Class");
-            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingAsync());
-            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
-            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingLongAsync(3));
-            //DomainEvents.SubscribeTo<OrderCreatedEvent>(_ => success = DoSomethingLongAsync(3).Result);
             var order = new Order();
             order.CreateOrder();
-            //order.CreateOrder((o) => DomainEvents.Publish(new OrderCreatedEvent {Order = o}));
             Console.ReadLine();
 
         }
+
+
+        #region comments
 
         public static async Task<bool> DoSomethingAsync()
         {
@@ -48,5 +45,17 @@ namespace DomainEvents
             Console.WriteLine("Okay finally done");
             return true;
         }
+
+        public static void RegisterEventHandlers()
+        {
+            var success = false;
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingAsync());
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingElseAsync());
+            DomainEvents.SubscribeTo<OrderCreatedEvent>(async _ => await DoSomethingLongAsync(3));
+            //DomainEvents.SubscribeTo<OrderCreatedEvent>(_ => success = DoSomethingLongAsync(3).Result);
+            //order.CreateOrder((o) => DomainEvents.Publish(new OrderCreatedEvent {Order = o}));
+
+        }
+        #endregion
     }
 }

@@ -36,7 +36,7 @@ namespace WebDomainEvents.Controllers
 
             RegisterFuncs();
             var order = new Order();
-            await order.CreateOrderAsync(async e => await DomainEvents.DomainEvents.PublishAsync(e));
+            //await order.CreateOrderAsync(async e => await DomainEvents.DomainEvents.PublishAsync(e));
             DomainEvents.DomainEvents.ClearCallbacks();
             return "Hello Domain Event2";
         }
