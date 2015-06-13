@@ -11,5 +11,12 @@ namespace DnxConsole.Domain.Common.Utilities
             var random = new Random();
             return random.Next(1, 100)%2 != 0;
         }
+
+        public static int GetRandomFromRange(int inclusiveMin, int exclusiveMax)
+        {
+            Thread.Sleep(100);
+            var random = new Random();
+            return random.Next(inclusiveMin, exclusiveMax);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DnxConsole.Domain.Common.Contracts;
 using DnxConsole.Domain.Common.Events;
+using DnxConsole.Domain.Common.Utilities;
 
 namespace DnxConsole.Domain.Common
 {
@@ -18,6 +19,13 @@ namespace DnxConsole.Domain.Common
         }
 
         public int Id => _id;
+
+        protected int GetServiceId()
+        {
+            var serviceId = 1;      // default this show cases how you can get different functionality based off of service Id
+            if (_id > 24) serviceId = Randomizer.RandomYes() ? 2 : 3;
+            return serviceId;
+        }
 
         private void RegisterEventHandlers()
         {

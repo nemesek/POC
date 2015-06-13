@@ -2,6 +2,7 @@
 using DnxConsole.Domain.Common;
 using DnxConsole.Domain.Common.Contracts;
 
+
 namespace DnxConsole.Domain.OrderCreationContext
 {
     public class Cms : Common.Cms
@@ -15,11 +16,17 @@ namespace DnxConsole.Domain.OrderCreationContext
 
         public Order CreateOrder()
         {
-            var order = new Order(base.Id, _repository);
+            var serviceId = base.GetServiceId();
+            var loan = _repository.GetLoan(100);
+            var order = new Order(base.Id, _repository, serviceId);
             var address = new Address("Dallas", "TX", "75019", "Elm", "456");
             order.Create(address);
+            loan.AddOrder(order);
             Console.WriteLine("Order Created from CMS");
             return order;
         }
     }
 }
+    
+
+

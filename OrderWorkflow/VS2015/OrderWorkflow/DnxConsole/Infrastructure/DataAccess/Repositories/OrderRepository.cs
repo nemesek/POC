@@ -1,4 +1,5 @@
 using System;
+using DnxConsole.Domain.Common.Utilities;
 using DnxConsole.Domain.OrderCreationContext;
 using DnxConsole.Domain.OrderEditContext;
 using Order = DnxConsole.Domain.OrderEditContext.Order;
@@ -17,5 +18,10 @@ namespace DnxConsole.Infrastructure.DataAccess.Repositories
 	    {
             Console.WriteLine("Created order with Id {0}", order.Id);
         }
+
+	    public Loan GetLoan(int id)
+	    {
+	        return new Loan(Randomizer.GetRandomFromRange(1, 100));
+	    }
 	}
 }

@@ -58,11 +58,6 @@ namespace DnxConsole.Domain.OrderWorkflowContext
             return Randomizer.RandomYes();
         }
 
-        private int GetServiceId()
-        {
-            var serviceId = 1;      // default this show cases how you can get different functionality based off of service Id
-            if (base.Id > 24) serviceId = Randomizer.RandomYes() ? 2 : 3;
-            return serviceId;
-        }
+
     }
 }

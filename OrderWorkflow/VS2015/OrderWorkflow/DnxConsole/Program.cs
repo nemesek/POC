@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using DnxConsole.Domain.Common.Events;
+using DnxConsole.Domain.Common.Utilities;
 using DnxConsole.Infrastructure.Web.Controllers;
 
 namespace DnxConsole
@@ -56,8 +57,9 @@ namespace DnxConsole
             var cmsId = 0;
             if (args.Count > 0) int.TryParse(args[0], out cmsId);
             if (cmsId >= 1) return cmsId;
-            var random = new Random();
-            cmsId = random.Next(1, 25);
+            //var random = new Random();
+            //cmsId = random.Next(1, 25);
+            cmsId = Randomizer.GetRandomFromRange(1, 25);
             return cmsId;
         }
 
