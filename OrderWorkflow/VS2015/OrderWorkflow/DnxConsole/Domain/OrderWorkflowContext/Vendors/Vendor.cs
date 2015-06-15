@@ -22,12 +22,12 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Vendors
         public string Name => _name;
         public string ClientUserId => _clientUserId;
 
-        public virtual void SendMeNotification(IWorkflowOrder order)
+        public virtual void SendMeNotification(IHaveAnOrderId order)
         {
             Console.WriteLine("Sending Email and text to user {0} about orderId: {1}", _name, order.OrderId);
         }
 
-        public virtual bool AcceptOrder(IWorkflowOrder order)
+        public virtual bool AcceptOrder(IHaveAnOrderId order)
         {
             Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
             return true;

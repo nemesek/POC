@@ -7,7 +7,7 @@ using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
 namespace DnxConsole.Domain.OrderWorkflowContext
 {
-    public abstract class Order : IWorkflowOrder
+    public abstract class Order : IWorkflowOrder, IHaveAnOrderId
     {
         private readonly Guid _id;
         private readonly Cms _cms;

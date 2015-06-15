@@ -7,13 +7,13 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Vendors
     {
         public NullVendor() : base(0, string.Empty, "MAGIC_STRING_VALUE_INDICATING_NULL_VENDOR") {}
 
-        public override void SendMeNotification(IWorkflowOrder order)
+        public override void SendMeNotification(IHaveAnOrderId order)
         {
             Console.WriteLine("Order id: {0}, is going to have to be assigned manually.", order.OrderId);
             Console.WriteLine("I am going to have to log this or notify the processor.");
         }
 
-        public override bool AcceptOrder(IWorkflowOrder order)
+        public override bool AcceptOrder(IHaveAnOrderId order)
         {
             Console.WriteLine("I Don't want this order!!!!!!!!!!!!!!!!!!!!!");
             return false;
