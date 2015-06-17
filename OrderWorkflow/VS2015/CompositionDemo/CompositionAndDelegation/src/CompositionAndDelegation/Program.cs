@@ -48,7 +48,7 @@ namespace CompositionAndDelegation
         {
             var house = new Better.House(new Stereo());
             house.Clean();
-            house.PlayMusic("Classical");
+            house.PlayMusic("Rock");
         }
     }
 }
