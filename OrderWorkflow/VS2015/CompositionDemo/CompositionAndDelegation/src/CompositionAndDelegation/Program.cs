@@ -9,6 +9,8 @@ namespace CompositionAndDelegation
             DemoCarNoDelegation();
             DemoHouseUsingCar();
             DemoCarWithDelegation();
+            DemoNewHouse();
+            DemoNewHouseWithStereo();
         }
 
         public void DemoCarNoDelegation()
@@ -33,6 +35,20 @@ namespace CompositionAndDelegation
             car.Drive("Hawaii");
             car.ToggleRadio();
             car.ChangeStation("Alternative");
+        }
+
+        public void DemoNewHouse()
+        {
+            var house = new Better.House(new Radio());
+            house.Clean();
+            house.PlayMusic("Classical");
+        }
+
+        public void DemoNewHouseWithStereo()
+        {
+            var house = new Better.House(new Stereo());
+            house.Clean();
+            house.PlayMusic("Classical");
         }
     }
 }

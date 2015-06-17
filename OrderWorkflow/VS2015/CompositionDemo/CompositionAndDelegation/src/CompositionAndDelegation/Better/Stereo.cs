@@ -4,23 +4,13 @@ using System.Linq;
 
 namespace CompositionAndDelegation.Better
 {
-    public class Radio
+    public class Stereo : Radio
     {
         private int _currentVolumeLevel = 0;
-        private readonly IEnumerable<int> _volumeRange = Enumerable.Range(0, 30);
-        protected bool IsRadioOn;
+        private readonly IEnumerable<int> _volumeRange = Enumerable.Range(0, 101);
+       
 
-        public virtual void ToggleRadio()
-        {
-            IsRadioOn = !IsRadioOn;
-        }
-        public virtual void ChangeStation(string station)
-        {
-            if (!IsRadioOn) return;
-            Console.WriteLine($"Tuned to station {station}");
-        }
-
-        public virtual void ChangeRadioVolume(int offset)
+        public override void ChangeRadioVolume(int offset)
         {
             if (!IsRadioOn) return;
 
@@ -28,10 +18,12 @@ namespace CompositionAndDelegation.Better
             if (_volumeRange.Contains(desiredVolume))
             {
                 _currentVolumeLevel = desiredVolume;
+                if(_currentVolumeLevel == 100) Console.WriteLine("If it's too loud you're too old.");
                 return;
             }
 
             _currentVolumeLevel = _volumeRange.Max();
+
         }
     }
 }
