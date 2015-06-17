@@ -10,13 +10,13 @@ namespace DnxConsole.Domain.OrderWorkflowContext
 {
     public class Cms : Common.Cms
     {
-        private readonly OrderTransitionerFactory _transitionFactory;
+        private readonly StateMachineFactory _transitionFactory;
         private readonly AutoAssignFactory _autoAssignFactory;
 
         public Cms(int id, 
             ILogEvents logger,
             ISendExternalMessenges messenger,
-            OrderTransitionerFactory transitionFactory,
+            StateMachineFactory transitionFactory,
             AutoAssignFactory autoAssignFactory) : base(id, logger, messenger)
         {
             _transitionFactory = transitionFactory;

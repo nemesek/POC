@@ -5,9 +5,9 @@ using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
 namespace DnxConsole.Domain.OrderWorkflowContext.Services
 {
-    public class CustomOrdertransitioner : OrderTransitioner
+    public class CustomStateMachine : StateMachine
     {
-        public CustomOrdertransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign, WorkflowOrderFactory orderFactory)
+        public CustomStateMachine(Func<ICanBeAutoAssigned, Vendor> safeAssign, WorkflowOrderFactory orderFactory)
             : base(safeAssign, orderFactory) {}
 
         protected override IWorkflowOrder TransitionToVendorAccepted(Guid orderId, Func<OrderWorkflowDto> orderDtoFunc, bool shouldMoveForward)

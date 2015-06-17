@@ -27,7 +27,7 @@ namespace DnxConsole.Infrastructure
         {
             var repodId = cmsId%4;
             var orderFactory = GetOrderWorkflowFactory(repodId);
-            var transitionFactory = new OrderTransitionerFactory(orderFactory);
+            var transitionFactory = new StateMachineFactory(orderFactory);
             var autoAssignFactory = new AutoAssignFactory(new VendorRepository());
             return new Cms(cmsId, _eventLogger, _messenger, transitionFactory, autoAssignFactory);
         }

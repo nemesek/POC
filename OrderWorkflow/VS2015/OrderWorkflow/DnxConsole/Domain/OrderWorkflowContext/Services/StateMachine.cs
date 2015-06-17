@@ -5,12 +5,12 @@ using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
 namespace DnxConsole.Domain.OrderWorkflowContext.Services
 {
-    public class OrderTransitioner
+    public class StateMachine
     {
         private readonly Func<ICanBeAutoAssigned, Vendor> _safeAssign;
         protected WorkflowOrderFactory OrderFactory;
 
-        public OrderTransitioner(Func<ICanBeAutoAssigned, Vendor> safeAssign, WorkflowOrderFactory orderFactory)
+        public StateMachine(Func<ICanBeAutoAssigned, Vendor> safeAssign, WorkflowOrderFactory orderFactory)
         {
             _safeAssign = safeAssign;
             OrderFactory = orderFactory;

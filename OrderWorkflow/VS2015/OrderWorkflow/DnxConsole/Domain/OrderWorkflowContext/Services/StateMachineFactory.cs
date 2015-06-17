@@ -6,18 +6,18 @@ using DnxConsole.Domain.OrderWorkflowContext.Vendors;
 
 namespace DnxConsole.Domain.OrderWorkflowContext.Services
 {
-    public class OrderTransitionerFactory
+    public class StateMachineFactory
     {
         private readonly WorkflowOrderFactory _orderFactory;
 
-        private Dictionary<TransitionType, Func<Func<ICanBeAutoAssigned, Vendor>, OrderTransitioner>> _customTransitionsMap;
+        private Dictionary<TransitionType, Func<Func<ICanBeAutoAssigned, Vendor>, StateMachine>> _customTransitionsMap;
 
-        public OrderTransitionerFactory(WorkflowOrderFactory orderFactory)
+        public StateMachineFactory(WorkflowOrderFactory orderFactory)
         {
             _orderFactory = orderFactory;
             InitializeTransitionMap();
         }
-        public OrderTransitioner GetTransitionLogic(int clientId,int serviceId, Func<ICanBeAutoAssigned, Vendor> safeAssign)
+        public StateMachine GetTransitionLogic(int clientId,int serviceId, Func<ICanBeAutoAssigned, Vendor> safeAssign)
         {
             // Note that we would never really use the mod of the clientId to determine what we are really going to return
             // as it could cause conflicts with other functions that determine which state machine to return
@@ -31,7 +31,7 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
             var clientTransitionType = ClientFilter(clientId);
             return clientTransitionType != TransitionType.Undefined
                 ? _customTransitionsMap[clientTransitionType].Invoke(safeAssign)
-                : new OrderTransitioner(safeAssign, _orderFactory);
+                : new StateMachine(safeAssign, _orderFactory);
         }
 
 
@@ -72,10 +72,10 @@ namespace DnxConsole.Domain.OrderWorkflowContext.Services
 
         private void InitializeTransitionMap()
         {
-            _customTransitionsMap = new Dictionary<TransitionType, Func<Func<ICanBeAutoAssigned, Vendor>, OrderTransitioner>>
+            _customTransitionsMap = new Dictionary<TransitionType, Func<Func<ICanBeAutoAssigned, Vendor>, StateMachine>>
             {
-                {TransitionType.Custom, (sa) => new CustomOrdertransitioner(sa, _orderFactory)},
-                {TransitionType.JohnCustom, (sa) => new JohnsCustomTransitioner(sa, _orderFactory)}
+                {TransitionType.Custom, (sa) => new CustomStateMachine(sa, _orderFactory)},
+                {TransitionType.JohnCustom, (sa) => new JohnsStateMachine(sa, _orderFactory)}
             };
         }
 
