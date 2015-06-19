@@ -64,6 +64,7 @@ namespace Strategy
         {
             Console.WriteLine("DemoAAStrategy");
             var id = Randomizer.RandomYes() ? 1 : 2;
+            //var autoAssigner = id == 1 ? new Custom1AutoAssign(id) : new DefaultAutoAssign(id);
             IProcessAutoAssign autoAssigner;
             if(id == 1)
             {
@@ -73,6 +74,7 @@ namespace Strategy
             {
                 autoAssigner = new DefaultAutoAssign(id);
             }
+            
             var controller = new OrdersController();
             controller.RunAutoAssignWithStrategy(autoAssigner);
         }
@@ -86,7 +88,7 @@ namespace Strategy
         static void DemoAutoAssignWithStrategyAndFactory()
         {
             Console.WriteLine("DemoAAStrategyAndFactory");
-            var id = Randomizer.GetRandomFromRange(1,4);
+            var id = Randomizer.GetRandomFromRange(1,5);
             var autoAssigner = AutoAssignFactory.GetAutoAssignLogic(id);
             var controller = new OrdersController();
             controller.RunAutoAssignWithStrategy(autoAssigner);
