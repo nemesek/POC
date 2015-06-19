@@ -16,10 +16,13 @@ namespace LittleInterfaces
         {
             var order = GetMyOrders(orderId).SingleOrDefault();
             if (order == null) throw new Exception("This order doesn't belong to me");
+
             var vendorToAssign = _autoAssignService.FindVendorToAssignOrderTo(order, this.LinkedVendors());
             order.AssignVendor(vendorToAssign);
-            vendorToAssign.AcceptOrder(order);
-            order.UpdateOrderStatus(OrderStatus.VendorAccepted);
+
+
+            var vendorAccepted = vendorToAssign.AcceptOrder(order);
+            if(vendorAccepted) order.UpdateOrderStatus(OrderStatus.VendorAccepted);
         }
 
         private IEnumerable<IBigOrderInterface> GetMyOrders(int id)
