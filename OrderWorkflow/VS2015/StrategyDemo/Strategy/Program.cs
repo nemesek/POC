@@ -7,8 +7,8 @@ namespace Strategy
     {
         static void Main(string[] args)
         {
-            //DemoDoSomething();
-            //DemoAutoAssignConditionally();
+            DemoDoSomething();
+            DemoAutoAssignConditionally();
             //DemoFoobarDelegation();
             //DemoFoobarWithStrategy();
             //DemoFoobarWithStrategy(Randomizer.GetRandomFromRange(1,4));

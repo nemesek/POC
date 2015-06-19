@@ -8,7 +8,7 @@ namespace Strategy.Domain.StrategyOCP
         private static readonly Dictionary<int, Func<IProcessAutoAssign>> FuncDictionary = new Dictionary
             <int, Func<IProcessAutoAssign>>
         {
-            {0, () => new DefaultAutoAssign(0)},
+            {0, () => new DefaultAutoAssign(4)},
             {1, () => new Custom1AutoAssign(1)},
             {2, () => new Custom2AutoAssign(2)},
             {3, () => new Custom3AutoAssign(3)}
