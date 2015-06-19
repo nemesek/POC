@@ -1,4 +1,5 @@
 ﻿using CompositionAndDelegation.Better;
+using System;
 
 namespace CompositionAndDelegation
 {
@@ -7,9 +8,13 @@ namespace CompositionAndDelegation
         public void Main(string[] args)
         {
             DemoCarNoDelegation();
+            Console.WriteLine("______________");
             DemoHouseUsingCar();
+            Console.WriteLine("______________");
             DemoCarWithDelegation();
+            Console.WriteLine("______________");
             DemoNewHouse();
+            Console.WriteLine("______________");
             DemoNewHouseWithStereo();
         }
 
@@ -26,6 +31,7 @@ namespace CompositionAndDelegation
         {
             var house = new House();
             house.Clean();
+            house.WatchTv();
             house.PlayMusic("Classical");
         }
 
@@ -41,13 +47,15 @@ namespace CompositionAndDelegation
         {
             var house = new Better.House(new Radio());
             house.Clean();
-            house.PlayMusic("Classical");
+            house.WatchTv();
+            house.PlayMusic("Soft Music");
         }
 
         public void DemoNewHouseWithStereo()
         {
             var house = new Better.House(new Stereo());
             house.Clean();
+            house.WatchTv();
             house.PlayMusic("Rock");
         }
     }
