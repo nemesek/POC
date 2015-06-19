@@ -20,6 +20,7 @@ namespace LittleInterfaces
         public OrderStatus Status => _status;
         public string ZipCode => "38655";
         public Vendor Vendor => _assignedVendor;
+        
         public void UpdateOrderStatus(OrderStatus newStatus)
         {
             if (newStatus == OrderStatus.VendorAccepted)
