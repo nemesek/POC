@@ -58,6 +58,7 @@
     <Compile Include="OrderStatuses\RejectedStatusTests.cs" />
     <Compile Include="OrderStatuses\SubmittedStatusTests.cs" />
     <Compile Include="OrderStatuses\UnassignedStatusTests.cs" />
+    <Compile Include="OrderStatuses\VendorAcceptedStatusTests.cs" />
     <Compile Include="OrderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -42,6 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="After\AssignedOrder.cs" />
+    <Compile Include="After\ClosedOrder.cs" />
+    <Compile Include="After\ManualAssignOrder.cs" />
+    <Compile Include="After\Order.cs" />
+    <Compile Include="After\OrderStatus.cs" />
+    <Compile Include="After\ReviewAcceptanceOrder.cs" />
+    <Compile Include="After\TerminalOrder.cs" />
+    <Compile Include="After\UnassignedOrder.cs" />
+    <Compile Include="After\VendorAcceptedOrder.cs" />
     <Compile Include="Cms.cs" />
     <Compile Include="Events\DomainEvents.cs" />
     <Compile Include="Events\IDomainEvent.cs" />
