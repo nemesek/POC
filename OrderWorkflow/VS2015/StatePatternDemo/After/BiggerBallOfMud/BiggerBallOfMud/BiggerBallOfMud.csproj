@@ -43,11 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="After\AssignedOrder.cs" />
+    <Compile Include="After\ClientAcceptedOrder.cs" />
     <Compile Include="After\ClosedOrder.cs" />
     <Compile Include="After\ManualAssignOrder.cs" />
     <Compile Include="After\Order.cs" />
     <Compile Include="After\OrderStatus.cs" />
+    <Compile Include="After\RejectedOrder.cs" />
     <Compile Include="After\ReviewAcceptanceOrder.cs" />
+    <Compile Include="After\ReviewSubmissionOrder.cs" />
+    <Compile Include="After\SubmittedOrder.cs" />
     <Compile Include="After\TerminalOrder.cs" />
     <Compile Include="After\UnassignedOrder.cs" />
     <Compile Include="After\VendorAcceptedOrder.cs" />

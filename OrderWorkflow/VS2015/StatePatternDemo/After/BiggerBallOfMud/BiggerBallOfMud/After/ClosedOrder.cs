@@ -9,7 +9,7 @@
         public override OrderStatus Status => OrderStatus.Closed; 
         public override Order ProcessNextStep()
         {
-            return this;
+            return new TerminalOrder(base.CmsId, base.ZipCode, base.AssignedVendor);
         }
     }
 }

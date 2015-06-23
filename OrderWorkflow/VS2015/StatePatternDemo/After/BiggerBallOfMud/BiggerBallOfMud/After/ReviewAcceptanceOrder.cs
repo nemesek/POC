@@ -9,12 +9,12 @@ namespace BiggerBallOfMud.After
         {
         }
 
-        public override OrderStatus Status { get; }
+        public override OrderStatus Status => OrderStatus.ReviewAcceptance;
         public override Order ProcessNextStep()
         {
             Thread.Sleep(100); // helps with the randomization
             var random = new Random();
-            if (random.Next(1, 100) % 2 == 0) return this;
+            if (random.Next(1, 100) % 2 == 0) return new ClientAcceptedOrder(base.CmsId, base.ZipCode, base.AssignedVendor);
             return new UnassignedOrder(base.CmsId, base.ZipCode, base.AssignedVendor);
         }
     }

@@ -22,7 +22,6 @@ namespace BiggerBallOfMud.OrderStatuses
                 case 17:
                 case 16:
                 case 22:
-                    // bbom
                     Console.WriteLine("Doing John Additional Order Submitted Buisness Logic");
                     newStatus = new ReviewSubmissionStatus(Order);
                     break;
