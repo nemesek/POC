@@ -1,7 +1,7 @@
 ﻿using BiggerBallOfMud.OrderStatuses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BiggerBallOfMud.Test
+namespace BiggerBallOfMud.Test.OrderStatuses
 {
     [TestClass]
     public class OrderTests

@@ -1,4 +1,6 @@
-﻿namespace BiggerBallOfMud.Events
+﻿using BiggerBallOfMud.OrderStatuses;
+
+namespace BiggerBallOfMud.Events
 {
     public class OrderClosedEvent : IDomainEvent
     {

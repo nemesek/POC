@@ -51,15 +51,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="After\AssignedOrderTests.cs" />
+    <Compile Include="After\ClientAcceptedOrderTests.cs" />
+    <Compile Include="After\ClosedOrderTests.cs" />
+    <Compile Include="After\ManualAssignOrderTests.cs" />
+    <Compile Include="After\OrderTests.cs" />
+    <Compile Include="After\RejectedOrderTests.cs" />
+    <Compile Include="After\SubmittedOrderTests.cs" />
+    <Compile Include="After\TerminalOrderTests.cs" />
+    <Compile Include="After\TestOrder.cs" />
     <Compile Include="Helpers\TestVendor.cs" />
     <Compile Include="OrderStatuses\AssignedStatusTests.cs" />
     <Compile Include="OrderStatuses\ClientAcceptedStatusTests.cs" />
     <Compile Include="OrderStatuses\ClosedStatusTests.cs" />
+    <Compile Include="OrderStatuses\OrderTests.cs" />
     <Compile Include="OrderStatuses\RejectedStatusTests.cs" />
     <Compile Include="OrderStatuses\SubmittedStatusTests.cs" />
     <Compile Include="OrderStatuses\UnassignedStatusTests.cs" />
     <Compile Include="OrderStatuses\VendorAcceptedStatusTests.cs" />
-    <Compile Include="OrderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

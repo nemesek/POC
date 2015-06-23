@@ -1,7 +1,6 @@
 ﻿using System;
-using BiggerBallOfMud.OrderStatuses;
 
-namespace BiggerBallOfMud
+namespace BiggerBallOfMud.OrderStatuses
 {
     //public enum OrderStatus
     //{

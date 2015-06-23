@@ -8,7 +8,7 @@ namespace BiggerBallOfMud.After
         {
         }
 
-        public override OrderStatus Status { get; }
+        public override OrderStatus Status => OrderStatus.Submitted; 
         public override Order ProcessNextStep()
         {
             switch (this.CmsId)

@@ -1,4 +1,6 @@
-﻿namespace BiggerBallOfMud.Test.Helpers
+﻿using BiggerBallOfMud.OrderStatuses;
+
+namespace BiggerBallOfMud.Test.Helpers
 {
     public class TestVendor : Vendor
     {
@@ -9,6 +11,11 @@
         public bool AcceptAction { get; set; }
 
         public override bool AcceptOrder(Order order)
+        {
+            return AcceptAction;
+        }
+
+        public override bool AcceptOrder(BiggerBallOfMud.After.Order order)
         {
             return AcceptAction;
         }

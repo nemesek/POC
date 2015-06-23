@@ -6,10 +6,10 @@
         {
         }
 
-        public override OrderStatus Status { get; }
+        public override OrderStatus Status => OrderStatus.ClientAccepted; 
         public override Order ProcessNextStep()
         {
-            return null;    // SubmittedStatus
+            return new SubmittedOrder(base.CmsId, base.ZipCode, base.AssignedVendor);    // SubmittedStatus
         }
     }
 }

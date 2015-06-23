@@ -66,13 +66,13 @@
     <Compile Include="Events\ReviewSubmittedEvent.cs" />
     <Compile Include="Events\VendorRejectedEvent.cs" />
     <Compile Include="Old_Code\Order.cs" />
-    <Compile Include="Order.cs" />
     <Compile Include="OrdersController.cs" />
     <Compile Include="OrderStatuses\AssignedStatus.cs" />
     <Compile Include="OrderStatuses\ClientAcceptedStatus.cs" />
     <Compile Include="OrderStatuses\ClosedStatus.cs" />
     <Compile Include="OrderStatuses\IOrderStatus.cs" />
     <Compile Include="OrderStatuses\ManualAssignStatus.cs" />
+    <Compile Include="OrderStatuses\Order.cs" />
     <Compile Include="OrderStatuses\OrderStatus.cs" />
     <Compile Include="OrderStatuses\RejectedStatus.cs" />
     <Compile Include="OrderStatuses\ReviewAcceptanceStatus.cs" />

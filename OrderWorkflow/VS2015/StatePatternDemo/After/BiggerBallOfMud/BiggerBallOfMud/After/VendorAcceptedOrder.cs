@@ -10,7 +10,8 @@
         public override Order ProcessNextStep()
         {
             if (base.CmsId%5 == 0) return new ClosedOrder(base.CmsId, base.ZipCode, base.AssignedVendor);
-            return this;
+            return new ReviewAcceptanceOrder(base.CmsId, base.ZipCode, base.AssignedVendor);
+
         }
     }
 }

@@ -6,12 +6,13 @@ namespace BiggerBallOfMud.After
     {
         public AssignedOrder(int cmsId, string zipCode, Vendor vendor) : base(cmsId, zipCode, vendor)
         {
+            if (base.AssignedVendor == null) throw new ArgumentNullException(nameof(vendor));
         }
 
         public override OrderStatus Status => OrderStatus.Assigned;
         public override Order ProcessNextStep()
         {
-            if (this.AssignedVendor.AcceptOrder(this))
+            if (base.AssignedVendor.AcceptOrder(this))
             {
                 Console.WriteLine("Vendor accepted.");
                 return new VendorAcceptedOrder(base.CmsId, base.ZipCode, base.AssignedVendor);

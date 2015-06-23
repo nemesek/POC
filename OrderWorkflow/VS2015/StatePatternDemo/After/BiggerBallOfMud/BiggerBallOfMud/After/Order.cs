@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BiggerBallOfMud.After
 {
@@ -29,10 +25,6 @@ namespace BiggerBallOfMud.After
         protected Vendor AssignedVendor => _vendor;
 
         public abstract Order ProcessNextStep();
-        public bool DoesVendorAcceptOrder()
-        {
-            return true;
-        }
 
         protected void AssignVendor(Vendor vendor)
         {
