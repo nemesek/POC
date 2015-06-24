@@ -1,6 +1,6 @@
 ﻿namespace WarlocksAndWarriors
 {
-    public class Dagger : Weapon
+    internal class Dagger : Weapon
     {
         public override string Name => "Dagger";
         public override int GetDamagePoints()

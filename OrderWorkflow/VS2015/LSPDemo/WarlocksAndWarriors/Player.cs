@@ -1,6 +1,6 @@
 ﻿namespace WarlocksAndWarriors
 {
-    public abstract class Player
+    internal abstract class Player
     {
         public Weapon Weapon { get; protected set; }
         public int Level { get; protected set; }

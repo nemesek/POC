@@ -1,6 +1,6 @@
 ﻿namespace WarlocksAndWarriors
 {
-    public class Warrior : Player
+    internal class Warrior : Player
     {
         public Warrior()
         {

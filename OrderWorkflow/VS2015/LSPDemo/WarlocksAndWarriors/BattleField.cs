@@ -2,7 +2,7 @@
 
 namespace WarlocksAndWarriors
 {
-    public class BattleField
+    internal class BattleField
     {
         // using the <fill in the blank> pattern here so I can be loosely coupled
         public void GoIntoBattle(Player player)

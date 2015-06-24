@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace WarlocksAndWarriors
+﻿namespace WarlocksAndWarriors
 {
-    public class Sword : Weapon
+    internal class Sword : Weapon
     {
         public override string Name => "Sword";
         

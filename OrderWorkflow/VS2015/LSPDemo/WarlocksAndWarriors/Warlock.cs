@@ -2,7 +2,7 @@
 
 namespace WarlocksAndWarriors
 {
-    public class Warlock : Player
+    internal class Warlock : Player
     {
         public override void Equip(Weapon weapon)
         {
