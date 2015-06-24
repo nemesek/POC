@@ -17,17 +17,17 @@ namespace LittleInterfaces
             var order = GetMyOrders(orderId).SingleOrDefault();
             if (order == null) throw new Exception("This order doesn't belong to me");
 
-            var vendorToAssign = _autoAssignService.FindVendorToAssignOrderTo(order, this.LinkedVendors());
+            var vendorToAssign = _autoAssignService.FindVendorToAssignOrderTo(order.ZipCode, this.LinkedVendors());
             order.AssignVendor(vendorToAssign);
 
 
-            var vendorAccepted = vendorToAssign.AcceptOrder(order);
+            var vendorAccepted = vendorToAssign.AcceptOrder(order.OrderId);
             if(vendorAccepted) order.UpdateOrderStatus(OrderStatus.VendorAccepted);
         }
 
-        private IEnumerable<IBigOrderInterface> GetMyOrders(int id)
+        private IEnumerable<ICanDoCmsOrderActions> GetMyOrders(int id)
         {
-            return new List<IBigOrderInterface> {new Order(id, OrderStatus.Unassigned)};
+            return new List<ICanDoCmsOrderActions> {new Order(id, OrderStatus.Unassigned)};
         }
 
         private IEnumerable<Vendor> LinkedVendors()

@@ -5,9 +5,9 @@ namespace LittleInterfaces
 {
     public class AutoAssignService
     {
-        public Vendor FindVendorToAssignOrderTo(IBigOrderInterface order, IEnumerable<Vendor> vendors)
+        public Vendor FindVendorToAssignOrderTo(string zipCode, IEnumerable<Vendor> vendors)
         {
-            var vendor = vendors.FirstOrDefault(v => v.ZipCode == order.ZipCode);
+            var vendor = vendors.FirstOrDefault(v => v.ZipCode == zipCode);
             return vendor;
         }
     }

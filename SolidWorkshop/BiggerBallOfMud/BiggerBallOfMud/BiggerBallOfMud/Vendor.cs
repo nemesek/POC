@@ -50,5 +50,20 @@ namespace BiggerBallOfMud
             return false;
 
         }
+
+        public virtual bool AcceptOrder(Refactored.Order order)
+        {
+            Thread.Sleep(100); // helps with the randomization
+            var random = new Random();
+            if (random.Next(1, 100) % 2 == 0)
+            {
+                Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
+                return true;
+            }
+
+            Console.WriteLine("{0} has rejected order {1}", _name, order.OrderId);
+            return false;
+
+        }
     }
 }

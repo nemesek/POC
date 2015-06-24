@@ -23,9 +23,10 @@ namespace LittleInterfaces
 
 
 
-        public virtual bool AcceptOrder(IBigOrderInterface order)
+        public virtual bool AcceptOrder(int orderId)
         {
-            Console.WriteLine("{0} has accepted order {1}", _name, order.OrderId);
+            //order.PayAppraiserForWorkDone();
+            Console.WriteLine("{0} has accepted order {1}", _name, orderId);
             return true;
         }
     }

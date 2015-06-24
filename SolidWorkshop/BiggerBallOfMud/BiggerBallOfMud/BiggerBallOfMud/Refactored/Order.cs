@@ -1,23 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace BiggerBallOfMud
+namespace BiggerBallOfMud.Refactored
 {
-    public enum OrderStatus
-    {
-        Unassigned = 0,
-        Assigned = 1,
-        VendorAccepted = 2,
-        Submitted = 3,
-        Rejected = 4,
-        ManualAssign = 5,
-        Closed = 6,
-        ReviewSubmission = 7,
-        ReviewAcceptance = 8,
-        ClientAccepted = 9
-    }
-
     public class Order
     {
         public void Save()
@@ -77,19 +66,19 @@ namespace BiggerBallOfMud
                     Console.WriteLine("Going to have to manully assign.");
                 }
 
-                
+
             }
             else if (Status == OrderStatus.ManualAssign)
             {
                 Thread.Sleep(100); // helps with the randomization
                 var random = new Random();
-                if (random.Next(1, 100)%2 != 0)
+                if (random.Next(1, 100) % 2 != 0)
                 {
                     Console.WriteLine("^^^^^^^^Reassignment was not successful^^^^^^^^^^");
                 }
                 else
                 {
-                    if (random.Next(1, 100)%2 != 0)
+                    if (random.Next(1, 100) % 2 != 0)
                     {
                         var vendor = new Vendor(0, "38655", "Daniel Garrett");
                         Console.WriteLine("About to assign order to {0}", vendor.Name);
@@ -105,7 +94,7 @@ namespace BiggerBallOfMud
                     }
 
                 }
-                
+
             }
             else if (Status == OrderStatus.Assigned)
             {
@@ -122,14 +111,14 @@ namespace BiggerBallOfMud
             }
             else if (Status == OrderStatus.VendorAccepted)
             {
-                if (ClientId%5 == 0)
+                if (ClientId % 5 == 0)
                 {
                     this.Status = OrderStatus.Closed;
 
                 }
                 else
                 {
-                    this.Status = OrderStatus.ReviewAcceptance;    
+                    this.Status = OrderStatus.ReviewAcceptance;
                 }
             }
             else if (Status == OrderStatus.ReviewAcceptance)
@@ -137,13 +126,13 @@ namespace BiggerBallOfMud
                 // randomly determine if its rejected
                 Thread.Sleep(100); // helps with the randomization
                 var random = new Random();
-                if (random.Next(1, 100)%2 == 0)
+                if (random.Next(1, 100) % 2 == 0)
                 {
                     this.Status = OrderStatus.ClientAccepted;
                 }
                 else
                 {
-                    this.Status = OrderStatus.Unassigned;    
+                    this.Status = OrderStatus.Unassigned;
                 }
             }
             else if (Status == OrderStatus.ClientAccepted)
@@ -164,9 +153,9 @@ namespace BiggerBallOfMud
                 }
                 else
                 {
-                    this.Status = OrderStatus.ReviewSubmission;       
+                    this.Status = OrderStatus.ReviewSubmission;
                 }
-             
+
             }
             else if (Status == OrderStatus.ReviewSubmission)
             {
@@ -187,13 +176,13 @@ namespace BiggerBallOfMud
                 else
                 {
                     this.Status = OrderStatus.Rejected;
-                    Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");        
-                    
+                    Console.WriteLine("!!!!!!!!!!!!!!!!Rejecting this garbage!!!!!!!!!!!!!!!!");
+
                 }
             }
             else if (Status == OrderStatus.Rejected)
             {
-                if (ClientId%3 == 0)
+                if (ClientId % 3 == 0)
                 {
                     Console.WriteLine("**************Applying custom rejected order business logic******************");
                     // bbom 
@@ -201,7 +190,7 @@ namespace BiggerBallOfMud
                 }
                 else
                 {
-                    this.Status = OrderStatus.ReviewSubmission;    
+                    this.Status = OrderStatus.ReviewSubmission;
                 }
             }
         }

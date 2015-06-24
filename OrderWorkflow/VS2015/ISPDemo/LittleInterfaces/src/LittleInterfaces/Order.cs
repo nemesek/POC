@@ -2,7 +2,7 @@
 
 namespace LittleInterfaces
 {
-    public class Order : IBigOrderInterface
+    public class Order : ICanDoCmsOrderActions, IHaveOrderId, ICanBeAutoAssigned//IBigOrderInterface
     {
         private readonly int _id;
         private Vendor _assignedVendor;
@@ -31,6 +31,11 @@ namespace LittleInterfaces
 
             _status = newStatus;
             this.Save();
+        }
+
+        public decimal PayAppraiserForWorkDone()
+        {
+            return 1000000m;
         }
 
         public void AssignVendor(Vendor vendor)
