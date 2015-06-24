@@ -9,15 +9,16 @@ namespace Strategy
         {
             DemoDoSomething();
             DemoAutoAssignConditionally();
-            //DemoFoobarDelegation();
-            //DemoFoobarWithStrategy();
-            //DemoFoobarWithStrategy(Randomizer.GetRandomFromRange(1,4));
+            DemoFoobarDelegation();
+            DemoFoobarWithStrategy();
+            DemoFoobarWithStrategy(Randomizer.GetRandomFromRange(1, 4));
         }
 
         #region Strategy/OCP Demo
 
         static void DemoDoSomething()
         {
+            Console.WriteLine("Demo conditional DoSomething");
             var id = Randomizer.RandomYes() ? 1 : 2;
             var controller = new OrdersController();
             controller.DoSomething(id);
@@ -25,6 +26,7 @@ namespace Strategy
 
         static void DemoAutoAssignConditionally()
         {
+            Console.WriteLine("Demo conditional AutoAssign");
             var id = Randomizer.GetRandomFromRange(1, 25);
             var controller = new OrdersController();
             controller.RunAutoAssignLogicConditionally(id);
@@ -34,6 +36,7 @@ namespace Strategy
         // demo delegation by newing up foobar service
         static void DemoFoobarDelegation()
         {
+            Console.WriteLine("Demo foobar with delegation");
             var id = Randomizer.RandomYes() ? 1 : 2;
             var controller = new OrdersController();
             controller.DoSomethingWithDelegation(id);
@@ -43,6 +46,7 @@ namespace Strategy
         // demo something changing bar to baz
         static void DemoFoobarWithStrategy()
         {
+            Console.WriteLine("Demo foobar with strategy");
             var id = Randomizer.RandomYes() ? 1 : 2;
             var controller = new OrdersController();
             var service = new FoobarService();
@@ -52,6 +56,7 @@ namespace Strategy
         // demo something being added
         static void DemoFoobarWithStrategy(int id)
         {
+            Console.WriteLine("Another demo of foobar with strategy");
             var controller = new OrdersController();
             var service = new BetterFoobarService();
             controller.DoSomethingWithStrategy(id, service);
