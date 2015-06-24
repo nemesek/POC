@@ -13,6 +13,7 @@ namespace WarlocksAndWarriors
 
         }
 
+        // using the strategy pattern here so I can be loosely coupled
         static void GoIntoBattle(Player player)
         {
             //player.Equip(new Sword());
