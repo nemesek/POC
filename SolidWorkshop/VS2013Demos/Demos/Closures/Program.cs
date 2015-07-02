@@ -39,7 +39,6 @@ namespace Closures
             var benFoldsFive = FindTheElementsWithValue5Functional(list);
             Debug.Assert(benFoldsFive.Count() == 2);
 
-
         }
 
         // tell an idiot how to do it
@@ -62,45 +61,4 @@ namespace Closures
         }
     }
 
-    public interface IGetStuffDone
-    {
-        int DoSomething(int x);
-        int DoSomethingElse();
-    }
-
-    public class GetStuffDoneGuy : IGetStuffDone
-    {
-        private const int MyField = 10;
-
-        public int DoSomething(int x)
-        {
-            return x + MyField;
-        }
-
-        public int DoSomethingElse()
-        {
-            return MyField;
-        }
-    }
-
-    public class MyOtherClass
-    {
-        public void DoSomething()
-        {
-            Console.WriteLine("Doing Something from MyOtherClass");
-        }
-
-        // Higher order baby
-        public void YouTellMeWhatToDo(Func<int, int> doSomething)
-        {
-            Console.WriteLine(doSomething(30));
-        }
-
-        public void YouTellMeWhatToDo(IGetStuffDone doSomething)
-        {
-            Console.WriteLine(doSomething.DoSomething(30));
-        }
-    }
-
-    
 }
