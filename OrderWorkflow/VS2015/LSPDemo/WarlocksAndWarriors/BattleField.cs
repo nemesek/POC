@@ -11,7 +11,7 @@ namespace WarlocksAndWarriors
             player.Equip(new Dagger());
             //player.Equip(new Staff());
             var damage = player.Attack();
-            Console.WriteLine("Damage is {0}", damage);
+            Console.WriteLine($"Player inflicted {damage} damage points");
         }
     }
 }
