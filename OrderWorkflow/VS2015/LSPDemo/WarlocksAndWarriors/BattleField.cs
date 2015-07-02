@@ -8,9 +8,10 @@ namespace WarlocksAndWarriors
         public void GoIntoBattle(Player player)
         {
             //player.Equip(new Sword());
-            player.Equip(new Dagger());
-            //player.Equip(new Staff());
+            //player.Equip(new Dagger());
+            player.Equip(new Staff());
             var damage = player.Attack();
+            player.Weapon
             Console.WriteLine($"Player inflicted {damage} damage points");
         }
     }

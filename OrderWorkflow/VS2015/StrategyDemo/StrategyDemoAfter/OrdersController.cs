@@ -43,23 +43,16 @@ namespace Strategy
         {
             Console.WriteLine(service.GetAction(cmsId));
         }
-        
+
         public void RunAutoAssignWithStrategy(IProcessAutoAssign autoAssigner)
         {
             Console.WriteLine(autoAssigner.RunAutoAssignLogic());
         }
 
 
-
-
-
-
-
-
-
-        //public void RunAutoAssignWithStrategy(Func<string> autoAssign)
-        //{
-        //    Console.WriteLine(autoAssign());
-        //}
+        public void RunAutoAssignWithStrategy(Func<string> autoAssign)
+        {
+            Console.WriteLine(autoAssign());
+        }
     }
 }

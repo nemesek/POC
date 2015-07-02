@@ -19,11 +19,11 @@ namespace Strategy.Domain.StrategyOCP
 			return FuncDictionary[id](cmsId);
 		}
 
-	    //public static Func<string> GetAutoAssignLogicFunc(int cmsId)
-	    //{
-	    //    var id = cmsId%4;
-	    //    return () => FuncDictionary[id](cmsId).RunAutoAssignLogic();
-	    //}
-		
-	}
+        public static Func<string> GetAutoAssignLogicFunc(int cmsId)
+        {
+            var id = cmsId % 4;
+            return () => FuncDictionary[id](cmsId).RunAutoAssignLogic();
+        }
+
+    }
 }

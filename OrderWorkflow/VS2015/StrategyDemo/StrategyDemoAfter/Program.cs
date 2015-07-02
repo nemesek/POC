@@ -88,22 +88,22 @@ namespace Strategy
         static void DemoAutoAssignWithStrategyAndFactory()
         {
             Console.WriteLine("DemoAAStrategyAndFactory");
-            var id = Randomizer.GetRandomFromRange(1,25);
+            var id = Randomizer.GetRandomFromRange(1, 25);
             var autoAssigner = AutoAssignFactory.GetAutoAssignLogic(id);
             var controller = new OrdersController();
             controller.RunAutoAssignWithStrategy(autoAssigner);
         }
 
-        //static void Foo()
-        //{
-        //    Console.WriteLine("DemoAAStrategyAndFactory");
-        //    var id = Randomizer.GetRandomFromRange(1, 25);
-        //    var autoAssigner = AutoAssignFactory.GetAutoAssignLogic(id);
-        //    //var autoAssign = AutoAssignFactory.GetAutoAssignLogicFunc(id);
-        //    var controller = new OrdersController();
-        //    //controller.RunAutoAssignWithStrategy(autoAssign);
-        //    //controller.RunAutoAssignWithStrategy(() => autoAssigner.RunAutoAssignLogic());
-        //}
+        static void Foo()
+        {
+            Console.WriteLine("DemoAAStrategyAndFactory");
+            var id = Randomizer.GetRandomFromRange(1, 25);
+            //var autoAssigner = AutoAssignFactory.GetAutoAssignLogic(id);
+            var autoAssign = AutoAssignFactory.GetAutoAssignLogicFunc(id);
+            var controller = new OrdersController();
+            controller.RunAutoAssignWithStrategy(autoAssign);
+            //controller.RunAutoAssignWithStrategy(() => autoAssigner.RunAutoAssignLogic());
+        }
 
         #endregion
 
