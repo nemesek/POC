@@ -48,5 +48,18 @@ namespace Strategy
         {
             Console.WriteLine(autoAssigner.RunAutoAssignLogic());
         }
+
+
+
+
+
+
+
+
+
+        //public void RunAutoAssignWithStrategy(Func<string> autoAssign)
+        //{
+        //    Console.WriteLine(autoAssign());
+        //}
     }
 }
