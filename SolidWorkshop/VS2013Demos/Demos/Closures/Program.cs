@@ -16,10 +16,10 @@ namespace Closures
             // display class due to closure
             var myLocal = 5;
             var myOtherLocal = 10;
-            Func<int, int> addWithLocalVariableMyLocal = x => x + myLocal;
+            Func<int, int> addWithLocalVariableMyLocal = x => x + myLocal; // 15
             Console.WriteLine(addWithLocalVariableMyLocal(10));
             myLocal = myOtherLocal;
-            Console.WriteLine(addWithLocalVariableMyLocal(10));
+            Console.WriteLine(addWithLocalVariableMyLocal(10)); //  20
 
             // pass func (display class) to other method sig
             var otherClass = new MyOtherClass();
