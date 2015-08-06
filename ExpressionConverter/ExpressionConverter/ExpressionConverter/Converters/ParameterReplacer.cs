@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace ExpressionConverter
+namespace ExpressionConverter.Converters
 {
     public static class ParameterReplacer
     {
@@ -38,6 +38,7 @@ namespace ExpressionConverter
             protected override Expression VisitParameter(ParameterExpression node)
             {
                 // Replace the source with the target, visit other params as usual.
+                if (node.Name == "OrderId") return Expression.Parameter(node.Type, "DocId");
                 return node == _source ? _target : base.VisitParameter(node);
             }
         }

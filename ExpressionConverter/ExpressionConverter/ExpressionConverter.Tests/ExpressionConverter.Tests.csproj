@@ -53,6 +53,7 @@
     <Compile Include="ExpressionRewriterTests.cs" />
     <Compile Include="OrderExpressionConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeChangeVisitorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionConverter\ExpressionConverter.csproj">

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ExpressionConverter.Converters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExpressionConverter.Tests
@@ -22,10 +23,26 @@ namespace ExpressionConverter.Tests
 
             // assert
             Assert.IsNotNull(result);
+            var dtoResult = (Expression<Func<OrderDto, int, bool>>) result; // redundant just for demo purposes
+            Assert.IsNotNull(dtoResult);
             var orderDto = new OrderDto {OrderId = 1};
             const int orderId = 2;
             var match = result.Compile().Invoke(orderDto, orderId);
             Assert.IsFalse(match);
+        }
+
+        [TestMethod]
+        public void OrderExpressionConverter_ConvertDomainExpressionToDtoExpression_ReturnsDtoExpressionWhenGivenDomainExpressionWith2Predicates()
+        {
+            Expression<Func<DomainOrder, string, int, bool>> domainExpression = (o, zip, id) => o.ZipCode == zip && o.OrderId == id;
+            var target = new OrderExpressionConverter();
+            var result = target.ConvertDomainExpressionToDtoExpression(domainExpression);
+
+            Assert.IsNotNull(result);
+            var orderDto = new OrderDto { OrderId = 1, ZipCode = "38655" };
+            var match = result.Compile().Invoke(orderDto, "38655", 1);
+            Assert.IsTrue(match);
+
         }
 
         [TestMethod]

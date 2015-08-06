@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace ExpressionConverter
+namespace ExpressionConverter.Converters
 {
     // http://stackoverflow.com/questions/11164009/using-a-linq-expressionvisitor-to-replace-primitive-parameters-with-property-ref
     public class OrderExpressionConverter
@@ -12,6 +12,16 @@ namespace ExpressionConverter
             // we could handle the schema names differing by doing a column mapping on the EF Poco
             var result = ParameterReplacer.Replace<Func<DomainOrder, int, bool>, Func<OrderDto,int,bool>>
                 (expressionToTransform,Expression.Parameter(typeof (DomainOrder)), Expression.Parameter(typeof (OrderDto)));
+
+            return result;
+        }
+
+        public Expression<Func<OrderDto, string, int, bool>> ConvertDomainExpressionToDtoExpression(Expression<Func<DomainOrder, string, int, bool>> expressionToTransform)
+        {
+            // this requires the OrderDto to inherit from DomainOrder
+            // we could handle the schema names differing by doing a column mapping on the EF Poco
+            var result = ParameterReplacer.Replace<Func<DomainOrder, string, int, bool>, Func<OrderDto, string, int, bool>>
+                (expressionToTransform, Expression.Parameter(typeof(DomainOrder)), Expression.Parameter(typeof(OrderDto)));
 
             return result;
         }

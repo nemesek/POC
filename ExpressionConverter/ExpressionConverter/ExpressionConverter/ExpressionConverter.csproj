@@ -40,16 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ExpressionRewriter.cs" />
+    <Compile Include="Converters\ExpressionUtils.cs" />
+    <Compile Include="Converters\OrderExpressionConverter.cs" />
+    <Compile Include="Converters\ParameterReplacer.cs" />
+    <Compile Include="Converters\ReplaceVisitor.cs" />
+    <Compile Include="Converters\SwapVisitor.cs" />
+    <Compile Include="Converters\TypeChangeVisitor.cs" />
     <Compile Include="Document.cs" />
-    <Compile Include="ExpressionRewriter.cs" />
-    <Compile Include="ExpressionUtils.cs" />
     <Compile Include="Folder.cs" />
-    <Compile Include="OrderExpressionConverter.cs" />
     <Compile Include="DomainOrder.cs" />
     <Compile Include="OrderDto.cs" />
-    <Compile Include="ParameterReplacer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReplaceVisitor.cs" />
     <Compile Include="Service.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
