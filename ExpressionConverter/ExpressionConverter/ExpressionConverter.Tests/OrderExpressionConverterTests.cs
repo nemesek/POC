@@ -29,13 +29,30 @@ namespace ExpressionConverter.Tests
         }
 
         [TestMethod]
+        public void OrderExpressionConverter_ConvertDomainExpressionToDtoExpression_ReturnsDtoExpressionWhenGivenDomainExpression2()
+        {
+            Expression<Func<DomainOrder, int, bool>> expression = (o, id) => o.OrderId == id;
+            var target = new OrderExpressionConverter();
+
+            // act
+            var result = target.ConvertDomainExpressionToDtoExpression(expression);
+
+            // assert
+            Assert.IsNotNull(result);
+            var orderDto = new OrderDto { OrderId = 1 };
+            const int orderId = 2;
+            var match = result.Compile().Invoke(orderDto, orderId);
+            Assert.IsFalse(match);
+        }
+
+        [TestMethod]
         public void Converter_ConvertExpression2_ReturnsNewExpression()
         {
             Expression<Func<DomainOrder, int, bool>> expression = (o, id) => o.OrderId == id;
             var target = new OrderExpressionConverter();
 
             // act
-            var result = target.Convert2(expression);
+            var result = target.BreakDownIntoPrimitives(expression);
 
             // assert
             Assert.IsNotNull(result);

@@ -25,18 +25,6 @@ namespace ExpressionConverter
             {
                 return Expression.Property(_parameter, "ZipCode");
             }
-            else if (node.Type == typeof(DateTime))
-            {
-                return Expression.Property(_parameter, "RanAt");
-            }
-            else if (node.Type == typeof(byte))
-            {
-                return Expression.Property(_parameter, "Result");
-            }
-            else if (node.Type == typeof(long))
-            {
-                return Expression.Property(_parameter, "Elapsed");
-            }
             else if (node.Type == typeof (int))
             {
                 return Expression.Property(_parameter, "DocId");
@@ -45,6 +33,7 @@ namespace ExpressionConverter
             else if (node.Type == typeof (DomainOrder))
             {
                 return Expression.Property(_parameter, "DocId");
+                //return Expression.Property(_parameter, "ExpressionConverter.OrderDto");
             }
             throw new InvalidOperationException();
         }
