@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using ExpressionConverter.Converters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -102,6 +106,51 @@ namespace ExpressionConverter.Tests
             Assert.IsNotNull(converted);
             var match = converted.Compile().Invoke(vendorPoco);
             Assert.IsTrue(match);
+        }
+
+        [TestMethod]
+        public void SimpleExpression()
+        {
+            var firstArg = Expression.Constant(2);
+            var secondArg = Expression.Constant(3);
+            var add = Expression.Add(firstArg, secondArg);
+            Trace.WriteLine(add);
+            Func<int> compiled = Expression.Lambda<Func<int>>(add).Compile();
+            var result = compiled();
+            Assert.AreEqual(5, result);
+        }
+
+        [TestMethod]
+        public void MoreComplicatedExpression()
+        {
+            Expression<Func<string, string, bool>> expression = (x, y) => x.StartsWith(y);
+            var compiled = expression.Compile();
+            Assert.IsTrue(compiled("Hi", "Hi"));
+
+            // the following is equivalent
+
+            // build up parts of method call
+            MethodInfo method = typeof (string).GetMethod("StartsWith", new[] {typeof (string)});
+            var target = Expression.Parameter(typeof (string), "x"); // the string your calling StartWith on
+            var methodArg = Expression.Parameter(typeof (string), "y");
+            Expression[] methodArgs = new[] {methodArg};
+
+            // Creates CallExpression from parts
+            Expression call = Expression.Call(target, method, methodArg);
+
+            // Converts call into LambdaExpression
+            var lambdaParameters = new[] {target, methodArg};
+            var lambda = Expression.Lambda<Func<string, string, bool>>(call, lambdaParameters);
+
+            var compiled2 = lambda.Compile();
+            Assert.IsTrue(compiled2("Hi", "Hi"));
+
+        }
+
+        private IQueryable GetQueryable()
+        {
+            var x = new List<Vendor>().AsQueryable();
+            return x;
         }
 
     }
