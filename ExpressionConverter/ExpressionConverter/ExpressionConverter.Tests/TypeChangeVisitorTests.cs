@@ -25,6 +25,7 @@ namespace ExpressionConverter.Tests
             Assert.IsTrue(match);
         }
 
+        [TestMethod]
         public void Foo2()
         {
             var zipCode = "38655";
@@ -37,10 +38,63 @@ namespace ExpressionConverter.Tests
             Assert.IsTrue(match);
         }
 
+        [TestMethod]
+        public void Foo3()
+        {
+            var filter = "12345";
+            var vendorDto = new VendorPoco {Id = "12345"};
+            Expression<Func<Vendor, bool>> domainExpression = (v) => v.Id == filter;
+            var converted = Translate<Vendor, VendorPoco>(domainExpression);
+            Assert.IsNotNull(converted);
+            var match = converted.Compile().Invoke(vendorDto);
+            Assert.IsTrue(match);
+        }
+
+        [TestMethod]
+        public void Foo4()
+        {
+            var filter = "12345";
+            var vendorDto = new VendorPoco { Id = "12345" };
+            Expression<Func<Vendor, bool>> domainExpression = (v) => v.Id == filter;
+            var converted = Translate<Vendor, VendorPoco>(domainExpression);
+            Assert.IsNotNull(converted);
+
+        }
+
+        [TestMethod]
+        public void Foo5()
+        {
+            var zipCode = "38655";
+            var orderId = 1;
+            var orderDto = new OrderDto { ZipCode = "38655", OrderId = orderId };
+            Expression<Func<DomainOrder, bool>> domainExpression = (o) => o.ZipCode == zipCode && o.OrderId == orderId;
+            var converted = Translate<DomainOrder, OrderDto>(domainExpression);
+            Assert.IsNotNull(converted);
+            //var match = converted.Compile().Invoke(orderDto);
+            //Assert.IsTrue(match);
+
+        }
+
+
+        [TestMethod]
+        public void Foo6()
+        {
+            var zipCode = "38655";
+            var orderId = 1;
+            var orderDto = new OrderDto { ZipCode = "38655", OrderId = orderId };
+            Expression<Func<DomainOrder, bool>> domainExpression = (o) => o.ZipCode == zipCode && o.OrderId == orderId;
+            var renamer = new Renamer();
+            var result = renamer.Rename(domainExpression);
+            Assert.IsNotNull(result);
+            //var match = converted.Compile().Invoke(orderDto);
+            //Assert.IsTrue(match);
+
+        }
+
         private static Expression<Func<TTo, bool>> Translate<TFrom, TTo>(Expression<Func<TFrom, bool>> expression)
         {
             var param = Expression.Parameter(typeof(TTo), expression.Parameters[0].Name);
-            var subst = new Dictionary<Expression, Expression> { { expression.Parameters[0], param } };
+            var subst = new Dictionary<Expression, Expression> { { expression.Parameters[0], param }};
             var visitor = new TypeChangeVisitor(typeof(TFrom), typeof(TTo), subst);
             return Expression.Lambda<Func<TTo, bool>>(visitor.Visit(expression.Body), param);
         }

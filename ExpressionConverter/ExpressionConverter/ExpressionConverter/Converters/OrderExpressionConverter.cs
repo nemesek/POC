@@ -38,10 +38,23 @@ namespace ExpressionConverter.Converters
         public static Expression<Func<OrderDto, bool>> ConvertExpressionWithPrimitivesToOrderDtoExpression(Expression<Func<string,int, bool>> expression)
         {
             // this converts a lot of primitives into an expression that converts the primitive predicates into a dto expression
-            var jobAuditParameter = Expression.Parameter(typeof(OrderDto), "orderDto");
-            var newExpression = Expression.Lambda<Func<OrderDto, bool>>(new ReplaceVisitor().Modify(expression.Body, jobAuditParameter), jobAuditParameter);
+            var orderDtoParameter = Expression.Parameter(typeof(OrderDto), "orderDto");
+            var newExpression = Expression.Lambda<Func<OrderDto, bool>>(new ReplaceVisitor().Modify(expression.Body, orderDtoParameter), orderDtoParameter);
             return newExpression;
         }
+        static Expression<Func<T2, bool>> PartialApply<T, T2>(Expression<Func<T, T2, bool>> expr, T c)
+        {
+            var param = Expression.Parameter(typeof(T2), null);
+            return Expression.Lambda<Func<T2, bool>>(
+                Expression.Invoke(expr, Expression.Constant(c), param),
+                param);
+        }
+
+        //public static Expression<Func<bool>> PartialApply<T>(Expression<Func<T, bool>> expr)
+        //{
+        //    var param = Expression.Parameter(typeof(T), null);
+        //    return Expression.Lambda<Func<bool>>(Expression.Invoke(expr, param),param);
+        //}
 
         //public Expression Convert3(Expression<Func<DomainOrder, int, bool>> expressionToTransform)
         //{

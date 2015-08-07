@@ -3,13 +3,13 @@ using System.Linq.Expressions;
 
 namespace ExpressionConverter.Converters
 {
-    class ReplaceVisitor : ExpressionVisitor
+    public class ReplaceVisitor : ExpressionVisitor
     {
         private ParameterExpression _parameter;
 
         public Expression Modify(Expression expression, ParameterExpression parameter)
         {
-            this._parameter = parameter;
+            _parameter = parameter;
             return Visit(expression);
         }
 

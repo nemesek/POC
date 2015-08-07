@@ -9,20 +9,23 @@ namespace ExpressionConverter.Converters
     public class TypeChangeVisitor : ExpressionVisitor
     {
         private readonly Type from, to;
-        private readonly Dictionary<Expression, Expression> substitutions;
+        private readonly Dictionary<Expression, Expression> _substitutions;
         public TypeChangeVisitor(Type from, Type to, Dictionary<Expression, Expression> substitutions)
         {
             this.from = from;
             this.to = to;
-            this.substitutions = substitutions;
+            this._substitutions = substitutions;
         }
         public override Expression Visit(Expression node)
         { // general substitutions (for example, parameter swaps)
             Expression found;
-            if (substitutions != null && substitutions.TryGetValue(node, out found))
+            if (_substitutions != null && _substitutions.TryGetValue(node, out found))
             {
+                //var param = (ParameterExpression)node;
+                //return VisitParameter(param);
                 return found;
             }
+
             return base.Visit(node);
         }
         protected override Expression VisitMember(MemberExpression node)
@@ -34,6 +37,14 @@ namespace ExpressionConverter.Converters
                     BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Single());
             }
             return base.VisitMember(node);
+        }
+
+        protected override Expression VisitParameter(ParameterExpression node)
+        {
+            if (node.Name == "a")
+                return Expression.Parameter(node.Type, "something_else");
+            else
+                return node;
         }
     }
 }

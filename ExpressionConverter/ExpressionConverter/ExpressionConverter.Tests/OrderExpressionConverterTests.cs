@@ -87,6 +87,5 @@ namespace ExpressionConverter.Tests
             Assert.IsTrue(match);
 
         }
-
     }
 }

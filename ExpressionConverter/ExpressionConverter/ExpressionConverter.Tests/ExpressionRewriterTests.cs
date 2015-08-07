@@ -52,7 +52,10 @@ namespace ExpressionConverter.Tests
         [TestMethod]
         public void ExpressionRewriter_Test4()
         {
-
+            Expression<Func<DomainOrder, string, int, bool>> domainExpression = (o, zip, id) => o.ZipCode == zip && o.OrderId == id;
+            var body = domainExpression.Body;
+            var left = body.NodeType;
+            var compiled = domainExpression.Compile();
         }
 
         //[TestMethod]

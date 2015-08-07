@@ -12,6 +12,11 @@ namespace ExpressionConverter.Converters
             return new ParameterReplacerVisitor<TOutput>(source, target).VisitAndConvert(expression);
         }
 
+        public static Expression<T> Replace<T>(Expression<T> expression, ParameterExpression source, Expression target)
+        {
+            return new ParameterReplacerVisitor<T>(source, target).VisitAndConvert<T>(expression);
+        }
+
         private class ParameterReplacerVisitor<TOutput> : ExpressionVisitor
         {
             private readonly ParameterExpression _source;
@@ -38,7 +43,7 @@ namespace ExpressionConverter.Converters
             protected override Expression VisitParameter(ParameterExpression node)
             {
                 // Replace the source with the target, visit other params as usual.
-                if (node.Name == "OrderId") return Expression.Parameter(node.Type, "DocId");
+                //if (node.Name == "OrderId") return Expression.Parameter(node.Type, "DocId");
                 return node == _source ? _target : base.VisitParameter(node);
             }
         }
