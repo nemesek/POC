@@ -28,6 +28,15 @@ namespace ExpressionConverter.Converters
 
             return base.Visit(node);
         }
+
+        public static Expression<Func<TTo, bool>> Translate<TFrom, TTo>(Expression<Func<TFrom, bool>> expression)
+        {
+            var param = Expression.Parameter(typeof(TTo), expression.Parameters[0].Name);
+            var subst = new Dictionary<Expression, Expression> { { expression.Parameters[0], param } };
+            var visitor = new TypeChangeVisitor(typeof(TFrom), typeof(TTo), subst);
+            return Expression.Lambda<Func<TTo, bool>>(visitor.Visit(expression.Body), param);
+        }
+
         protected override Expression VisitMember(MemberExpression node)
         { // if we see x.Name on the old type, substitute for new type
             if (node.Member.DeclaringType == from)

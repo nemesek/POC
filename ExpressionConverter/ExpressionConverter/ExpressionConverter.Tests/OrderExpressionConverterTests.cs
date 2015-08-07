@@ -32,6 +32,17 @@ namespace ExpressionConverter.Tests
         }
 
         [TestMethod]
+        public void Oefoo()
+        {
+            //var target = new OrderExpressionConverter();
+            //var result = target.ConvertDomainExpressionToDtoExpression2();
+            //var orderDto = new OrderDto {DocId = 1};
+            //var orderId = 1;
+            //var match = result.Compile().Invoke(orderDto);
+            //Assert.IsTrue(false);
+        }
+
+        [TestMethod]
         public void OrderExpressionConverter_ConvertDomainExpressionToDtoExpression_ReturnsDtoExpressionWhenGivenDomainExpressionWith2Predicates()
         {
             Expression<Func<DomainOrder, string, int, bool>> domainExpression = (o, zip, id) => o.ZipCode == zip && o.OrderId == id;

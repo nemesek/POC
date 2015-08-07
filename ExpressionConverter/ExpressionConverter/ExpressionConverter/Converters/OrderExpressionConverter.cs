@@ -3,7 +3,6 @@ using System.Linq.Expressions;
 
 namespace ExpressionConverter.Converters
 {
-    // http://stackoverflow.com/questions/11164009/using-a-linq-expressionvisitor-to-replace-primitive-parameters-with-property-ref
     public class OrderExpressionConverter
     {
         public Expression<Func<OrderDto, int, bool>> ConvertDomainExpressionToDtoExpression(Expression<Func<DomainOrder,int,bool>> expressionToTransform)
@@ -14,6 +13,21 @@ namespace ExpressionConverter.Converters
                 (expressionToTransform,Expression.Parameter(typeof (DomainOrder)), Expression.Parameter(typeof (OrderDto)));
 
             return result;
+        }
+
+        public Expression<Func<OrderDto, bool>> ConvertDomainExpressionToDtoExpression2()
+        {
+            Expression<Func<OrderDto, bool>> linqExpression = o => o.OrderId == 1;
+            //var oldBody = linqExpression.
+            var itemToCompare = new OrderDto();
+            var param = Expression.Parameter(typeof(OrderDto), "o");
+            var key = typeof (OrderDto).GetProperty("DocId");
+            var rhs = Expression.MakeMemberAccess(Expression.Constant(itemToCompare), key);
+            var lhs = Expression.MakeMemberAccess(param, key);
+            var body = Expression.Equal(lhs, rhs);
+            var lambda = Expression.Lambda<Func<OrderDto, bool>>(body, param);
+            //return result;
+            return lambda;
         }
 
         public Expression<Func<OrderDto, string, int, bool>> ConvertDomainExpressionToDtoExpression(Expression<Func<DomainOrder, string, int, bool>> expressionToTransform)

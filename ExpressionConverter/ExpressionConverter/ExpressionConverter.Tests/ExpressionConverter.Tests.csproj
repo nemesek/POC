@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Demos.cs" />
     <Compile Include="ExpressionRewriterTests.cs" />
     <Compile Include="OrderExpressionConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
