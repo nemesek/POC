@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpressionConverter.Providers
 {
     public abstract class QueryProvider : IQueryProvider
     {
-        protected QueryProvider()
-        {
-        }
-
         IQueryable<S> IQueryProvider.CreateQuery<S>(Expression expression)
         {
             return new Query<S>(this, expression);
@@ -21,7 +14,7 @@ namespace ExpressionConverter.Providers
 
         IQueryable IQueryProvider.CreateQuery(Expression expression)
         {
-            Type elementType = TypeSystem.GetElementType(expression.Type);
+            var elementType = TypeSystem.GetElementType(expression.Type);
             try
             {
                 return (IQueryable)Activator.CreateInstance(typeof(Query<>).MakeGenericType(elementType), new object[] { this, expression });

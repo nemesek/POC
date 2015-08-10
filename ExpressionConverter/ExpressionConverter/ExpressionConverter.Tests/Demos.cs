@@ -128,7 +128,7 @@ namespace ExpressionConverter.Tests
             Expression<Func<string, string, bool>> expression = (x, y) => x.StartsWith(y);
             var compiled = expression.Compile();
             Assert.IsTrue(compiled("Hi", "Hi"));
-
+            
             // the following is equivalent
 
             // build up parts of method call
@@ -150,38 +150,63 @@ namespace ExpressionConverter.Tests
         }
 
         [TestMethod]
-        public void MyQueryProvider()
+        public void DbQueryProvider_ReturnsListOfEmployeesWhenGivenLambdaWithWhereContainingStringLiteral()
         {
-            var employees = RunQuery();
-            Assert.IsTrue(employees.Count == 4);
-        }
-
-        private static List<Employees> RunQuery()
-        {
+            // arrange 
             const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
             var employees = new List<Employees>();
+            // act
             using (var connection = new SqlConnection(constr))
             {
                 connection.Open();
                 var db = new Northwind(connection);
-
                 var query = db.Employees.Where(c => c.City == "London");
-
-
                 var list = query.ToList();
                 employees.AddRange(list);
-
-                //Console.ReadLine();
             }
 
-            return employees;
+            // Assert
+            Assert.IsTrue(employees.Count == 4);
         }
 
-        private IQueryable GetQueryable()
+        [TestMethod]
+        public void DbQueryProvider_ReturnsListOfEmployeesWhenGivenLambdaWithWhereContainsLocal()
         {
-            var x = new List<Vendor>().AsQueryable();
-            return x;
+            // arrange 
+            const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
+            var employees = new List<Employees>();
+            // act
+            using (var connection = new SqlConnection(constr))
+            {
+                var city = "London"; // local we pass to the where clause
+                connection.Open();
+                var db = new Northwind(connection);
+                var query = db.Employees.Where(c => c.City == city);
+                var list = query.ToList();
+                employees.AddRange(list);
+            }
+
+            // Assert
+            Assert.IsTrue(employees.Count == 4); ;
         }
 
+        [TestMethod]
+        public void DbQueryProvider_ReturnsListOfEmployeesAndProjectsClassToCorrectType()
+        {
+            // arrange 
+            const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
+            // act
+            using (var connection = new SqlConnection(constr))
+            {
+                var city = "London"; // local we pass to the where clause
+                connection.Open();
+                var db = new Northwind(connection);
+                var query = db.Employees.Where(c => c.City == city).Select(e => new {Id = e.EmployeeID, City = e.City});
+                var list = query.ToList();
+                
+                // Assert
+                Assert.IsTrue(list.Count == 4); ;
+            }
+        }
     }
 }

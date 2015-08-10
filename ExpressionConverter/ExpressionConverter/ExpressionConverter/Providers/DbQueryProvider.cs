@@ -7,29 +7,51 @@ namespace ExpressionConverter.Providers
 {
     public class DbQueryProvider : QueryProvider
     {
-        readonly DbConnection _connection;
+        DbConnection connection;
 
         public DbQueryProvider(DbConnection connection)
         {
-            _connection = connection;
+            this.connection = connection;
         }
 
         public override string GetQueryText(Expression expression)
         {
-            return Translate(expression);
+            return this.Translate(expression).CommandText;
         }
 
         public override object Execute(Expression expression)
         {
-            var cmd = this._connection.CreateCommand();
-            cmd.CommandText = Translate(expression);
-            var reader = cmd.ExecuteReader();
-            var elementType = TypeSystem.GetElementType(expression.Type);
-            return Activator.CreateInstance(typeof(ObjectReader<>).MakeGenericType(elementType),BindingFlags.Instance | BindingFlags.NonPublic, null,new object[] { reader },null);
+            TranslateResult result = this.Translate(expression);
+
+            DbCommand cmd = this.connection.CreateCommand();
+            cmd.CommandText = result.CommandText;
+            DbDataReader reader = cmd.ExecuteReader();
+
+            Type elementType = TypeSystem.GetElementType(expression.Type);
+            if (result.Projector != null)
+            {
+                Delegate projector = result.Projector.Compile();
+                return Activator.CreateInstance(
+                    typeof(ProjectionReader<>).MakeGenericType(elementType),
+                    BindingFlags.Instance | BindingFlags.NonPublic, null,
+                    new object[] { reader, projector },
+                    null
+                    );
+            }
+            else
+            {
+                return Activator.CreateInstance(
+                    typeof(ObjectReader<>).MakeGenericType(elementType),
+                    BindingFlags.Instance | BindingFlags.NonPublic, null,
+                    new object[] { reader },
+                    null
+                    );
+            }
         }
 
-        private static string Translate(Expression expression)
+        private TranslateResult Translate(Expression expression)
         {
+            expression = Evaluator.PartialEval(expression);
             return new QueryTranslator().Translate(expression);
         }
     }

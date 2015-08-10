@@ -1,21 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpressionConverter.Providers
 {
     internal class QueryTranslator : ExpressionVisitor
     {
         StringBuilder _stringBuilder;
+        ParameterExpression row;
+        ColumnProjection projection;
 
-        internal string Translate(Expression expression)
+        //internal string Translate(Expression expression)
+        //{
+        //    _stringBuilder = new StringBuilder();
+        //    this.Visit(expression);
+        //    return _stringBuilder.ToString();
+        //}
+
+        internal TranslateResult Translate(Expression expression)
         {
             _stringBuilder = new StringBuilder();
+            this.row = Expression.Parameter(typeof(ProjectionRow), "row");
             this.Visit(expression);
-            return _stringBuilder.ToString();
+            return new TranslateResult
+            {
+                CommandText = _stringBuilder.ToString(),
+                Projector = this.projection != null ? Expression.Lambda(this.projection.Selector, this.row) : null
+            };
         }
 
         private static Expression StripQuotes(Expression e)
@@ -29,17 +41,36 @@ namespace ExpressionConverter.Providers
 
         protected override Expression VisitMethodCall(MethodCallExpression methodCallExpression)
         {
-            if (methodCallExpression.Method.DeclaringType != typeof (Queryable) || methodCallExpression.Method.Name != "Where")
+            if (methodCallExpression.Method.DeclaringType != typeof (Queryable))
             {
                 throw new NotSupportedException($"The method '{methodCallExpression.Method.Name}' is not supported");
             }
 
-            _stringBuilder.Append("SELECT * FROM (");
-            this.Visit(methodCallExpression.Arguments[0]);
-            _stringBuilder.Append(") AS T WHERE ");
-            var lambda = (LambdaExpression)StripQuotes(methodCallExpression.Arguments[1]);
-            this.Visit(lambda.Body);
-            return methodCallExpression;
+            if (methodCallExpression.Method.Name == "Where")
+            {
+                _stringBuilder.Append("SELECT * FROM (");
+                this.Visit(methodCallExpression.Arguments[0]);
+                _stringBuilder.Append(") AS T WHERE ");
+                var lambda = (LambdaExpression)StripQuotes(methodCallExpression.Arguments[1]);
+                this.Visit(lambda.Body);
+                return methodCallExpression;
+            }
+
+            if (methodCallExpression.Method.Name == "Select")
+            {
+                var lambda = (LambdaExpression)StripQuotes(methodCallExpression.Arguments[1]);
+                var projectColumns = new ColumnProjector().ProjectColumns(lambda.Body, this.row);
+                _stringBuilder.Append("SELECT ");
+                _stringBuilder.Append(projectColumns.Columns);
+                _stringBuilder.Append(" FROM (");
+                this.Visit(methodCallExpression.Arguments[0]);
+                _stringBuilder.Append(") AS T ");
+                this.projection = projectColumns;
+                return methodCallExpression;
+            }
+
+            throw new NotSupportedException($"The method '{methodCallExpression.Method.Name}' is not supported");
+
         }
 
         protected override Expression VisitUnary(UnaryExpression unaryExpression)

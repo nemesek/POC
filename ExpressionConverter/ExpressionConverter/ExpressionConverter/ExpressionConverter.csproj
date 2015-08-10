@@ -55,7 +55,13 @@
     <Compile Include="DomainOrder.cs" />
     <Compile Include="OrderDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ColumnProjection.cs" />
+    <Compile Include="Providers\ColumnProjector.cs" />
     <Compile Include="Providers\DbQueryProvider.cs" />
+    <Compile Include="Providers\Evaluator.cs" />
+    <Compile Include="Providers\Nominator.cs" />
+    <Compile Include="Providers\ProjectionReader.cs" />
+    <Compile Include="Providers\ProjectionRow.cs" />
     <Compile Include="Providers\SampleExpressionVisitor.cs" />
     <Compile Include="Providers\FakeQuery.cs" />
     <Compile Include="Providers\FakeQueryProvider.cs" />
@@ -63,6 +69,7 @@
     <Compile Include="Providers\Query.cs" />
     <Compile Include="Providers\QueryProvider.cs" />
     <Compile Include="Providers\QueryTranslator.cs" />
+    <Compile Include="Providers\TranslateResult.cs" />
     <Compile Include="Providers\TypeSystem.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Vendor.cs" />
