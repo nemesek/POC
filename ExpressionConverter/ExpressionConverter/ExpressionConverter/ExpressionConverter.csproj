@@ -48,15 +48,27 @@
     <Compile Include="Converters\ReplaceVisitor.cs" />
     <Compile Include="Converters\SwapVisitor.cs" />
     <Compile Include="Converters\TypeChangeVisitor.cs" />
+    <Compile Include="DataAccess\Employees.cs" />
+    <Compile Include="DataAccess\Northwind.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="DomainOrder.cs" />
     <Compile Include="OrderDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\DbQueryProvider.cs" />
+    <Compile Include="Providers\SampleExpressionVisitor.cs" />
+    <Compile Include="Providers\FakeQuery.cs" />
+    <Compile Include="Providers\FakeQueryProvider.cs" />
+    <Compile Include="Providers\ObjectReader.cs" />
+    <Compile Include="Providers\Query.cs" />
+    <Compile Include="Providers\QueryProvider.cs" />
+    <Compile Include="Providers\QueryTranslator.cs" />
+    <Compile Include="Providers\TypeSystem.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Vendor.cs" />
     <Compile Include="VendorPoco.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

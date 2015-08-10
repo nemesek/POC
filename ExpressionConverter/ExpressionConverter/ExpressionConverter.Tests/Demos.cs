@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using ExpressionConverter.Converters;
+using ExpressionConverter.DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExpressionConverter.Tests
@@ -93,7 +95,7 @@ namespace ExpressionConverter.Tests
         [TestMethod]
         public void Demo_TranslateDomainExpressionToVendorPocoExpression()
         {
-            // uses TypeChangeVisitor
+            // uses TypeChangeVisitor doesn't use inheritance
             // arrange
             var filter = "12345";
             var vendorPoco = new VendorPoco { Id = "12345" };
@@ -145,6 +147,34 @@ namespace ExpressionConverter.Tests
             var compiled2 = lambda.Compile();
             Assert.IsTrue(compiled2("Hi", "Hi"));
 
+        }
+
+        [TestMethod]
+        public void MyQueryProvider()
+        {
+            var employees = RunQuery();
+            Assert.IsTrue(employees.Count == 4);
+        }
+
+        private static List<Employees> RunQuery()
+        {
+            const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
+            var employees = new List<Employees>();
+            using (var connection = new SqlConnection(constr))
+            {
+                connection.Open();
+                var db = new Northwind(connection);
+
+                var query = db.Employees.Where(c => c.City == "London");
+
+
+                var list = query.ToList();
+                employees.AddRange(list);
+
+                //Console.ReadLine();
+            }
+
+            return employees;
         }
 
         private IQueryable GetQueryable()
