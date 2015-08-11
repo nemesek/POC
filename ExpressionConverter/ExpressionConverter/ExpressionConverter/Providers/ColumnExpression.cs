@@ -9,17 +9,27 @@ namespace ExpressionConverter.Providers
 {
     internal class ColumnExpression : Expression
     {
+        string alias;
+        string name;
+        int ordinal;
         internal ColumnExpression(Type type, string alias, string name, int ordinal)
             : base((ExpressionType)DbExpressionType.Column, type)
         {
-            this.Alias = alias;
-            this.Name = name;
-            this.Ordinal = ordinal;
+            this.alias = alias;
+            this.name = name;
+            this.ordinal = ordinal;
         }
-        internal string Alias { get; }
-
-        internal string Name { get; }
-
-        internal int Ordinal { get; }
+        internal string Alias
+        {
+            get { return this.alias; }
+        }
+        internal string Name
+        {
+            get { return this.name; }
+        }
+        internal int Ordinal
+        {
+            get { return this.ordinal; }
+        }
     }
 }

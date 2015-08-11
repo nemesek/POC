@@ -14,7 +14,7 @@ namespace ExpressionConverter.Providers
 
         IQueryable IQueryProvider.CreateQuery(Expression expression)
         {
-            var elementType = TypeSystem.GetElementType(expression.Type);
+            Type elementType = TypeSystem.GetElementType(expression.Type);
             try
             {
                 return (IQueryable)Activator.CreateInstance(typeof(Query<>).MakeGenericType(elementType), new object[] { this, expression });
