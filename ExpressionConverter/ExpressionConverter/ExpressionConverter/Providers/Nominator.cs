@@ -11,7 +11,7 @@ namespace ExpressionConverter.Providers
     /// Performs bottom-up analysis to determine which nodes can possibly
     /// be part of an evaluated sub-tree.
     /// </summary>
-    class Nominator : ExpressionVisitor
+    class Nominator : DbExpressionVisitor
     {
         Func<Expression, bool> fnCanBeEvaluated;
         HashSet<Expression> candidates;
@@ -53,3 +53,4 @@ namespace ExpressionConverter.Providers
         }
     }
 }
+

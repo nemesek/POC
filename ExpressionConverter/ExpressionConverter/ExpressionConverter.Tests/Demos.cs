@@ -160,7 +160,7 @@ namespace ExpressionConverter.Tests
             {
                 connection.Open();
                 var db = new Northwind(connection);
-                var query = db.Employees.Where(c => c.City == "London");
+                var query = db.Employees.Where(e => e.City == "London");
                 var list = query.ToList();
                 employees.AddRange(list);
             }
@@ -170,7 +170,27 @@ namespace ExpressionConverter.Tests
         }
 
         [TestMethod]
-        public void DbQueryProvider_ReturnsListOfEmployeesWhenGivenLambdaWithWhereContainsLocal()
+        public void DbQueryProvider_ReturnsListOfOrdersWhenGivenLambdaWithWhereContainingInteger()
+        {
+            // arrange 
+            const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
+            var orders = new List<Orders>();
+            // act
+            using (var connection = new SqlConnection(constr))
+            {
+                connection.Open();
+                var db = new Northwind(connection);
+                var query = db.Orders.Where(o => o.OrderID == 10248);
+                var list = query.ToList();
+                orders.AddRange(list);
+            }
+
+            // Assert
+            Assert.IsTrue(orders.Count == 1);
+        }
+
+        [TestMethod]
+        public void DbQueryProvider_ReturnsListOfEmployeesWhenGivenLambdaWhenWhereContainsLocal()
         {
             // arrange 
             const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
@@ -181,7 +201,7 @@ namespace ExpressionConverter.Tests
                 var city = "London"; // local we pass to the where clause
                 connection.Open();
                 var db = new Northwind(connection);
-                var query = db.Employees.Where(c => c.City == city);
+                var query = db.Employees.Where(e => e.City == city);
                 var list = query.ToList();
                 employees.AddRange(list);
             }
@@ -201,9 +221,61 @@ namespace ExpressionConverter.Tests
                 var city = "London"; // local we pass to the where clause
                 connection.Open();
                 var db = new Northwind(connection);
-                var query = db.Employees.Where(c => c.City == city).Select(e => new {Id = e.EmployeeID, City = e.City});
+                var query = db.Employees.Where(c => c.City == city).Select(e => new {Id = e.EmployeeID, e.City});
                 var list = query.ToList();
                 
+                // Assert
+                Assert.IsTrue(list.Count == 4); ;
+            }
+        }
+
+        [TestMethod]
+        public void DbQueryProvider_HandlesSelectAnonymousProjectionWithCustomNameCombinedWithWhereClause()
+        {
+            // arrange 
+            const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
+            // act
+            using (var connection = new SqlConnection(constr))
+            {
+                var city = "London"; // local we pass to the where clause
+                connection.Open();
+                var db = new Northwind(connection);
+                var query =
+                    db.Employees
+                    .Select(e => new {Id = e.EmployeeID, Location = new {e.City}})
+                    .Where(e => e.Location.City == city);
+
+                var list = query.ToList();
+
+                // Assert
+                Assert.IsTrue(list.Count == 4); ;
+            }
+        }
+
+        [TestMethod]
+        public void DbQueryProvider_()
+        {
+            // arrange 
+            const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
+            // act
+            using (var connection = new SqlConnection(constr))
+            {
+                var city = "London"; // local we pass to the where clause
+                connection.Open();
+                var db = new Northwind(connection);
+                var query =
+                    from e in db.Employees
+                    where e.City == city
+                    select new
+                    {
+                        Name = e.LastName,
+                        Orders = from o in db.Orders
+                                 where o.EmployeeID == e.EmployeeID
+                                 select o
+                    };
+
+                var list = query.ToList();
+
                 // Assert
                 Assert.IsTrue(list.Count == 4); ;
             }

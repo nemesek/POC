@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +13,9 @@ namespace ExpressionConverter.Providers
     {
         Enumerator enumerator;
 
-        internal ProjectionReader(DbDataReader reader, Func<ProjectionRow, T> projector)
+        internal ProjectionReader(DbDataReader reader, Func<ProjectionRow, T> projector, IQueryProvider provider)
         {
-            this.enumerator = new Enumerator(reader, projector);
+            this.enumerator = new Enumerator(reader, projector, provider);
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -38,11 +39,13 @@ namespace ExpressionConverter.Providers
             DbDataReader reader;
             T current;
             Func<ProjectionRow, T> projector;
+            IQueryProvider provider;
 
-            internal Enumerator(DbDataReader reader, Func<ProjectionRow, T> projector)
+            internal Enumerator(DbDataReader reader, Func<ProjectionRow, T> projector, IQueryProvider provider)
             {
                 this.reader = reader;
                 this.projector = projector;
+                this.provider = provider;
             }
 
             public override object GetValue(int index)
@@ -59,6 +62,29 @@ namespace ExpressionConverter.Providers
                     }
                 }
                 throw new IndexOutOfRangeException();
+            }
+
+            public override IEnumerable<E> ExecuteSubQuery<E>(LambdaExpression query)
+            {
+                ProjectionExpression projection = (ProjectionExpression)new Replacer().Replace(query.Body, query.Parameters[0], Expression.Constant(this));
+                projection = (ProjectionExpression)Evaluator.PartialEval(projection, CanEvaluateLocally);
+                IEnumerable<E> result = (IEnumerable<E>)this.provider.Execute(projection);
+                List<E> list = new List<E>(result);
+                if (typeof(IQueryable<E>).IsAssignableFrom(query.Body.Type))
+                {
+                    return list.AsQueryable();
+                }
+                return list;
+            }
+
+            private static bool CanEvaluateLocally(Expression expression)
+            {
+                if (expression.NodeType == ExpressionType.Parameter ||
+                    expression.NodeType.IsDbExpression())
+                {
+                    return false;
+                }
+                return true;
             }
 
             public T Current

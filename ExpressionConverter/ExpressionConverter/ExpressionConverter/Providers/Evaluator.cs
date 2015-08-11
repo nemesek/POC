@@ -38,9 +38,9 @@ namespace ExpressionConverter.Providers
         /// <summary>
         /// Evaluates & replaces sub-trees when first candidate is reached (top-down)
         /// </summary>
-        private class SubtreeEvaluator : ExpressionVisitor
+        class SubtreeEvaluator : DbExpressionVisitor
         {
-            private HashSet<Expression> candidates;
+            HashSet<Expression> candidates;
 
             internal SubtreeEvaluator(HashSet<Expression> candidates)
             {

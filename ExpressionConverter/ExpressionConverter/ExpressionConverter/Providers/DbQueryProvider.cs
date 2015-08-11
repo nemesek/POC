@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Common;
+using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -8,10 +9,17 @@ namespace ExpressionConverter.Providers
     public class DbQueryProvider : QueryProvider
     {
         DbConnection connection;
+        TextWriter log;
 
         public DbQueryProvider(DbConnection connection)
         {
             this.connection = connection;
+        }
+
+        public TextWriter Log
+        {
+            get { return this.log; }
+            set { this.log = value; }
         }
 
         public override string GetQueryText(Expression expression)
@@ -21,38 +29,50 @@ namespace ExpressionConverter.Providers
 
         public override object Execute(Expression expression)
         {
-            TranslateResult result = this.Translate(expression);
+            return this.Execute(this.Translate(expression));
+        }
+
+        private object Execute(TranslateResult query)
+        {
+            Delegate projector = query.Projector.Compile();
+
+            if (this.log != null)
+            {
+                this.log.WriteLine(query.CommandText);
+                this.log.WriteLine();
+            }
 
             DbCommand cmd = this.connection.CreateCommand();
-            cmd.CommandText = result.CommandText;
+            cmd.CommandText = query.CommandText;
             DbDataReader reader = cmd.ExecuteReader();
 
-            Type elementType = TypeSystem.GetElementType(expression.Type);
-            if (result.Projector != null)
-            {
-                Delegate projector = result.Projector.Compile();
-                return Activator.CreateInstance(
-                    typeof(ProjectionReader<>).MakeGenericType(elementType),
-                    BindingFlags.Instance | BindingFlags.NonPublic, null,
-                    new object[] { reader, projector },
-                    null
-                    );
-            }
-            else
-            {
-                return Activator.CreateInstance(
-                    typeof(ObjectReader<>).MakeGenericType(elementType),
-                    BindingFlags.Instance | BindingFlags.NonPublic, null,
-                    new object[] { reader },
-                    null
-                    );
-            }
+            Type elementType = TypeSystem.GetElementType(query.Projector.Body.Type);
+            return Activator.CreateInstance(
+                typeof(ProjectionReader<>).MakeGenericType(elementType),
+                BindingFlags.Instance | BindingFlags.NonPublic, null,
+                new object[] { reader, projector, this },
+                null
+                );
+        }
+
+        internal class TranslateResult
+        {
+            internal string CommandText;
+            internal LambdaExpression Projector;
         }
 
         private TranslateResult Translate(Expression expression)
         {
-            expression = Evaluator.PartialEval(expression);
-            return new QueryTranslator().Translate(expression);
+            ProjectionExpression projection = expression as ProjectionExpression;
+            if (projection == null)
+            {
+                expression = Evaluator.PartialEval(expression);
+                projection = (ProjectionExpression)new QueryBinder().Bind(expression);
+            }
+            string commandText = new QueryFormatter().Format(projection.Source);
+            LambdaExpression projector = new ProjectionBuilder().Build(projection.Projector, projection.Source.Alias);
+            return new TranslateResult { CommandText = commandText, Projector = projector };
         }
     }
+
 }
