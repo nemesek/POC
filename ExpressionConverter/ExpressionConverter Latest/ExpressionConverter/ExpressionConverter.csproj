@@ -57,13 +57,22 @@
     <Compile Include="DomainOrder.cs" />
     <Compile Include="OrderDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ColumnProjector.cs" />
+    <Compile Include="Providers\DbExpressions.cs" />
+    <Compile Include="Providers\DbQueryProvider.cs" />
+    <Compile Include="Providers\Evaluator.cs" />
+    <Compile Include="Providers\ExpressionVisitor.cs" />
+    <Compile Include="Providers\ProjectionReader.cs" />
+    <Compile Include="Providers\QueryBinder.cs" />
+    <Compile Include="Providers\QueryFormatter.cs" />
+    <Compile Include="Providers\QueryProvider.cs" />
+    <Compile Include="Providers\Replacer.cs" />
+    <Compile Include="Providers\TypeSystem.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Vendor.cs" />
     <Compile Include="VendorPoco.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Providers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
