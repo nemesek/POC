@@ -10,6 +10,5 @@ namespace ExpressionConverter.DataAccess
     {
         public int OrderID;
         public int EmployeeID;
-        public DateTime OrderDate;
     }
 }
