@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4B22DED2-B430-4639-BFBC-5C1D46C6A824}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExpressionConverter</RootNamespace>
+    <AssemblyName>ExpressionConverter</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converters\ExpressionRewriter.cs" />
+    <Compile Include="Converters\ExpressionUtils.cs" />
+    <Compile Include="Converters\OrderExpressionConverter.cs" />
+    <Compile Include="Converters\ParameterReplacer.cs" />
+    <Compile Include="Converters\Renamer.cs" />
+    <Compile Include="Converters\ReplaceVisitor.cs" />
+    <Compile Include="Converters\SwapVisitor.cs" />
+    <Compile Include="Converters\TypeChangeVisitor.cs" />
+    <Compile Include="DataAccess\Employees.cs" />
+    <Compile Include="DataAccess\Northwind.cs" />
+    <Compile Include="DataAccess\Orders.cs" />
+    <Compile Include="Document.cs" />
+    <Compile Include="Folder.cs" />
+    <Compile Include="DomainOrder.cs" />
+    <Compile Include="OrderDto.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ColumnDeclaration.cs" />
+    <Compile Include="Providers\ColumnExpression.cs" />
+    <Compile Include="Providers\ColumnProjection.cs" />
+    <Compile Include="Providers\ColumnProjector.cs" />
+    <Compile Include="Providers\DbExpressionType.cs" />
+    <Compile Include="Providers\DbExpressionVisitor.cs" />
+    <Compile Include="Providers\DbQueryProvider.cs" />
+    <Compile Include="Providers\Evaluator.cs" />
+    <Compile Include="Providers\Nominator.cs" />
+    <Compile Include="Providers\ProjectedColumns.cs" />
+    <Compile Include="Providers\ProjectionBuilder.cs" />
+    <Compile Include="Providers\ProjectionExpression.cs" />
+    <Compile Include="Providers\ProjectionReader.cs" />
+    <Compile Include="Providers\ProjectionRow.cs" />
+    <Compile Include="Providers\QueryBinder.cs" />
+    <Compile Include="Providers\QueryFormatter.cs" />
+    <Compile Include="Providers\Replacer.cs" />
+    <Compile Include="Providers\SampleExpressionVisitor.cs" />
+    <Compile Include="Providers\FakeQuery.cs" />
+    <Compile Include="Providers\FakeQueryProvider.cs" />
+    <Compile Include="Providers\ObjectReader.cs" />
+    <Compile Include="Providers\Query.cs" />
+    <Compile Include="Providers\QueryProvider.cs" />
+    <Compile Include="Providers\QueryTranslator.cs" />
+    <Compile Include="Providers\SelectExpression.cs" />
+    <Compile Include="Providers\TableExpression.cs" />
+    <Compile Include="Providers\TranslateResult.cs" />
+    <Compile Include="Providers\TypeSystem.cs" />
+    <Compile Include="Service.cs" />
+    <Compile Include="Vendor.cs" />
+    <Compile Include="VendorPoco.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
