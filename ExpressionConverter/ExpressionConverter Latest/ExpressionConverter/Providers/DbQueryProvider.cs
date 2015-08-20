@@ -6,40 +6,42 @@ using System.Reflection;
 
 namespace ExpressionConverter.Providers {
 
-    public class DbQueryProvider : QueryProvider {
-        DbConnection connection;
-        TextWriter log;
+    public class DbQueryProvider : QueryProvider
+    {
+        readonly DbConnection _connection;
 
-        public DbQueryProvider(DbConnection connection) {
-            this.connection = connection;
+        public DbQueryProvider(DbConnection connection)
+        {
+            _connection = connection;
         }
 
-        public TextWriter Log {
-            get { return this.log; }
-            set { this.log = value; }
+        public TextWriter Log { get; set; }
+
+        public override string GetQueryText(Expression expression)
+        {
+            return Translate(expression).CommandText;
         }
 
-        public override string GetQueryText(Expression expression) {
-            return this.Translate(expression).CommandText;
+        public override object Execute(Expression expression)
+        {
+            return Execute(Translate(expression));
         }
 
-        public override object Execute(Expression expression) {
-            return this.Execute(this.Translate(expression));
-        }
+        private object Execute(TranslateResult query)
+        {
+            var projector = query.Projector.Compile();
 
-        private object Execute(TranslateResult query) {
-            Delegate projector = query.Projector.Compile();
-
-            if (this.log != null) {
-                this.log.WriteLine(query.CommandText);
-                this.log.WriteLine();
+            if (Log != null)
+            {
+                Log.WriteLine(query.CommandText);
+                Log.WriteLine();
             }
 
-            DbCommand cmd = this.connection.CreateCommand();
+            var cmd = _connection.CreateCommand();
             cmd.CommandText = query.CommandText;
-            DbDataReader reader = cmd.ExecuteReader();
+            var reader = cmd.ExecuteReader();
 
-            Type elementType = TypeSystem.GetElementType(query.Projector.Body.Type);
+            var elementType = TypeSystem.GetElementType(query.Projector.Body.Type);
             return Activator.CreateInstance(
                 typeof(ProjectionReader<>).MakeGenericType(elementType),
                 BindingFlags.Instance | BindingFlags.NonPublic, null,
@@ -48,19 +50,22 @@ namespace ExpressionConverter.Providers {
                 );
         }
 
-        internal class TranslateResult {
+        internal class TranslateResult
+        {
             internal string CommandText;
             internal LambdaExpression Projector;
         }
 
-        private TranslateResult Translate(Expression expression) {
-            ProjectionExpression projection = expression as ProjectionExpression;
-            if (projection == null) {
+        private TranslateResult Translate(Expression expression)
+        {
+            var projection = expression as ProjectionExpression;
+            if (projection == null)
+            {
                 expression = Evaluator.PartialEval(expression);
                 projection = (ProjectionExpression)new QueryBinder().Bind(expression);
             }
-            string commandText = new QueryFormatter().Format(projection.Source);
-            LambdaExpression projector = new ProjectionBuilder().Build(projection.Projector, projection.Source.Alias);
+            var commandText = new QueryFormatter().Format(projection.Source);
+            var projector = new ProjectionBuilder().Build(projection.Projector, projection.Source.Alias);
             return new TranslateResult { CommandText = commandText, Projector = projector };
         }
     } 

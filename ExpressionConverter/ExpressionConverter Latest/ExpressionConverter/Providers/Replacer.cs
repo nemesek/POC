@@ -1,19 +1,20 @@
 ﻿using System.Linq.Expressions;
 
-namespace ExpressionConverter.Providers {
-    internal class Replacer : DbExpressionVisitor {
-        Expression searchFor;
-        Expression replaceWith;
-        internal Expression Replace(Expression expression, Expression searchFor, Expression replaceWith) {
-            this.searchFor = searchFor;
-            this.replaceWith = replaceWith;
-            return this.Visit(expression);
+namespace ExpressionConverter.Providers
+{
+    internal class Replacer : DbExpressionVisitor
+    {
+        Expression _searchFor;
+        Expression _replaceWith;
+        internal Expression Replace(Expression expression, Expression searchFor, Expression replaceWith)
+        {
+            _searchFor = searchFor;
+            _replaceWith = replaceWith;
+            return Visit(expression);
         }
-        protected override Expression Visit(Expression exp) {
-            if (exp == this.searchFor) {
-                return this.replaceWith;
-            }
-            return base.Visit(exp);
+        protected override Expression Visit(Expression exp)
+        {
+            return exp == _searchFor ? _replaceWith : base.Visit(exp);
         }
     }
 }

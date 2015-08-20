@@ -1,175 +1,191 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace ExpressionConverter.Providers {
-    internal class QueryFormatter : DbExpressionVisitor {
-        StringBuilder sb;
-        int indent = 2;
-        int depth;
+namespace ExpressionConverter.Providers
+{
+    internal class QueryFormatter : DbExpressionVisitor
+    {
+        StringBuilder _sb;
+        int _depth;
 
-        internal QueryFormatter() {
+        internal string Format(Expression expression)
+        {
+            _sb = new StringBuilder();
+            Visit(expression);
+            return _sb.ToString();
         }
 
-        internal string Format(Expression expression) {
-            this.sb = new StringBuilder();
-            this.Visit(expression);
-            return this.sb.ToString();
-        }
-
-        protected enum Identation {
+        protected enum Identation
+        {
             Same,
             Inner,
             Outer
         }
 
-        internal int IdentationWidth {
-            get { return this.indent; }
-            set { this.indent = value; }
+        internal int IdentationWidth { get; set; } = 2;
+
+        private void AppendNewLine(Identation style)
+        {
+            _sb.AppendLine();
+            switch (style)
+            {
+                case Identation.Inner:
+                    _depth++;
+                    break;
+                case Identation.Outer:
+                    _depth--;
+                    Debug.Assert(_depth >= 0);
+                    break;
+            }
+            for (int i = 0, n = _depth * IdentationWidth; i < n; i++) {
+                _sb.Append(" ");
+            }
         }
 
-        private void AppendNewLine(Identation style) {
-            sb.AppendLine();
-            if (style == Identation.Inner) {
-                this.depth++;
-            }
-            else if (style == Identation.Outer) {
-                this.depth--;
-                System.Diagnostics.Debug.Assert(this.depth >= 0);
-            }
-            for (int i = 0, n = this.depth * this.indent; i < n; i++) {
-                sb.Append(" ");
-            }
+        protected override Expression VisitMethodCall(MethodCallExpression m)
+        {
+            throw new NotSupportedException($"The method '{m.Method.Name}' is not supported");
         }
 
-        protected override Expression VisitMethodCall(MethodCallExpression m) {
-            throw new NotSupportedException(string.Format("The method '{0}' is not supported", m.Method.Name));
-        }
-
-        protected override Expression VisitUnary(UnaryExpression u) {
-            switch (u.NodeType) {
+        protected override Expression VisitUnary(UnaryExpression u)
+        {
+            switch (u.NodeType)
+            {
                 case ExpressionType.Not:
-                    sb.Append(" NOT ");
-                    this.Visit(u.Operand);
+                    _sb.Append(" NOT ");
+                    Visit(u.Operand);
                     break;
                 default:
-                    throw new NotSupportedException(string.Format("The unary operator '{0}' is not supported", u.NodeType));
+                    throw new NotSupportedException($"The unary operator '{u.NodeType}' is not supported");
             }
             return u;
         }
 
-        protected override Expression VisitBinary(BinaryExpression b) {
-            sb.Append("(");
-            this.Visit(b.Left);
+        protected override Expression VisitBinary(BinaryExpression b)
+        {
+            _sb.Append("(");
+            Visit(b.Left);
             switch (b.NodeType) {
                 case ExpressionType.And:
-                    sb.Append(" AND ");
+                    _sb.Append(" AND ");
                     break;
                 case ExpressionType.Or:
-                    sb.Append(" OR");
+                    _sb.Append(" OR");
                     break;
                 case ExpressionType.Equal:
-                    sb.Append(" = ");
+                    _sb.Append(" = ");
                     break;
                 case ExpressionType.NotEqual:
-                    sb.Append(" <> ");
+                    _sb.Append(" <> ");
                     break;
                 case ExpressionType.LessThan:
-                    sb.Append(" < ");
+                    _sb.Append(" < ");
                     break;
                 case ExpressionType.LessThanOrEqual:
-                    sb.Append(" <= ");
+                    _sb.Append(" <= ");
                     break;
                 case ExpressionType.GreaterThan:
-                    sb.Append(" > ");
+                    _sb.Append(" > ");
                     break;
                 case ExpressionType.GreaterThanOrEqual:
-                    sb.Append(" >= ");
+                    _sb.Append(" >= ");
                     break;
                 default:
-                    throw new NotSupportedException(string.Format("The binary operator '{0}' is not supported", b.NodeType));
+                    throw new NotSupportedException($"The binary operator '{b.NodeType}' is not supported");
             }
-            this.Visit(b.Right);
-            sb.Append(")");
+            Visit(b.Right);
+            _sb.Append(")");
             return b;
         }
 
-        protected override Expression VisitConstant(ConstantExpression c) {
-            if (c.Value == null) {
-                sb.Append("NULL");
+        protected override Expression VisitConstant(ConstantExpression c)
+        {
+            if (c.Value == null)
+            {
+                _sb.Append("NULL");
             }
-            else {
-                switch (Type.GetTypeCode(c.Value.GetType())) {
+            else
+            {
+                switch (Type.GetTypeCode(c.Value.GetType()))
+                {
                     case TypeCode.Boolean:
-                        sb.Append(((bool)c.Value) ? 1 : 0);
+                        _sb.Append(((bool)c.Value) ? 1 : 0);
                         break;
                     case TypeCode.String:
-                        sb.Append("'");
-                        sb.Append(c.Value);
-                        sb.Append("'");
+                        _sb.Append("'");
+                        _sb.Append(c.Value);
+                        _sb.Append("'");
                         break;
                     case TypeCode.Object:
-                        throw new NotSupportedException(string.Format("The constant for '{0}' is not supported", c.Value));
+                        throw new NotSupportedException($"The constant for '{c.Value}' is not supported");
                     default:
-                        sb.Append(c.Value);
+                        _sb.Append(c.Value);
                         break;
                 }
             }
             return c;
         }
 
-        protected override Expression VisitColumn(ColumnExpression column) {
-            if (!string.IsNullOrEmpty(column.Alias)) {
-                sb.Append(column.Alias);
-                sb.Append(".");
+        protected override Expression VisitColumn(ColumnExpression column)
+        {
+            if (!string.IsNullOrEmpty(column.Alias))
+            {
+                _sb.Append(column.Alias);
+                _sb.Append(".");
             }
-            sb.Append(column.Name);
+            _sb.Append(column.Name);
             return column;
         }
 
-        protected override Expression VisitSelect(SelectExpression select) {
-            sb.Append("SELECT ");
-            for (int i = 0, n = select.Columns.Count; i < n; i++) {
+        protected override Expression VisitSelect(SelectExpression select)
+        {
+            _sb.Append("SELECT ");
+            for (int i = 0, n = select.Columns.Count; i < n; i++)
+            {
                 ColumnDeclaration column = select.Columns[i];
-                if (i > 0) {
-                    sb.Append(", ");
+                if (i > 0)
+                {
+                    _sb.Append(", ");
                 }
-                ColumnExpression c = this.Visit(column.Expression) as ColumnExpression;
-                if (c == null || c.Name != select.Columns[i].Name) {
-                    sb.Append(" AS ");
-                    sb.Append(column.Name);
-                }
+                var c = Visit(column.Expression) as ColumnExpression;
+                if (c != null && c.Name == @select.Columns[i].Name) continue;
+                _sb.Append(" AS ");
+                _sb.Append(column.Name);
             }
-            if (select.From != null) {
-                this.AppendNewLine(Identation.Same);
-                sb.Append("FROM ");
-                this.VisitSource(select.From);
+            if (select.From != null)
+            {
+                AppendNewLine(Identation.Same);
+                _sb.Append("FROM ");
+                VisitSource(select.From);
             }
-            if (select.Where != null) {
-                this.AppendNewLine(Identation.Same);
-                sb.Append("WHERE ");
-                this.Visit(select.Where);
-            }
+            if (@select.Where == null) return @select;
+            AppendNewLine(Identation.Same);
+            _sb.Append("WHERE ");
+            Visit(@select.Where);
             return select;
         }
 
-        protected override Expression VisitSource(Expression source) {
-            switch ((DbExpressionType)source.NodeType) {
+        protected override Expression VisitSource(Expression source)
+        {
+            switch ((DbExpressionType)source.NodeType)
+            {
                 case DbExpressionType.Table:
-                    TableExpression table = (TableExpression)source;
-                    sb.Append(table.Name);
-                    sb.Append(" AS ");
-                    sb.Append(table.Alias);
+                    var table = (TableExpression)source;
+                    _sb.Append(table.Name);
+                    _sb.Append(" AS ");
+                    _sb.Append(table.Alias);
                     break;
                 case DbExpressionType.Select:
-                    SelectExpression select = (SelectExpression)source;
-                    sb.Append("(");
-                    this.AppendNewLine(Identation.Inner);
-                    this.Visit(select);
-                    this.AppendNewLine(Identation.Outer);
-                    sb.Append(")");
-                    sb.Append(" AS ");
-                    sb.Append(select.Alias);
+                    var select = (SelectExpression)source;
+                    _sb.Append("(");
+                    AppendNewLine(Identation.Inner);
+                    Visit(select);
+                    AppendNewLine(Identation.Outer);
+                    _sb.Append(")");
+                    _sb.Append(" AS ");
+                    _sb.Append(select.Alias);
                     break;
                 default:
                     throw new InvalidOperationException("Select source is not valid type");

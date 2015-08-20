@@ -5,86 +5,95 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ExpressionConverter.Providers {
+namespace ExpressionConverter.Providers
+{
 
-    public abstract class QueryProvider : IQueryProvider {
-        protected QueryProvider() {
+    public abstract class QueryProvider : IQueryProvider
+    {
+        IQueryable<TS> IQueryProvider.CreateQuery<TS>(Expression expression)
+        {
+            return new Query<TS>(this, expression);
         }
 
-        IQueryable<S> IQueryProvider.CreateQuery<S>(Expression expression) {
-            return new Query<S>(this, expression);
-        }
-
-        IQueryable IQueryProvider.CreateQuery(Expression expression) {
-            Type elementType = TypeSystem.GetElementType(expression.Type);
-            try {
-                return (IQueryable)Activator.CreateInstance(typeof(Query<>).MakeGenericType(elementType), new object[] { this, expression });
+        IQueryable IQueryProvider.CreateQuery(Expression expression)
+        {
+            var elementType = TypeSystem.GetElementType(expression.Type);
+            try
+            {
+                return (IQueryable)Activator.CreateInstance(typeof(Query<>).MakeGenericType(elementType), this, expression);
             }
-            catch (TargetInvocationException tie) {
+            catch (TargetInvocationException tie)
+            {
                 throw tie.InnerException;
             }
         }
 
-        S IQueryProvider.Execute<S>(Expression expression) {
-            return (S)this.Execute(expression);
+        TS IQueryProvider.Execute<TS>(Expression expression)
+        {
+            return (TS)Execute(expression);
         }
 
-        object IQueryProvider.Execute(Expression expression) {
-            return this.Execute(expression);
+        object IQueryProvider.Execute(Expression expression)
+        {
+            return Execute(expression);
         }
 
         public abstract string GetQueryText(Expression expression);
         public abstract object Execute(Expression expression);
     }
 
-    public class Query<T> : IQueryable<T>, IQueryable, IEnumerable<T>, IEnumerable, IOrderedQueryable<T>, IOrderedQueryable {
-        QueryProvider provider;
-        Expression expression;
+    public class Query<T> : IOrderedQueryable<T>
+    {
+        readonly QueryProvider _provider;
+        readonly Expression _expression;
 
-        public Query(QueryProvider provider) {
-            if (provider == null) {
-                throw new ArgumentNullException("provider");
+        public Query(QueryProvider provider)
+        {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
             }
-            this.provider = provider;
-            this.expression = Expression.Constant(this);
+            _provider = provider;
+            _expression = Expression.Constant(this);
         }
 
-        public Query(QueryProvider provider, Expression expression) {
-            if (provider == null) {
-                throw new ArgumentNullException("provider");
+        public Query(QueryProvider provider, Expression expression)
+        {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
             }
-            if (expression == null) {
-                throw new ArgumentNullException("expression");
+            if (expression == null)
+            {
+                throw new ArgumentNullException(nameof(expression));
             }
-            if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type)) {
-                throw new ArgumentOutOfRangeException("expression");
+            if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type))
+            {
+                throw new ArgumentOutOfRangeException(nameof(expression));
             }
-            this.provider = provider; 
-            this.expression = expression;
+            _provider = provider; 
+            _expression = expression;
         }
 
-        Expression IQueryable.Expression {
-            get { return this.expression; }
+        Expression IQueryable.Expression => _expression;
+
+        Type IQueryable.ElementType => typeof(T);
+
+        IQueryProvider IQueryable.Provider => _provider;
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return ((IEnumerable<T>)_provider.Execute(_expression)).GetEnumerator();
         }
 
-        Type IQueryable.ElementType {
-            get { return typeof(T); }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)_provider.Execute(_expression)).GetEnumerator();
         }
 
-        IQueryProvider IQueryable.Provider {
-            get { return this.provider; }
-        }
-
-        public IEnumerator<T> GetEnumerator() {
-            return ((IEnumerable<T>)this.provider.Execute(this.expression)).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return ((IEnumerable)this.provider.Execute(this.expression)).GetEnumerator();
-        }
-
-        public override string ToString() {
-            return this.provider.GetQueryText(this.expression);
+        public override string ToString()
+        {
+            return _provider.GetQueryText(_expression);
         }
     }
 }

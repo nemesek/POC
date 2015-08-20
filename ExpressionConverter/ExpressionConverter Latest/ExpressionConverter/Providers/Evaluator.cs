@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace ExpressionConverter.Providers {
+namespace ExpressionConverter.Providers
+{
 
-    public static class Evaluator {
+    public static class Evaluator
+    {
         /// <summary>
         /// Performs evaluation & replacement of independent sub-trees
         /// </summary>
@@ -21,42 +23,47 @@ namespace ExpressionConverter.Providers {
         /// <param name="expression">The root of the expression tree.</param>
         /// <returns>A new tree with sub-trees evaluated and replaced.</returns>
         public static Expression PartialEval(Expression expression) {
-            return PartialEval(expression, Evaluator.CanBeEvaluatedLocally);
+            return PartialEval(expression, CanBeEvaluatedLocally);
         }
 
-        private static bool CanBeEvaluatedLocally(Expression expression) {
+        private static bool CanBeEvaluatedLocally(Expression expression)
+        {
             return expression.NodeType != ExpressionType.Parameter;
         }
 
         /// <summary>
         /// Evaluates & replaces sub-trees when first candidate is reached (top-down)
         /// </summary>
-        class SubtreeEvaluator: DbExpressionVisitor {
-            HashSet<Expression> candidates;
+        class SubtreeEvaluator: DbExpressionVisitor
+        {
+            readonly HashSet<Expression> _candidates;
 
-            internal SubtreeEvaluator(HashSet<Expression> candidates) {
-                this.candidates = candidates;
+            internal SubtreeEvaluator(HashSet<Expression> candidates)
+            {
+                _candidates = candidates;
             }
 
-            internal Expression Eval(Expression exp) {
-                return this.Visit(exp);
+            internal Expression Eval(Expression exp)
+            {
+                return Visit(exp);
             }
 
-            protected override Expression Visit(Expression exp) {
-                if (exp == null) {
+            protected override Expression Visit(Expression exp)
+            {
+                if (exp == null)
+                {
                     return null;
                 }
-                if (this.candidates.Contains(exp)) {
-                    return this.Evaluate(exp);
-                }
-                return base.Visit(exp);
+                return _candidates.Contains(exp) ? Evaluate(exp) : base.Visit(exp);
             }
 
-            private Expression Evaluate(Expression e) {
-                if (e.NodeType == ExpressionType.Constant) {
+            private static Expression Evaluate(Expression e)
+            {
+                if (e.NodeType == ExpressionType.Constant)
+                {
                     return e;
                 }
-                LambdaExpression lambda = Expression.Lambda(e);
+                var lambda = Expression.Lambda(e);
                 Delegate fn = lambda.Compile();
                 return Expression.Constant(fn.DynamicInvoke(null), e.Type);
             }
@@ -66,36 +73,42 @@ namespace ExpressionConverter.Providers {
         /// Performs bottom-up analysis to determine which nodes can possibly
         /// be part of an evaluated sub-tree.
         /// </summary>
-        class Nominator : DbExpressionVisitor {
-            Func<Expression, bool> fnCanBeEvaluated;
-            HashSet<Expression> candidates;
-            bool cannotBeEvaluated;
+        class Nominator : DbExpressionVisitor
+        {
+            readonly Func<Expression, bool> _fnCanBeEvaluated;
+            HashSet<Expression> _candidates;
+            bool _cannotBeEvaluated;
 
-            internal Nominator(Func<Expression, bool> fnCanBeEvaluated) {
-                this.fnCanBeEvaluated = fnCanBeEvaluated;
+            internal Nominator(Func<Expression, bool> fnCanBeEvaluated)
+            {
+                _fnCanBeEvaluated = fnCanBeEvaluated;
             }
 
-            internal HashSet<Expression> Nominate(Expression expression) {
-                this.candidates = new HashSet<Expression>();
-                this.Visit(expression);
-                return this.candidates;
+            internal HashSet<Expression> Nominate(Expression expression)
+            {
+                _candidates = new HashSet<Expression>();
+                Visit(expression);
+                return _candidates;
             }
 
-            protected override Expression Visit(Expression expression) {
-                if (expression != null) {
-                    bool saveCannotBeEvaluated = this.cannotBeEvaluated;
-                    this.cannotBeEvaluated = false;
-                    base.Visit(expression);
-                    if (!this.cannotBeEvaluated) {
-                        if (this.fnCanBeEvaluated(expression)) {
-                            this.candidates.Add(expression);
-                        }
-                        else {
-                            this.cannotBeEvaluated = true;
-                        }
+            protected override Expression Visit(Expression expression)
+            {
+                if (expression == null) return null;
+                bool saveCannotBeEvaluated = _cannotBeEvaluated;
+                _cannotBeEvaluated = false;
+                base.Visit(expression);
+                if (!_cannotBeEvaluated)
+                {
+                    if (_fnCanBeEvaluated(expression))
+                    {
+                        _candidates.Add(expression);
                     }
-                    this.cannotBeEvaluated |= saveCannotBeEvaluated;
+                    else
+                    {
+                        _cannotBeEvaluated = true;
+                    }
                 }
+                _cannotBeEvaluated |= saveCannotBeEvaluated;
                 return expression;
             }
         }

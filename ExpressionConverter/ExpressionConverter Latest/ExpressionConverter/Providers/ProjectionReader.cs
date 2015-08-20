@@ -6,135 +6,137 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ExpressionConverter.Providers {
+namespace ExpressionConverter.Providers
+{
 
-    public abstract class ProjectionRow {
+    public abstract class ProjectionRow
+    {
         public abstract object GetValue(int index);
-        public abstract IEnumerable<E> ExecuteSubQuery<E>(LambdaExpression query);
+        public abstract IEnumerable<TE> ExecuteSubQuery<TE>(LambdaExpression query);
     }
 
-    internal class ProjectionBuilder : DbExpressionVisitor {
-        ParameterExpression row;
-        string rowAlias;
-        static MethodInfo miGetValue;
-        static MethodInfo miExecuteSubQuery;
+    internal class ProjectionBuilder : DbExpressionVisitor
+    {
+        ParameterExpression _row;
+        string _rowAlias;
+        static MethodInfo _miGetValue;
+        static MethodInfo _miExecuteSubQuery;
         
-        internal ProjectionBuilder() {
-            if (miGetValue == null) {
-                miGetValue = typeof(ProjectionRow).GetMethod("GetValue");
-                miExecuteSubQuery = typeof(ProjectionRow).GetMethod("ExecuteSubQuery");
-            }
+        internal ProjectionBuilder()
+        {
+            if (_miGetValue != null) return;
+            _miGetValue = typeof(ProjectionRow).GetMethod("GetValue");
+            _miExecuteSubQuery = typeof(ProjectionRow).GetMethod("ExecuteSubQuery");
         }
 
-        internal LambdaExpression Build(Expression expression, string alias) {
-            this.row = Expression.Parameter(typeof(ProjectionRow), "row");
-            this.rowAlias = alias;
-            Expression body = this.Visit(expression);
-            return Expression.Lambda(body, this.row);
+        internal LambdaExpression Build(Expression expression, string alias)
+        {
+            _row = Expression.Parameter(typeof(ProjectionRow), "row");
+            _rowAlias = alias;
+            Expression body = Visit(expression);
+            return Expression.Lambda(body, _row);
         }
 
-        protected override Expression VisitColumn(ColumnExpression column) {
-            if (column.Alias == this.rowAlias) {
-                return Expression.Convert(Expression.Call(this.row, miGetValue, Expression.Constant(column.Ordinal)), column.Type);
+        protected override Expression VisitColumn(ColumnExpression column)
+        {
+            if (column.Alias == _rowAlias)
+            {
+                return Expression.Convert(Expression.Call(_row, _miGetValue, Expression.Constant(column.Ordinal)), column.Type);
             }
             return column;
         }
 
-        protected override Expression VisitProjection(ProjectionExpression proj) {
-            LambdaExpression subQuery = Expression.Lambda(base.VisitProjection(proj), this.row);
+        protected override Expression VisitProjection(ProjectionExpression proj)
+        {
+            LambdaExpression subQuery = Expression.Lambda(base.VisitProjection(proj), _row);
             Type elementType = TypeSystem.GetElementType(subQuery.Body.Type);
-            MethodInfo mi = miExecuteSubQuery.MakeGenericMethod(elementType);
+            MethodInfo mi = _miExecuteSubQuery.MakeGenericMethod(elementType);
             return Expression.Convert(
-                Expression.Call(this.row, mi, Expression.Constant(subQuery)),
+                Expression.Call(_row, mi, Expression.Constant(subQuery)),
                 proj.Type
                 );
         }
     }
 
-    internal class ProjectionReader<T> : IEnumerable<T>, IEnumerable {
-        Enumerator enumerator;
+    internal class ProjectionReader<T> : IEnumerable<T>
+    {
+        Enumerator _enumerator;
 
-        internal ProjectionReader(DbDataReader reader, Func<ProjectionRow, T> projector, IQueryProvider provider) {
-            this.enumerator = new Enumerator(reader, projector, provider);
+        internal ProjectionReader(DbDataReader reader, Func<ProjectionRow, T> projector, IQueryProvider provider)
+        {
+            _enumerator = new Enumerator(reader, projector, provider);
         }
 
-        public IEnumerator<T> GetEnumerator() {
-            Enumerator e = this.enumerator;
-            if (e == null) {
+        public IEnumerator<T> GetEnumerator()
+        {
+            Enumerator e = _enumerator;
+            if (e == null)
+            {
                 throw new InvalidOperationException("Cannot enumerate more than once");
             }
-            this.enumerator = null;
+            _enumerator = null;
             return e;
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
-            return this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
-        class Enumerator : ProjectionRow, IEnumerator<T>, IEnumerator, IDisposable {
-            DbDataReader reader;
-            T current;
-            Func<ProjectionRow, T> projector;
-            IQueryProvider provider;
+        class Enumerator : ProjectionRow, IEnumerator<T>
+        {
+            readonly DbDataReader _reader;
+            T _current;
+            readonly Func<ProjectionRow, T> _projector;
+            readonly IQueryProvider _provider;
 
-            internal Enumerator(DbDataReader reader, Func<ProjectionRow, T> projector, IQueryProvider provider) {
-                this.reader = reader;
-                this.projector = projector;
-                this.provider = provider;
+            internal Enumerator(DbDataReader reader, Func<ProjectionRow, T> projector, IQueryProvider provider)
+            {
+                _reader = reader;
+                _projector = projector;
+                _provider = provider;
             }
 
-            public override object GetValue(int index) {
-                if (index >= 0) {
-                    if (this.reader.IsDBNull(index)) {
-                        return null;
-                    }
-                    else {
-                        return this.reader.GetValue(index);
-                    }
-                }
-                throw new IndexOutOfRangeException();
+            public override object GetValue(int index)
+            {
+                if (index < 0) throw new IndexOutOfRangeException();
+                return _reader.IsDBNull(index) ? null : _reader.GetValue(index);
             }
 
-            public override IEnumerable<E> ExecuteSubQuery<E>(LambdaExpression query) {
-                ProjectionExpression projection = (ProjectionExpression) new Replacer().Replace(query.Body, query.Parameters[0], Expression.Constant(this));
+            public override IEnumerable<TE> ExecuteSubQuery<TE>(LambdaExpression query)
+            {
+                var projection = (ProjectionExpression) new Replacer().Replace(query.Body, query.Parameters[0], Expression.Constant(this));
                 projection = (ProjectionExpression) Evaluator.PartialEval(projection, CanEvaluateLocally);
-                IEnumerable<E> result = (IEnumerable<E>)this.provider.Execute(projection);
-                List<E> list = new List<E>(result);
-                if (typeof(IQueryable<E>).IsAssignableFrom(query.Body.Type)) {
+                var result = (IEnumerable<TE>)_provider.Execute(projection);
+                var list = new List<TE>(result);
+                if (typeof(IQueryable<TE>).IsAssignableFrom(query.Body.Type))
+                {
                     return list.AsQueryable();
                 }
                 return list;
             }
 
-            private static bool CanEvaluateLocally(Expression expression) {
-                if (expression.NodeType == ExpressionType.Parameter ||
-                    expression.NodeType.IsDbExpression()) {
-                    return false;
-                }
+            private static bool CanEvaluateLocally(Expression expression)
+            {
+                return expression.NodeType != ExpressionType.Parameter && !expression.NodeType.IsDbExpression();
+            }
+
+            public T Current => _current;
+
+            object IEnumerator.Current => _current;
+
+            public bool MoveNext()
+            {
+                if (!_reader.Read()) return false;
+                _current = _projector(this);
                 return true;
             }
 
-            public T Current {
-                get { return this.current; }
-            }
+            public void Reset() {}
 
-            object IEnumerator.Current {
-                get { return this.current; }
-            }
-
-            public bool MoveNext() {
-                if (this.reader.Read()) {
-                    this.current = this.projector(this);
-                    return true;
-                }
-                return false;
-            }
-
-            public void Reset() {
-            }
-
-            public void Dispose() {
-                this.reader.Dispose();
+            public void Dispose()
+            {
+                _reader.Dispose();
             }
         }
     }
