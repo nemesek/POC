@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace ExpressionConverter.DataAccess
 {
-    public class Orders
+    public class Employees
     {
-        public int OrderID;
         public int EmployeeID;
-        public DateTime OrderDate;
+        public string LastName;// { get; set; }
+
+        public string Title; // { get; set; }
+
+        public string City; // { get; set; }
+
     }
 }
