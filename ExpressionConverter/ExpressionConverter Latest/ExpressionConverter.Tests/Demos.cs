@@ -237,7 +237,7 @@ namespace ExpressionConverter.Tests
             // act
             using (var connection = new SqlConnection(constr))
             {
-                var city = "London"; // local we pass to the where clause
+                const string city = "London"; // local we pass to the where clause
                 connection.Open();
                 var db = new Northwind(connection);
                 var query =
@@ -263,25 +263,34 @@ namespace ExpressionConverter.Tests
                 const string city = "London"; // local we pass to the where clause
                 connection.Open();
                 var db = new Northwind(connection);
-                var query =
-                    from e in db.Employees
-                    where e.City == city
-                    select new
+                //var query =
+                //    from e in db.Employees
+                //    where e.City == city
+                //    select new
+                //    {
+                //        Name = e.LastName,
+                //        Orders = from o in db.Orders
+                //                 where o.EmployeeID == e.EmployeeID
+                //                 select o
+                //    };
+
+                var query = db.Employees
+                    .Where(e => e.City == city)
+                    .Select(e => new
                     {
                         Name = e.LastName,
-                        Orders = from o in db.Orders
-                            where o.EmployeeID == e.EmployeeID
-                            select o
-                    };
+                        Orders = db.Orders
+                        .Where(o => o.EmployeeID == e.EmployeeID)
+                        .Select(o => o)
+                    });
 
-
+                // assert
                 foreach (var item in query)
                 {
                     Assert.IsNotNull(item);
                     Assert.IsTrue(item.Name.Length > 0);
                     Assert.IsTrue(item.Orders.Any());
                 }
-
             }
         }
     }
