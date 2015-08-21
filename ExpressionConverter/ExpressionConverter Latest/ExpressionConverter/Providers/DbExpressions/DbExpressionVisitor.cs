@@ -13,7 +13,9 @@ namespace ExpressionConverter.Providers.DbExpressions
             {
                 return null;
             }
-            switch ((DbExpressionType)exp.NodeType) {
+
+            switch ((DbExpressionType)exp.NodeType)
+            {
                 case DbExpressionType.Table:
                     return VisitTable((TableExpression)exp);
                 case DbExpressionType.Column:

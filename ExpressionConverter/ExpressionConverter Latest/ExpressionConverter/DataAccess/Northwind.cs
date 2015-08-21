@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ExpressionConverter.Providers;
 
 namespace ExpressionConverter.DataAccess
@@ -15,8 +10,8 @@ namespace ExpressionConverter.DataAccess
         public Northwind(DbConnection connection)
         {
             _provider = new DbQueryProvider(connection);
-            this.Employees = new Query<Employees>(_provider);
-            this.Orders = new Query<Orders>(_provider);
+            Employees = new Query<Employees>(_provider);
+            Orders = new Query<Orders>(_provider);
 
         }
 

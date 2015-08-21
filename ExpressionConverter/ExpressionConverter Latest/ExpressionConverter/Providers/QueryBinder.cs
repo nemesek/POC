@@ -6,7 +6,8 @@ using System.Reflection;
 using ExpressionConverter.Providers.ColumnProjections;
 using ExpressionConverter.Providers.DbExpressions;
 
-namespace ExpressionConverter.Providers {
+namespace ExpressionConverter.Providers
+{
     internal class QueryBinder : ExpressionVisitor
     {
         readonly ColumnProjector _columnProjector;

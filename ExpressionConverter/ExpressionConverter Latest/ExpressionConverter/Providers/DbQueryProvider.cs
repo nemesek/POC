@@ -21,7 +21,7 @@ namespace ExpressionConverter.Providers {
 
         public override string GetQueryText(Expression expression)
         {
-            return Translate(expression).CommandText;
+            return Translate(expression).Item1;
         }
 
         public override object Execute(Expression expression)
@@ -29,21 +29,21 @@ namespace ExpressionConverter.Providers {
             return Execute(Translate(expression));
         }
 
-        private object Execute(TranslateResult query)
+        private object Execute(Tuple<string, LambdaExpression> commandLambdaExpression)
         {
-            var projector = query.Projector.Compile();
+            var projector = commandLambdaExpression.Item2.Compile();
 
             if (Log != null)
             {
-                Log.WriteLine(query.CommandText);
+                Log.WriteLine(commandLambdaExpression.Item1);
                 Log.WriteLine();
             }
 
             var cmd = _connection.CreateCommand();
-            cmd.CommandText = query.CommandText;
+            cmd.CommandText = commandLambdaExpression.Item1;
             var reader = cmd.ExecuteReader();
 
-            var elementType = TypeSystem.GetElementType(query.Projector.Body.Type);
+            var elementType = TypeSystem.GetElementType(commandLambdaExpression.Item2.Body.Type);
             return Activator.CreateInstance(
                 typeof(ProjectionReader<>).MakeGenericType(elementType),
                 BindingFlags.Instance | BindingFlags.NonPublic, null,
@@ -52,13 +52,7 @@ namespace ExpressionConverter.Providers {
                 );
         }
 
-        private class TranslateResult
-        {
-            internal string CommandText;
-            internal LambdaExpression Projector;
-        }
-
-        private TranslateResult Translate(Expression expression)
+        private static Tuple<string, LambdaExpression> Translate(Expression expression)
         {
             var projection = expression as ProjectionExpression;
             if (projection == null)
@@ -68,7 +62,7 @@ namespace ExpressionConverter.Providers {
             }
             var commandText = new QueryFormatter().Format(projection.Source);
             LambdaExpression projector = new ProjectionBuilder().Build(projection.Projector, projection.Source.Alias);
-            return new TranslateResult { CommandText = commandText, Projector = projector };
+            return new Tuple<string, LambdaExpression>(commandText, projector);
         }
     } 
 }
