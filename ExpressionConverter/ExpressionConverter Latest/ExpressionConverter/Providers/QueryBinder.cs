@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using ExpressionConverter.Providers.Column;
+using ExpressionConverter.Providers.DbExpressions;
 
 namespace ExpressionConverter.Providers {
     internal class QueryBinder : ExpressionVisitor

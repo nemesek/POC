@@ -3,6 +3,8 @@ using System.Data.Common;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using ExpressionConverter.Providers.DbExpressions;
+using ExpressionConverter.Providers.Projections;
 
 namespace ExpressionConverter.Providers {
 
@@ -50,7 +52,7 @@ namespace ExpressionConverter.Providers {
                 );
         }
 
-        internal class TranslateResult
+        private class TranslateResult
         {
             internal string CommandText;
             internal LambdaExpression Projector;
