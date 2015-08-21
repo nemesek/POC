@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using ExpressionConverter.Providers.DbExpressions;
 
-namespace ExpressionConverter.Providers.Column
+namespace ExpressionConverter.Providers.ColumnProjections
 {
     internal class ColumnProjector : DbExpressionVisitor
     {

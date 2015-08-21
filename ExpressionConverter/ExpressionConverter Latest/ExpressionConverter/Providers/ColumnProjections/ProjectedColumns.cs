@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using ExpressionConverter.Providers.DbExpressions;
 
-namespace ExpressionConverter.Providers.Column
+namespace ExpressionConverter.Providers.ColumnProjections
 {
     internal sealed class ProjectedColumns
     {
