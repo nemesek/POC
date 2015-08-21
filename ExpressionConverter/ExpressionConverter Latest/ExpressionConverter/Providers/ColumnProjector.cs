@@ -9,7 +9,8 @@ namespace ExpressionConverter.Providers
     {
         readonly Expression _projector;
         readonly ReadOnlyCollection<ColumnDeclaration> _columns;
-        internal ProjectedColumns(Expression projector, ReadOnlyCollection<ColumnDeclaration> columns) {
+        internal ProjectedColumns(Expression projector, ReadOnlyCollection<ColumnDeclaration> columns)
+        {
             _projector = projector;
             _columns = columns;
         }
@@ -47,32 +48,31 @@ namespace ExpressionConverter.Providers
 
         protected override Expression Visit(Expression expression)
         {
-            if (_candidates.Contains(expression)) {
-                if (expression.NodeType == (ExpressionType)DbExpressionType.Column)
-                {
-                    var column = (ColumnExpression)expression;
-                    ColumnExpression mapped;
-                    if (_map.TryGetValue(column, out mapped)) {
-                        return mapped;
-                    }
-                    if (_existingAlias != column.Alias) return column;
-                    int ordinal = _columns.Count;
-                    var columnName = GetUniqueColumnName(column.Name);
-                    _columns.Add(new ColumnDeclaration(columnName, column));
-                    mapped = new ColumnExpression(column.Type, _newAlias, columnName, ordinal);
-                    _map[column] = mapped;
-                    _columnNames.Add(columnName);
+            if (!_candidates.Contains(expression)) return base.Visit(expression);
+            if (expression.NodeType == (ExpressionType)DbExpressionType.Column)
+            {
+                var column = (ColumnExpression)expression;
+                ColumnExpression mapped;
+                if (_map.TryGetValue(column, out mapped)) {
                     return mapped;
-                    // must be referring to outer scope
                 }
-                else {
-                    var columnName = GetNextColumnName();
-                    int ordinal = _columns.Count;
-                    _columns.Add(new ColumnDeclaration(columnName, expression));
-                    return new ColumnExpression(expression.Type, _newAlias, columnName, ordinal);
-                }
+                if (_existingAlias != column.Alias) return column;
+                int ordinal = _columns.Count;
+                var columnName = GetUniqueColumnName(column.Name);
+                _columns.Add(new ColumnDeclaration(columnName, column));
+                mapped = new ColumnExpression(column.Type, _newAlias, columnName, ordinal);
+                _map[column] = mapped;
+                _columnNames.Add(columnName);
+                return mapped;
+                // must be referring to outer scope
             }
-            return base.Visit(expression);
+            else
+            {
+                var columnName = GetNextColumnName();
+                int ordinal = _columns.Count;
+                _columns.Add(new ColumnDeclaration(columnName, expression));
+                return new ColumnExpression(expression.Type, _newAlias, columnName, ordinal);
+            }
         }
 
         private bool IsColumnNameInUse(string name)

@@ -65,7 +65,7 @@ namespace ExpressionConverter.Providers {
                 projection = (ProjectionExpression)new QueryBinder().Bind(expression);
             }
             var commandText = new QueryFormatter().Format(projection.Source);
-            var projector = new ProjectionBuilder().Build(projection.Projector, projection.Source.Alias);
+            LambdaExpression projector = new ProjectionBuilder().Build(projection.Projector, projection.Source.Alias);
             return new TranslateResult { CommandText = commandText, Projector = projector };
         }
     } 

@@ -256,11 +256,11 @@ namespace ExpressionConverter.Tests
         public void DbQueryProvider_()
         {
             // arrange 
-            const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True";
+            const string constr = @"Data Source =.\SQLEXPRESS; Initial Catalog = Northwind; Integrated Security = True; MultipleActiveResultSets=true";
             // act
             using (var connection = new SqlConnection(constr))
             {
-                var city = "London"; // local we pass to the where clause
+                const string city = "London"; // local we pass to the where clause
                 connection.Open();
                 var db = new Northwind(connection);
                 var query =
@@ -277,11 +277,11 @@ namespace ExpressionConverter.Tests
 
                 foreach (var item in query)
                 {
-                    var x = item;
+                    Assert.IsNotNull(item);
+                    Assert.IsTrue(item.Name.Length > 0);
+                    Assert.IsTrue(item.Orders.Any());
                 }
-            
-            // Assert
-                //Assert.IsTrue(list.Count == 4); ;
+
             }
         }
     }
