@@ -25,9 +25,9 @@ namespace AkkaSample
             //AleeFanOutPool();
             //AleeSimpler();
             //BlockedDemo();
-            //BlockedPoolDemo();
+            BlockedPoolDemo();
             //AsyncDemo();
-            AsyncPoolDemo();
+            //AsyncPoolDemo();
         }
 
         public static ActorSystem ActorSystem => _orderProcessorActorSystem;
@@ -175,7 +175,7 @@ namespace AkkaSample
 
         private static void BlockedPoolDemo()
         {
-            var poolSize = 25;
+            var poolSize = 100; // 100 around 97s
             var timer = Stopwatch.StartNew();
             var router = _orderProcessorActorSystem.ActorOf(Props.Create<BlockedSupervisor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool");
             for (var i = 0; i < poolSize; i++)
@@ -210,9 +210,9 @@ namespace AkkaSample
 
         private static void AsyncPoolDemo()
         {
-            var poolSize = 25;
+            var poolSize = 100000; // roundrobin size 7500 is the tops so far ~94-105s
             var timer = Stopwatch.StartNew();
-            var router = _orderProcessorActorSystem.ActorOf(Props.Create<Supervisor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool2");
+            var router = _orderProcessorActorSystem.ActorOf(Props.Create<Supervisor>().WithRouter(new RoundRobinPool(7500)), "some-pool2");
             for (var i = 0; i < poolSize; i++)
             {
                 var command = new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
