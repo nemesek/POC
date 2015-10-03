@@ -1,8 +1,10 @@
 ﻿using System;
 using Akka.Actor;
 using Akka.Routing;
+using AkkaSample.Alee;
+using AkkaSample.Alee.MaybeSimpler;
 using AkkaSample.Science;
-using AkkaSample.Tsi;
+using AkkaSample.Versioning;
 using OrderActor = AkkaSample.Versioning.OrderActor;
 
 namespace AkkaSample
@@ -16,8 +18,9 @@ namespace AkkaSample
             //RunSingleActor();
             //CreateActorPool();
             //RunExperiment();
-            //TsiFanOut();
-            TsiFanOutPool();
+            //AleeFanOut();
+            //AleeFanOutPool();
+            AleeSimpler();
         }
 
         public static ActorSystem ActorSystem => _orderProcessorActorSystem;
@@ -101,20 +104,34 @@ namespace AkkaSample
             });
         }
 
-        private static void TsiFanOut()
+        private static void AleeFanOut()
         {
-            var tsiActorProps = Props.Create<TsiFanOutActor>();
-            var actorRef = _orderProcessorActorSystem.ActorOf(tsiActorProps, "TsiFanOutActor");
+            var aleeActorProps = Props.Create<AleeFanOutActor>();
+            var actorRef = _orderProcessorActorSystem.ActorOf(aleeActorProps, "AleeFanOutActor");
             var command = new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
             actorRef.Tell(command);
 
             Console.ReadKey();
         }
 
-        private static void TsiFanOutPool()
+        private static void AleeFanOutPool()
         {
             var poolSize = 10;
-            var router = _orderProcessorActorSystem.ActorOf(Props.Create<TsiFanOutActor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool");
+            var router = _orderProcessorActorSystem.ActorOf(Props.Create<AleeFanOutActor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool");
+
+            for (var i = 0; i < poolSize; i++)
+            {
+                var command = new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
+                router.Tell(command);
+            }
+
+            Console.ReadKey();
+        }
+
+        private static void AleeSimpler()
+        {
+            var poolSize = 5;
+            var router = _orderProcessorActorSystem.ActorOf(Props.Create<AleeSupervisor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool");
 
             for (var i = 0; i < poolSize; i++)
             {

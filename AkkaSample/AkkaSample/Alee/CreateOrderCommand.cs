@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AkkaSample.Tsi
+namespace AkkaSample.Alee
 {
     public class CreateOrderCommand
     {

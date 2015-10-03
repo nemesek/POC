@@ -1,5 +1,6 @@
 ﻿using System;
 using Akka.Actor;
+using AkkaSample.Domain;
 
 namespace AkkaSample.Science
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AkkaSample
+namespace AkkaSample.Domain
 {
     public class OrderProcessor
     {

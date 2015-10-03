@@ -1,16 +1,14 @@
 ﻿using System;
 using Akka.Actor;
+using AkkaSample.Alee.MaybeSimpler.Commands;
 
-namespace AkkaSample.Tsi
+namespace AkkaSample.Alee.MaybeSimpler
 {
-    public class TsiFanOutActor : ReceiveActor
+    public class AleeSupervisor : ReceiveActor
     {
-        private readonly IActorRef _orderCreateActor;
-        private readonly IActorRef _orderAssignActor;
-        private readonly IActorRef _orderReviewActor;
-        private readonly IActorRef _orderCloseActor;
+        private readonly IActorRef _actorRef;
 
-        public TsiFanOutActor()
+        public AleeSupervisor()
         {
             Receive<CreateOrderCommand>(c => HandleCreateOrderCommand(c));
             Receive<OrderCreatedEvent>(e => HandleOrderCreatedEvent(e));
@@ -18,46 +16,41 @@ namespace AkkaSample.Tsi
             Receive<OrderReviewedEvent>(e => HandleOrderReviewedEvent(e));
             Receive<OrderClosedEvent>(e => HandleOrderClosedEvent(e));
 
-            var orderCreateActorProps = Props.Create<OrderCreateActor>();
-            _orderCreateActor = Context.ActorOf(orderCreateActorProps, "OrderCreateActor");
-
-            var orderAssignActorProps = Props.Create<OrderAssignActor>();
-            _orderAssignActor = Context.ActorOf(orderAssignActorProps, "OrderAssignActor");
-
-            var orderReviewActorProps = Props.Create<OrderReviewActor>();
-            _orderReviewActor = Context.ActorOf(orderReviewActorProps, "OrderReviewActor");
-
-            var orderCloseActorProps = Props.Create<OrderCloseActor>();
-            _orderCloseActor = Context.ActorOf(orderCloseActorProps, "OrderCloseActor");
+            var actorProps = Props.Create<OrderActor>();
+            _actorRef = Context.ActorOf(actorProps, "OrderActor");
         }
 
         private void HandleCreateOrderCommand(CreateOrderCommand createOrderCommand)
         {
             Console.WriteLine($"Command Received for correlationId {createOrderCommand.OrderMessage.CorrelationId}");
-            _orderCreateActor.Tell(createOrderCommand.OrderMessage);
+            _actorRef.Tell(createOrderCommand);
         }
 
         private void HandleOrderCreatedEvent(OrderCreatedEvent orderCreatedEvent)
         {
             Console.WriteLine($"Order created for correlationId {orderCreatedEvent.OrderMessage.CorrelationId}");
-            _orderAssignActor.Tell(orderCreatedEvent.OrderMessage);
+            var orderAssignCommand = new AssignOrderCommand(orderCreatedEvent.OrderMessage);
+            _actorRef.Tell(orderAssignCommand);
         }
 
         private void HandleOrderAssignedEvent(OrderAssignedEvent orderAssignedEvent)
         {
             Console.WriteLine($"Order Assigned for correlationId {orderAssignedEvent.OrderMessage.CorrelationId}");
-            _orderReviewActor.Tell(orderAssignedEvent.OrderMessage);
+            var orderReviewCommand = new ReviewOrderCommand(orderAssignedEvent.OrderMessage);
+            _actorRef.Tell(orderReviewCommand);
         }
 
         private void HandleOrderReviewedEvent(OrderReviewedEvent orderReviewedEvent)
         {
             Console.WriteLine($"Order reviewed  for correlationId {orderReviewedEvent.OrderMessage.CorrelationId}");
-            _orderCloseActor.Tell(orderReviewedEvent.OrderMessage);
+            var closeOrderCommand = new CloseOrderCommand(orderReviewedEvent.OrderMessage);
+            _actorRef.Tell(closeOrderCommand);
         }
 
         private void HandleOrderClosedEvent(OrderClosedEvent orderClosedEvent)
         {
             Console.WriteLine($"Order Closed for correlationId {orderClosedEvent.OrderMessage.CorrelationId}");
+
         }
     }
 }

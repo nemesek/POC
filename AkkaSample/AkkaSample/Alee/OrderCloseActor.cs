@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
+using AkkaSample.Domain;
 
-namespace AkkaSample.Tsi
+namespace AkkaSample.Alee
 {
     public class OrderCloseActor : ReceiveActor
     {

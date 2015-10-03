@@ -1,4 +1,4 @@
-﻿namespace AkkaSample
+﻿namespace AkkaSample.Versioning
 {
     public class VersionMessage
     {

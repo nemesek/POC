@@ -1,10 +1,10 @@
-﻿namespace AkkaSample.Tsi
+﻿namespace AkkaSample.Alee
 {
-    public class OrderCreatedEvent
+    public class OrderAssignedEvent
     {
         private readonly OrderMessage _orderMessage;
 
-        public OrderCreatedEvent(OrderMessage orderMessage)
+        public OrderAssignedEvent(OrderMessage orderMessage)
         {
             _orderMessage = orderMessage;
         }
