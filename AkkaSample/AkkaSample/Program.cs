@@ -19,8 +19,8 @@ namespace AkkaSample
             //CreateActorPool();
             //RunExperiment();
             //AleeFanOut();
-            //AleeFanOutPool();
-            AleeSimpler();
+            AleeFanOutPool();
+            //AleeSimpler();
         }
 
         public static ActorSystem ActorSystem => _orderProcessorActorSystem;
