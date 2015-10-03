@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace AkkaSample.Domain
 {
-    
-    public class OrderProcessor
+    public class SlowOrderProcessor
     {
         private static readonly Random RandomGenerator = new Random();
         public void ProcessOrder(OrderDto orderDto)
@@ -17,16 +16,12 @@ namespace AkkaSample.Domain
             Console.WriteLine($"+++++++++++++++++++++++++Processing {orderDto.OrderId} the new way++++++++++++++++++++++++");
         }
 
-        public OrderDto GetOrder(int orderId)
+        public async Task<OrderDto> GetOrderAsync(int orderId)
         {
-            Thread.Sleep(RandomGenerator.Next(1,20) * RandomGenerator.Next(50, 150));
+            await Task.Delay(1000);
             return new OrderDto(orderId, "38655", "CHQ");
         }
 
-        public OrderDto GetOrderNew(int orderId)
-        {
-            return new OrderDto(orderId, "75019", "CHQ");
-        }
 
         public void AssignUser(int orderId)
         {
@@ -38,7 +33,6 @@ namespace AkkaSample.Domain
 
         public void CloseOrder(int orderId)
         {
-
         }
     }
 }
