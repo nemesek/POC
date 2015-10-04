@@ -55,6 +55,11 @@
     <Compile Include="Alee\IoBound\BlockedSupervisor.cs" />
     <Compile Include="Alee\IoBound\OrderActor.cs" />
     <Compile Include="Alee\IoBound\Supervisor.cs" />
+    <Compile Include="CircuitBreaker\CircuitBreakerSupervisor.cs" />
+    <Compile Include="CircuitBreaker\DbStatusMessage.cs" />
+    <Compile Include="CircuitBreaker\InfrastructureException.cs" />
+    <Compile Include="CircuitBreaker\OrderActor.cs" />
+    <Compile Include="CircuitBreaker\StubbedDatabase.cs" />
     <Compile Include="Domain\SlowOrderProcessor.cs" />
     <Compile Include="OrderDto.cs" />
     <Compile Include="OrderMessage.cs" />

@@ -5,6 +5,7 @@ using Akka.Routing;
 using AkkaSample.Alee;
 using AkkaSample.Alee.IoBound;
 using AkkaSample.Alee.MaybeSimpler;
+using AkkaSample.CircuitBreaker;
 using AkkaSample.Science;
 using AkkaSample.Versioning;
 using OrderActor = AkkaSample.Versioning.OrderActor;
@@ -25,9 +26,10 @@ namespace AkkaSample
             //AleeFanOutPool();
             //AleeSimpler();
             //BlockedDemo();
-            BlockedPoolDemo();
+            //BlockedPoolDemo();
             //AsyncDemo();
             //AsyncPoolDemo();
+            CircuitBreakerDemo();
         }
 
         public static ActorSystem ActorSystem => _orderProcessorActorSystem;
@@ -223,6 +225,38 @@ namespace AkkaSample
             timer.Stop();
             Console.WriteLine(timer.ElapsedMilliseconds);
 
+        }
+
+        private static void CircuitBreakerDemo()
+        {
+            var props = Props.Create<CircuitBreaker.CircuitBreakerSupervisor>();
+            var actorRef = _orderProcessorActorSystem.ActorOf(props, "CircuitBreakerSupervisor");
+            var command = BuildCreateOrderCommand();
+            actorRef.Tell(command);
+            Console.ReadKey();
+            Console.WriteLine("Take the DB Down");
+            StubbedDatabase.IsDown = true;
+
+            for (var i = 0; i < 5; i++)
+            {
+                var anotherCommand = BuildCreateOrderCommand();
+                actorRef.Tell(anotherCommand);
+            }
+
+            Console.ReadKey();
+            var yetAnotherCommand = BuildCreateOrderCommand();
+            actorRef.Tell(yetAnotherCommand);
+            Console.ReadKey();
+            StubbedDatabase.IsDown = false;
+            Console.WriteLine("Database is back up!!!!!!!!!!!");
+            actorRef.Tell(new DbStatusMessage(true, true));
+            Console.ReadKey();
+
+        }
+
+        private static CreateOrderCommand BuildCreateOrderCommand()
+        {
+            return new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
         }
     }
 }
