@@ -44,7 +44,7 @@ namespace AkkaSample.CircuitBreaker
             if (_isCircuitOpen == false)
             {
                 _isCircuitOpen = true;
-                _timer = new Timer(CheckDbStatus, null, 15000, 20000);
+                _timer = new Timer(CheckDbStatus, null, 15000, 10000);
 
             }
 

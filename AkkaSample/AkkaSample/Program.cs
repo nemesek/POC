@@ -254,9 +254,14 @@ namespace AkkaSample
             Console.WriteLine("Queued up 2 more orders.");
 
             Console.ReadKey();
-            //StubbedDatabase.IsDown = false;
-            //Console.WriteLine("Database is back up!!!!!!!!!!!");
-            //actorRef.Tell(new DbStatusMessage(true, true));
+
+            if (StubbedDatabase.IsDown)
+            {
+                StubbedDatabase.IsDown = false;
+                Console.WriteLine("Database is back up!!!!!!!!!!!");
+                actorRef.Tell(new DbStatusMessage(true, true));
+            }
+
             Console.WriteLine("Just for good measure let's send another order through.");
             actorRef.Tell(BuildCreateOrderCommand());
             Console.ReadKey();
