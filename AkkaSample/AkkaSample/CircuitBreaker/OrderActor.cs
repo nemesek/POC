@@ -27,17 +27,17 @@ namespace AkkaSample.CircuitBreaker
         {
             try
             {
-                Console.WriteLine("About to call db");
+                //Console.WriteLine("About to call db");
                 StubbedDatabase.RunQuery();
                 Console.WriteLine($"Ran Query for order with message correlationId {orderMessage.CorrelationId}");
             }
            
-            catch (InfrastructureException ex)
+            catch (InfrastructureException)
             {
                 Console.WriteLine("Down goes the DB!");
                 Stash.Stash();
                 Sender.Tell(new DbStatusMessage(false, false));
-                //Become(CircuitOpenBehavior);
+                
             }
         }
 

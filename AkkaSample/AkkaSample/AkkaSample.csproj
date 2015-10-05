@@ -56,6 +56,8 @@
     <Compile Include="Alee\IoBound\OrderActor.cs" />
     <Compile Include="Alee\IoBound\Supervisor.cs" />
     <Compile Include="CircuitBreaker\CircuitBreakerSupervisor.cs" />
+    <Compile Include="CircuitBreaker\DbCheckActor.cs" />
+    <Compile Include="CircuitBreaker\DbStatusCheckCommand.cs" />
     <Compile Include="CircuitBreaker\DbStatusMessage.cs" />
     <Compile Include="CircuitBreaker\InfrastructureException.cs" />
     <Compile Include="CircuitBreaker\OrderActor.cs" />

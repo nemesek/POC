@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Akka.Actor;
 using AkkaSample.Alee;
 
@@ -7,6 +8,10 @@ namespace AkkaSample.CircuitBreaker
     public class CircuitBreakerSupervisor : ReceiveActor, IWithUnboundedStash
     {
         private readonly IActorRef _actorRef;
+        private readonly IActorRef _dbStatusCheckActorRef;
+        private readonly IActorRef _self;
+        private Timer _timer;
+        private bool _isCircuitOpen = false;
 
         public CircuitBreakerSupervisor()
         {
@@ -15,6 +20,9 @@ namespace AkkaSample.CircuitBreaker
 
             var actorProps = Props.Create<OrderActor>();
             _actorRef = Context.ActorOf(actorProps, "OrderActor");
+            var dbActorProps = Props.Create<DbCheckActor>();
+            _dbStatusCheckActorRef = Context.ActorOf(dbActorProps, "DbCheckActor");
+            _self = Self;
         }
 
         public IStash Stash { get; set; }
@@ -34,14 +42,32 @@ namespace AkkaSample.CircuitBreaker
 
         private void CircuitOpenBehavior()
         {
+            if (_isCircuitOpen == false)
+            {
+                _isCircuitOpen = true;
+                _timer = new Timer(CheckDbStatus, null, 20000, 20000);
+
+            }
+
             Receive<CreateOrderCommand>(c => HandleCreateOrderCommandWhenCircuitOpen(c));
             Receive<DbStatusMessage>(m => HandleDbStatusMessage(m));
         }
 
         private void CircuitClosedBehavior()
         {
+            if (_isCircuitOpen == true)
+            {
+                _isCircuitOpen = false;
+                _timer.Dispose();
+                _timer = null;
+            }
             Receive<CreateOrderCommand>(c => HandleCreateOrderCommandWhenCircuitClosed(c));
             Receive<DbStatusMessage>(m => HandleDbStatusMessage(m));
+        }
+
+        private void CheckDbStatus(object o)
+        {
+            _dbStatusCheckActorRef.Tell(new DbStatusCheckCommand("connectionString"), _self);
         }
 
         private void HandleCreateOrderCommandWhenCircuitOpen(CreateOrderCommand command)
@@ -54,32 +80,5 @@ namespace AkkaSample.CircuitBreaker
             Console.WriteLine($"Command Received for correlationId {createOrderCommand.OrderMessage.CorrelationId}");
             _actorRef.Tell(createOrderCommand);
         }
-
-        //protected override SupervisorStrategy SupervisorStrategy()
-        //{
-        //    return new OneForOneStrategy(10, TimeSpan.FromSeconds(30),
-        //         x =>
-        //        {
-        //            // Maybe ArithmeticException is not application critical
-        //            // so we just ignore the error and keep going.
-        //            if (x is ArithmeticException) return Directive.Resume;
-
-        //            // Error that we have no idea what to do with
-        //            //else if (x is InsanelyBadException) return Directive.Escalate;
-        //            else if (x is InfrastructureException)
-        //            {
-        //                Self.Tell(new DbStatusMessage(false, false));
-        //                return Directive.Restart;
-        //            }
-
-
-        //            // Error that we can't recover from, stop the failing child
-        //            else if (x is NotSupportedException) return Directive.Stop;
-
-        //            // otherwise restart the failing child
-        //            else return Directive.Restart;
-        //        });
-        //}
-
     }
 }

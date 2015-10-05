@@ -234,22 +234,31 @@ namespace AkkaSample
             var command = BuildCreateOrderCommand();
             actorRef.Tell(command);
             Console.ReadKey();
-            Console.WriteLine("Take the DB Down");
+            Console.WriteLine("Take the DB Down and queue up 2 orders");
             StubbedDatabase.IsDown = true;
 
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < 2; i++)
             {
                 var anotherCommand = BuildCreateOrderCommand();
                 actorRef.Tell(anotherCommand);
             }
 
+            Console.WriteLine("Press enter to queue up 2 more orders.");
             Console.ReadKey();
-            var yetAnotherCommand = BuildCreateOrderCommand();
-            actorRef.Tell(yetAnotherCommand);
+            for (var i = 0; i < 2; i++)
+            {
+                var yetAnotherCommand = BuildCreateOrderCommand();
+                actorRef.Tell(yetAnotherCommand);
+            }
+
+            Console.WriteLine("Queued up 2 more orders.");
+
             Console.ReadKey();
-            StubbedDatabase.IsDown = false;
-            Console.WriteLine("Database is back up!!!!!!!!!!!");
-            actorRef.Tell(new DbStatusMessage(true, true));
+            //StubbedDatabase.IsDown = false;
+            //Console.WriteLine("Database is back up!!!!!!!!!!!");
+            //actorRef.Tell(new DbStatusMessage(true, true));
+            Console.WriteLine("Just for good measure let's send another order through.");
+            actorRef.Tell(BuildCreateOrderCommand());
             Console.ReadKey();
 
         }
