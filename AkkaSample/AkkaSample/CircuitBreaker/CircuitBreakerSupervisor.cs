@@ -11,12 +11,11 @@ namespace AkkaSample.CircuitBreaker
         private readonly IActorRef _dbStatusCheckActorRef;
         private readonly IActorRef _self;
         private Timer _timer;
-        private bool _isCircuitOpen = false;
+        private bool _isCircuitOpen;
 
         public CircuitBreakerSupervisor()
         {
-            Receive<DbStatusMessage>(m => HandleDbStatusMessage(m));
-            Receive<CreateOrderCommand>(c => HandleCreateOrderCommandWhenCircuitClosed(c));
+            CircuitClosedBehavior();
 
             var actorProps = Props.Create<OrderActor>();
             _actorRef = Context.ActorOf(actorProps, "OrderActor");
@@ -45,7 +44,7 @@ namespace AkkaSample.CircuitBreaker
             if (_isCircuitOpen == false)
             {
                 _isCircuitOpen = true;
-                _timer = new Timer(CheckDbStatus, null, 20000, 20000);
+                _timer = new Timer(CheckDbStatus, null, 15000, 20000);
 
             }
 
@@ -55,12 +54,14 @@ namespace AkkaSample.CircuitBreaker
 
         private void CircuitClosedBehavior()
         {
-            if (_isCircuitOpen == true)
+            if (_isCircuitOpen == true) _isCircuitOpen = false;
+
+            if (_timer != null)
             {
-                _isCircuitOpen = false;
                 _timer.Dispose();
                 _timer = null;
             }
+
             Receive<CreateOrderCommand>(c => HandleCreateOrderCommandWhenCircuitClosed(c));
             Receive<DbStatusMessage>(m => HandleDbStatusMessage(m));
         }
@@ -72,6 +73,7 @@ namespace AkkaSample.CircuitBreaker
 
         private void HandleCreateOrderCommandWhenCircuitOpen(CreateOrderCommand command)
         {
+            Console.WriteLine($"Stashing command {command.OrderMessage.CorrelationId} because circuit is open.");
             Stash.Stash();
         }
 

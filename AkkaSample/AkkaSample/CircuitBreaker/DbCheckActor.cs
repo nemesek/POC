@@ -5,6 +5,8 @@ namespace AkkaSample.CircuitBreaker
 {
     public class DbCheckActor : ReceiveActor
     {
+        private readonly Random _randomGenerator = new Random();
+
         public DbCheckActor()
         {
             Receive<DbStatusCheckCommand>(c => HandleDbStatusCheckCommand(c));
@@ -12,10 +14,21 @@ namespace AkkaSample.CircuitBreaker
 
         private void HandleDbStatusCheckCommand(DbStatusCheckCommand command)
         {
-            var sender = Sender;
             Console.WriteLine("Checking status of database.");
-            StubbedDatabase.IsDown = false;
-            Sender.Tell(new DbStatusMessage(true, true));
+            var randomNumber = _randomGenerator.Next();
+
+            if (randomNumber%2 == 0)
+            {
+                Console.WriteLine("DbStatus == Up");
+                StubbedDatabase.IsDown = false;
+                Sender.Tell(new DbStatusMessage(true, true));
+                return;
+            }
+
+            Console.WriteLine("DbStatus == Down");
+            StubbedDatabase.IsDown = true;
+            Sender.Tell(new DbStatusMessage(false, false));
+
         }
     }
 }
