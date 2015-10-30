@@ -26,13 +26,14 @@ namespace AkkaSample
             //AleeFanOutPool();
             //AleeSimpler();
             //BlockedDemo();
-            //BlockedPoolDemo();
             //AsyncDemo();
+            //BlockedPoolDemo();
             //AsyncPoolDemo();
-            CircuitBreakerDemo();
-        }
+            //BlockedPoolDemo100();
+            AsyncPoolDemo100000();
 
-        public static ActorSystem ActorSystem => _orderProcessorActorSystem;
+            //CircuitBreakerDemo();
+        }
 
         private static void LoopThroughPool(Action<OrderMessage> routerAction)
         {
@@ -175,23 +176,6 @@ namespace AkkaSample
             Console.WriteLine(timer.ElapsedMilliseconds);
         }
 
-        private static void BlockedPoolDemo()
-        {
-            var poolSize = 100; // 100 around 97s
-            var timer = Stopwatch.StartNew();
-            var router = _orderProcessorActorSystem.ActorOf(Props.Create<BlockedSupervisor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool");
-            for (var i = 0; i < poolSize; i++)
-            {
-                var command = new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
-                router.Tell(command);
-            }
-
-            Console.ReadKey();
-            timer.Stop();
-            Console.WriteLine(timer.ElapsedMilliseconds);
-
-        }
-
         private static void AsyncDemo()
         {
             var poolSize = 25;
@@ -210,11 +194,63 @@ namespace AkkaSample
             Console.WriteLine(timer.ElapsedMilliseconds);
         }
 
+        private static void BlockedPoolDemo()
+        {
+            var poolSize = 25; // 100 around 97s
+            var timer = Stopwatch.StartNew();
+            var router = _orderProcessorActorSystem.ActorOf(Props.Create<BlockedSupervisor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool");
+            for (var i = 0; i < poolSize; i++)
+            {
+                var command = new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
+                router.Tell(command);
+            }
+
+            Console.ReadKey();
+            timer.Stop();
+            Console.WriteLine(timer.ElapsedMilliseconds);
+
+        }
+
         private static void AsyncPoolDemo()
+        {
+            var poolSize = 25;
+            var timer = Stopwatch.StartNew();
+            var router = _orderProcessorActorSystem.ActorOf(Props.Create<Supervisor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool2");
+            for (var i = 0; i < poolSize; i++)
+            {
+                var command = new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
+                router.Tell(command);
+            }
+
+            Console.ReadKey();
+            timer.Stop();
+            Console.WriteLine(timer.ElapsedMilliseconds);
+
+        }
+
+        private static void BlockedPoolDemo100()
+        {
+            var poolSize = 100; // 100 around 97s
+            var timer = Stopwatch.StartNew();
+            var router = _orderProcessorActorSystem.ActorOf(Props.Create<BlockedSupervisor>().WithRouter(new RoundRobinPool(poolSize)), "some-pool");
+            for (var i = 0; i < poolSize; i++)
+            {
+                var command = new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
+                router.Tell(command);
+            }
+
+            Console.ReadKey();
+            timer.Stop();
+            Console.WriteLine(timer.ElapsedMilliseconds);
+
+        }
+
+
+        private static void AsyncPoolDemo100000()
         {
             var poolSize = 100000; // roundrobin size 7500 is the tops so far ~94-105s
             var timer = Stopwatch.StartNew();
-            var router = _orderProcessorActorSystem.ActorOf(Props.Create<Supervisor>().WithRouter(new RoundRobinPool(7500)), "some-pool2");
+            var router = _orderProcessorActorSystem.ActorOf(Props.Create<Supervisor>().WithRouter(new RoundRobinPool(7500)), "some-pool3");
             for (var i = 0; i < poolSize; i++)
             {
                 var command = new CreateOrderCommand(Guid.NewGuid(), new OrderDto(1, "38655", "CHQ"));
