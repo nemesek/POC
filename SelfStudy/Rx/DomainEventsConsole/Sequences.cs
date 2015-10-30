@@ -262,7 +262,7 @@ namespace DomainEventsConsole
         public static void BlockingAndNonBlockingExample()
         {
             var q = BlockingMethod();
-            Console.WriteLine(Observable.TakeLast<string>(q, 1).Single());
+            Console.WriteLine(q.TakeLast(1).Single());
             Console.WriteLine("Beyond Blocking.");
             var r = NonBlocking();
             Console.WriteLine(Observable.TakeLast<string>(r, 1).Single());
@@ -284,7 +284,7 @@ namespace DomainEventsConsole
         {
             var naturalNumbers = Unfold(1, i => i + 1);
             Console.WriteLine("1st 10 Natural numbers");
-            foreach (var naturalNumber in Enumerable.Take<int>(naturalNumbers, 20))
+            foreach (var naturalNumber in naturalNumbers.Take<int>(20))
             {
                 Console.WriteLine(naturalNumber);
             }

@@ -6,7 +6,10 @@
         {
             //SimpleSubjectExample();
             //BlockingAndNonBlockingExample();
-            //FixNonBlockingEvenDrivenExample();
+            //Sequences.BlockingMethod();
+            //Sequences.NonBlocking();
+            //Sequences.NonBlockingEventDriven();
+            //Sequences.FixedNonBlockingEventDriven();//FixNonBlockingEvenDrivenExample();
             //UnfoldExample();
             //RangeExample();
 
@@ -26,7 +29,9 @@
             //Sequences.AggregationExample();
             //Sequences.ScanExample();
             //Sequences.GroupByExample();
-            Sequences.SelectExample();
+            //Sequences.SelectExample();
+            //DomainEventPublisher.StreamEventsViaSubject();
+            DomainEventPublisher.StreamEvents();
         }
     }
 }
