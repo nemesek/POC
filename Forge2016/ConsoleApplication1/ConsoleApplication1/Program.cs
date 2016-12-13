@@ -27,7 +27,7 @@ namespace ConsoleApplication1
             Console.WriteLine("++++++++++++++++++++++++++++++++");
             var pastOrders = Repository.GetOrdersInspectedWitinLastNumberOfDays(15).OrderBy(o => o.InspectionDate);
             pastOrders.ToList().ForEach(o => Console.WriteLine(o.InspectionDate));
-            var comparables = ComparableCalculator.RankComparables(new Order(1000, DateTime.Now.AddDays(1), 38655, 1, 2013, 2200));
+            var comparables = OrderComparableCalculator.RankComparables(new Order(1000, DateTime.Now.AddDays(1), 38655, 1, 2013, 2200));
             comparables.ToList().ForEach(c => Console.WriteLine($"YearBuilt: {c.OrderTwo.YearBuilt} SquareFeet: {c.OrderTwo.SquareFeet} EuclideanDistance : {c.Distance}"));
         }
     }

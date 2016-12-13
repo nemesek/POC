@@ -15,5 +15,10 @@ namespace ConsoleApplication1
         {
             return Repository.GetOrdersInspectedWitinLastNumberOfDays(30).Where(o => o.UserId == _userId);
         }
+
+        public IEnumerable<Order> LoadOrdersAssignedToMeRightNow()
+        {
+            return Repository.GetOpenOrders().Where(o => o.UserId == _userId);
+        }
     }
 }

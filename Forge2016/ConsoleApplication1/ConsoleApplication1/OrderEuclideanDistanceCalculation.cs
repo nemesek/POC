@@ -1,11 +1,11 @@
 ﻿namespace ConsoleApplication1
 {
-    public class EuclideanDistanceCalculation
+    public class OrderEuclideanDistanceCalculation
     {
         private readonly Order _order1;
         private readonly Order _order2;
         private readonly double _distance;
-        public EuclideanDistanceCalculation(Order order1, Order order2, double distance)
+        public OrderEuclideanDistanceCalculation(Order order1, Order order2, double distance)
         {
             _order1 = order1;
             _order2 = order2;

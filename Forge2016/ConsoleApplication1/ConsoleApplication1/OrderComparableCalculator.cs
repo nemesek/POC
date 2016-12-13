@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace ConsoleApplication1
 {
-    public class ComparableCalculator
+    public static class OrderComparableCalculator
     {
-        public static IEnumerable<EuclideanDistanceCalculation> RankComparables(Order order)
+        public static IEnumerable<OrderEuclideanDistanceCalculation> RankComparables(Order order)
         {
             return Repository
                 .GetOrdersInspectedWitinLastNumberOfDays(30)
                 .Where(o => o.ZipCode == order.ZipCode)
-                .Select(o => new EuclideanDistanceCalculation(order, o, GetEuclideanDistance(order, o)))
+                .Select(o => new OrderEuclideanDistanceCalculation(order, o, GetEuclideanDistance(order, o)))
                 .OrderBy(c => c.Distance);
         }
 

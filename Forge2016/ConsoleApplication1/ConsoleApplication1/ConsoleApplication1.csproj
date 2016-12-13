@@ -44,8 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Appraiser.cs" />
-    <Compile Include="ComparableCalculator.cs" />
-    <Compile Include="EuclideanDistanceCalculation.cs" />
+    <Compile Include="DistanceCalculator.cs" />
+    <Compile Include="OrderComparableCalculator.cs" />
+    <Compile Include="OrderEuclideanDistanceCalculation.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

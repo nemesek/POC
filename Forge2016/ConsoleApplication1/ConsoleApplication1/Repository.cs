@@ -6,6 +6,53 @@ namespace ConsoleApplication1
 {
     public static class Repository
     {
+        private static readonly List<Order> OpenOrders = new List<Order>
+        {
+            new Order(1,DateTime.Now.AddDays(-30), 38655, 1, 2013, 1984),
+            new Order(2,DateTime.Now.AddDays(-30), 38655, 1, 2012, 2755),
+            new Order(3,DateTime.Now.AddDays(-30), 38655, 1, 2011, 1542),
+            new Order(4,DateTime.Now.AddDays(-30), 38655, 1, 2013, 1240),
+            new Order(5,DateTime.Now.AddDays(-29), 38655, 1, 2008, 2200),
+            new Order(6,DateTime.Now.AddDays(-29), 38655, 1, 2007, 1888),
+            new Order(7,DateTime.Now.AddDays(-29), 38655, 1, 2012, 3200),
+            new Order(8,DateTime.Now.AddDays(-29), 38655, 1, 1988, 3367),
+            new Order(1,DateTime.Now.AddDays(-19), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-18), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-18), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-18), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-18), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-18), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-18), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-18), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 92602, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-4), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-4), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-4), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-1), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-1), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-1), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-1), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-1), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-1), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-15), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-13), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-13), 75019, 1, 2013, 2000),
+            new Order(1,DateTime.Now.AddDays(-13), 75019, 1, 2013, 2000),
+        };
         private static readonly List<Order> PastOrders = new List<Order>
         {
             new Order(1,DateTime.Now.AddDays(-30), 38655, 1, 2013, 1984),
@@ -225,6 +272,12 @@ namespace ConsoleApplication1
 
         };
 
+        public static double GetDistanceBetweenZips(int zipOne, int zipTwo)
+        {
+            var tuple = ZipTuples.SingleOrDefault(t => (t.Item1 == zipOne && t.Item2 == zipTwo) || (t.Item2 == zipOne && t.Item1 == zipTwo));
+            return tuple?.Item3 ?? double.MaxValue;
+        }
+
         public static IEnumerable<Zip> GetNeighborsForZipWithinNumberOfMiles(int zip, int numberOfMiles)
         {
             var tuples = ZipTuples.Where(t => t.Item1 == zip && t.Item3 <= numberOfMiles);
@@ -246,6 +299,11 @@ namespace ConsoleApplication1
         {
             numberOfDays += 1;
             return PastOrders.Where(o => o.InspectionDate > DateTime.Now.AddDays(-numberOfDays));
+        }
+
+        public static IEnumerable<Order> GetOpenOrders()
+        {
+            return OpenOrders;
         }
     }
 }

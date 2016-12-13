@@ -21,15 +21,16 @@ namespace ConsoleApplication1
         }
 
         public int Population => _population;
+        public int ZipCode => _zipCode;
 
         public decimal CalculatePopulationDensityForTenMiles()
         {
-            return (decimal)CalculatePopulateForListOfZips(LoadZipsWithinTenMiles)/10;
+            return (decimal)CalculatePopulationForListOfZips(LoadZipsWithinTenMiles)/10;
         }
 
         public decimal CalculatePopulationDensityForFiveMiles()
         {
-            return (decimal)CalculatePopulateForListOfZips(LoadZipsWithinFiveMiles)/5;
+            return (decimal)CalculatePopulationForListOfZips(LoadZipsWithinFiveMiles)/5;
         }
 
         public IEnumerable<Zip> LoadZipsWithinTenMiles()
@@ -42,7 +43,7 @@ namespace ConsoleApplication1
             return Repository.GetNeighborsForZipWithinNumberOfMiles(_zipCode, 5);
         }
 
-        public int CalculatePopulateForListOfZips(Func<IEnumerable<Zip>> zipFunc)
+        public int CalculatePopulationForListOfZips(Func<IEnumerable<Zip>> zipFunc)
         {
             var neighbors = zipFunc();
             return neighbors.Select(n => n.Population).Sum();
