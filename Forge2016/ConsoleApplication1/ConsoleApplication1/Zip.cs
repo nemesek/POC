@@ -23,14 +23,14 @@ namespace ConsoleApplication1
         public int Population => _population;
         public int ZipCode => _zipCode;
 
-        public decimal CalculatePopulationDensityForTenMiles()
+        public double CalculatePopulationDensityForTenMiles()
         {
-            return (decimal)CalculatePopulationForListOfZips(LoadZipsWithinTenMiles)/10;
+            return (double)CalculatePopulationForListOfZips(LoadZipsWithinTenMiles)/10;
         }
 
-        public decimal CalculatePopulationDensityForFiveMiles()
+        public double CalculatePopulationDensityForFiveMiles()
         {
-            return (decimal)CalculatePopulationForListOfZips(LoadZipsWithinFiveMiles)/5;
+            return (double)CalculatePopulationForListOfZips(LoadZipsWithinFiveMiles)/5;
         }
 
         public IEnumerable<Zip> LoadZipsWithinTenMiles()
