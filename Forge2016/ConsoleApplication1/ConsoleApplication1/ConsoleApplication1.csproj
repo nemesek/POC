@@ -45,11 +45,15 @@
   <ItemGroup>
     <Compile Include="AlgorithmPipeline.cs" />
     <Compile Include="Appraiser.cs" />
+    <Compile Include="AppraiserWorkStyleComparableCalculator.cs" />
+    <Compile Include="AppraiserWorkstyleEuclideanDistance.cs" />
+    <Compile Include="Candidate.cs" />
     <Compile Include="DistanceCalculator.cs" />
     <Compile Include="OrderPropertyComparableCalculator.cs" />
     <Compile Include="EuclideanDistanceBetweenTwoOrders.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderScheduleAndDistanceComparableCalculator.cs" />
+    <Compile Include="PatternOfWork.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Zip.cs" />

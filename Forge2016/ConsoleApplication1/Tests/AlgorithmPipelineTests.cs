@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ConsoleApplication1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,12 +11,14 @@ namespace Tests
         public void AlgorithmPipeline_FindAppraisersForOrder_ReturnsEnumerableOfAppraisers()
         {
             // arrange
-            var order = Repository.GetOpenOrders().First();
+            var order = new Order(9999, DateTime.Now.AddDays(5), 38655, 1, 2015, 2000);
             // act
             var result = AlgorithmPipeline.FindAppraisersForOrderUsingDistance(order);
 
             // assert
             Assert.IsNotNull(result);
         }
+
+
     }
 }
